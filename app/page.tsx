@@ -53,24 +53,26 @@ export default function Login() {
                             />
                         </div>
                         <div className="text-right">
-                            <Link href="/forgot-password" className="text-sm text-gray-600 hover:text-dark">
+                            <Link href="/forgot-password" className="text-sm text-gray-600 hover:text-dark hover:underline">
                                 Forgot Password?
                             </Link>
                         </div>
                         <Link href="/dashboard">
-                            <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg">
+                            <Button className="w-full h-12 bg-primary hover:bg-primary/80 text-white font-medium rounded-lg">
                                 Log In
                             </Button>
                         </Link>
                     </div>
 
-                    {/* Register link */}
+                    {/*
+                    Register link
                     <div className="text-center">
                         <span className="text-gray-600">Don&#39;t have an account? </span>
                         <Link href="/register" className="text-primary hover:text-primary/80 font-medium">
                             Register here.
                         </Link>
                     </div>
+                    */}
                 </div>
             </div>
 

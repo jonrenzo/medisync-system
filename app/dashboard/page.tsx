@@ -7,6 +7,8 @@ import { AlertTriangle, Package, TrendingUp, Calendar, RefreshCw, Eye, BarChart3
 import {Sidebar} from "@/components/sidebar";
 import type React from "react";
 import Link from "next/link";
+import { useRouter } from "next/compat/router";
+
 
 const lowStockMedicines = [
     { name: "Paracetamol", stock: 5, threshold: 50, status: "critical" },
@@ -22,7 +24,11 @@ const upcomingExpiries = [
     { name: "Ibuprofen", batch: "202512031", expiryDate: "2024-01-25", daysLeft: 15 },
 ]
 
+
+
 export default function Dashboard() {
+    const router = useRouter()
+
     return (
         <div className="p-6 space-y-6 bg-background min-h-screen font-lexend">
 
@@ -32,6 +38,7 @@ export default function Dashboard() {
                     variant="outline"
                     size="sm"
                     className="border-primary text-primary hover:bg-primary hover:text-white bg-transparent"
+                    onClick={() => router?.reload()}
                 >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Refresh Dashboard
@@ -73,7 +80,8 @@ export default function Dashboard() {
                     </CardContent>
                 </Card>
 
-{/*                <Card className="bg-white">
+                {/*
+                <Card className="bg-white">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-dark">Monthly Value</CardTitle>
                         <TrendingUp className="h-4 w-4 text-green-500" />
@@ -82,7 +90,8 @@ export default function Dashboard() {
                         <div className="text-2xl font-bold text-dark">₱45,231</div>
                         <p className="text-xs text-muted-foreground">+12% from last month</p>
                     </CardContent>
-                </Card>*/}
+                </Card>
+                */}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

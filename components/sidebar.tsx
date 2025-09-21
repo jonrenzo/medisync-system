@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import Clock from "@/components/ui/clock";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, section: "Asset" },
@@ -100,6 +101,9 @@ export function Sidebar() {
                     </div>
                 </div>
             </nav>
+            <div className="p-4 border-t border-gray-200">
+                <Clock />
+            </div>
 
             {/* Logout */}
             <div className="p-4 border-t border-gray-200">
