@@ -650,58 +650,38 @@ export default function Inventory() {
                     {/* Current Inventory Table */}
                     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full table-fixed">
                                 <thead className="bg-secondary border-b border-gray-200">
                                 <tr>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">NAME</th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Categories
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Dosage Form
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Dosage
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Brand
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Batch No.
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Expiry Date
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Supplier
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Stocks
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Status
-                                    </th>
-                                    <th className="text-left py-4 px-6 font-medium text-dark uppercase tracking-wider text-sm">
-                                        Actions
-                                    </th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[12%]">NAME</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[10%]">Categories</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[8%]">Form</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[7%]">Dosage</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[9%]">Brand</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[9%]">Batch No.</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[9%]">Expiry Date</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[10%]">Supplier</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[7%]">Stocks</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[10%]">Status</th>
+                                    <th className="text-left py-3 px-2 font-medium text-dark uppercase tracking-wider text-xs w-[9%]">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                 {inventoryData.map((item) => (
                                     <tr key={item.id} className="hover:bg-gray-50">
-                                        <td className="py-4 px-6 text-dark font-medium">{item.name}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.categories}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.dosageForm}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.dosage}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.brand}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.batchNo}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.expiryDate}</td>
-                                        <td className="py-4 px-6 text-gray-600">{item.supplier}</td>
-                                        <td className="py-4 px-6 text-dark font-medium">{item.stocks}</td>
-                                        <td className="py-4 px-6">
-                                            <Badge className={`${getStatusColor(item.status)} font-medium px-3 py-1`}>{item.status}</Badge>
+                                        <td className="py-3 px-2 text-dark font-medium text-sm truncate">{item.name}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm truncate">{item.categories}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm truncate">{item.dosageForm}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm">{item.dosage}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm truncate">{item.brand}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm">{item.batchNo}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm">{item.expiryDate}</td>
+                                        <td className="py-3 px-2 text-gray-600 text-sm truncate">{item.supplier}</td>
+                                        <td className="py-3 px-2 text-dark font-medium text-sm">{item.stocks}</td>
+                                        <td className="py-3 px-2">
+                                            <Badge className={`${getStatusColor(item.status)} font-medium px-2 py-1 text-xs`}>{item.status}</Badge>
                                         </td>
-                                        <td className="py-4 px-6">
+                                        <td className="py-3 px-2">
                                             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-dark">
                                                 <Edit className="w-4 h-4" />
                                             </Button>

@@ -15,6 +15,8 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Clock from "@/components/ui/clock";
+import {supabase} from "@/lib/supabase";
+import {router} from "next/client";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, section: "Asset" },
@@ -28,6 +30,15 @@ const navigation = [
 
 export function Sidebar() {
     const pathname = usePathname()
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut()
+        if (router) {
+            await router.push('/')
+        } else {
+            window.location.href = '/'
+        }
+    }
 
     return (
         <div className="flex h-screen w-64 flex-col bg-white border-r border-gray-200 font-lexend">
@@ -108,7 +119,7 @@ export function Sidebar() {
             {/* Logout */}
             <div className="p-4 border-t border-gray-200">
                 <Link href="/">
-                    <Button variant="ghost" className="w-full justify-start gap-3 text-dark hover:bg-secondary">
+                    <Button variant="ghost" className="w-full justify-start gap-3 text-dark hover:bg-secondary" onClick={handleSignOut}>
                         <LogOut className="w-5 h-5" />
                         Log out
                     </Button>

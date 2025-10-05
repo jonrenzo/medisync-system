@@ -1,14 +1,67 @@
 "use client"
 
-import { useState } from "react"
+import React, {useEffect, useState} from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase"
 
 export default function Login() {
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
+
+    // Check if user is already logged in
+    useEffect(() => {
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession()
+            if (session) {
+                router.push('/dashboard')
+            }
+        }
+        checkSession()
+    }, [router])
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setError("")
+        setLoading(true)
+
+        try {
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('email')
+                .eq('username', username)
+                .single()
+
+            if (userError || !userData) {
+                setError("Invalid username or password")
+                return
+            }
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: userData.email,
+                password
+            })
+
+            if (error) {
+                setError("Invalid username or password")
+                return
+            }
+
+            // Successful login - redirect to dashboard or home
+            router.push("/dashboard")
+        } catch (err) {
+            setError("An unexpected error occurred")
+            console.error(err)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <div className="min-h-screen flex bg-background">
@@ -27,42 +80,59 @@ export default function Login() {
                     </div>
 
                     {/* Login form */}
-                    <div className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="text-dark font-medium">
-                                Email Address
-                            </Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="h-12 bg-white border-gray-300 rounded-lg"
-                            />
+                    <form onSubmit={handleSubmit}>
+                        <div className="space-y-6">
+                            {/* Error message */}
+                            {error && (
+                                <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+                                    {error}
+                                </div>
+                            )}
+
+                            <div className="space-y-2">
+                                <Label htmlFor="username" className="text-dark font-medium">
+                                    Username
+                                </Label>
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="h-12 bg-white border-gray-300 rounded-lg"
+                                    required
+                                    disabled={loading}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="password" className="text-dark font-medium">
+                                    Password
+                                </Label>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="h-12 bg-white border-gray-300 rounded-lg"
+                                    required
+                                    disabled={loading}
+                                />
+                            </div>
+                            <div className="text-right">
+                                <Link href="/forgot-password" className="text-sm text-gray-600 hover:text-dark hover:underline">
+                                    Forgot Password?
+                                </Link>
+                            </div>
+                            <div>
+                                <Button
+                                    type="submit"
+                                    className="w-full h-12 bg-primary hover:bg-primary/80 text-white font-medium rounded-lg"
+                                    disabled={loading}
+                                >
+                                    {loading ? "Logging in..." : "Log In"}
+                                </Button>
+                            </div>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password" className="text-dark font-medium">
-                                Password
-                            </Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="h-12 bg-white border-gray-300 rounded-lg"
-                            />
-                        </div>
-                        <div className="text-right">
-                            <Link href="/forgot-password" className="text-sm text-gray-600 hover:text-dark hover:underline">
-                                Forgot Password?
-                            </Link>
-                        </div>
-                        <Link href="/dashboard">
-                            <Button className="w-full h-12 bg-primary hover:bg-primary/80 text-white font-medium rounded-lg">
-                                Log In
-                            </Button>
-                        </Link>
-                    </div>
+                    </form>
 
                     {/*
                     Register link
