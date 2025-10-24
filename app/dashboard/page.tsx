@@ -46,7 +46,7 @@ export default function Dashboard() {
             </div>
 
             {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
                 <Card className="bg-white">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-dark">Total Medicines</CardTitle>
@@ -60,7 +60,7 @@ export default function Dashboard() {
 
                 <Card className="bg-white">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-dark">Low Stock Items</CardTitle>
+                        <CardTitle className="text-sm font-medium text-dark">Total Dispensed (Current Month)</CardTitle>
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
                     </CardHeader>
                     <CardContent>
@@ -71,7 +71,7 @@ export default function Dashboard() {
 
                 <Card className="bg-white">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-dark">Expiring Soon</CardTitle>
+                        <CardTitle className="text-sm font-medium text-dark">Total Medicines in Low Stocks</CardTitle>
                         <Calendar className="h-4 w-4 text-red-500" />
                     </CardHeader>
                     <CardContent>
@@ -80,6 +80,16 @@ export default function Dashboard() {
                     </CardContent>
                 </Card>
 
+                <Card className="bg-white">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium text-dark">Total Medicines in High Stocks</CardTitle>
+                        <Calendar className="h-4 w-4 text-red-500" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-dark text-red-500">8</div>
+                        <p className="text-xs text-muted-foreground">Within 30 days</p>
+                    </CardContent>
+                </Card>
                 {/*
                 <Card className="bg-white">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

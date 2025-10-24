@@ -11,6 +11,7 @@ import {
     User,
     LogOut,
     Building2,
+    HandHelping, Pill,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -20,10 +21,10 @@ import {router} from "next/client";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, section: "Asset" },
-    { name: "Inventory", href: "/inventory", icon: Package, section: "Asset" },
-    { name: "Tracker", href: "/tracker", icon: AlertTriangle, section: "Asset" },
+    { name: "Inventory", href: "/inventory", icon: Pill , section: "Asset" },
+    { name: "Stocks", href: "/stocks", icon: Package, section: "Asset" },
     { name: "Report", href: "/reports", icon: FileText, section: "Asset" },
-    { name: "Forecasting", href: "/forecasting", icon: TrendingUp, section: "Asset" },
+    { name: "Predict Demand", href: "/forecasting", icon: TrendingUp, section: "Asset" },
     { name: "Role Management", href: "/role-management", icon: Settings, section: "Settings" },
     { name: "My Account", href: "/my-account", icon: User, section: "Settings" },
 ]
@@ -32,13 +33,19 @@ export function Sidebar() {
     const pathname = usePathname()
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut()
-        if (router) {
-            await router.push('/')
-        } else {
-            window.location.href = '/'
+        try {
+            const { error } = await supabase.auth.signOut()
+            if (error) {
+                console.error("Error signing out:", error.message)
+                return
+            }
+            router.push("/")
+        } catch (err) {
+            console.error("Unexpected error during signout:", err)
+            window.location.href = "/"
         }
     }
+
 
     return (
         <div className="flex h-screen w-64 flex-col bg-white border-r border-gray-200 font-lexend">

@@ -83,30 +83,6 @@ export function PageHeader({ title, showActions = true }: PageHeaderProps) {
                             </div>
                         </PopoverContent>
                     </Popover>
-
-                    {/* Settings/Account Dropdown */}
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                                <Settings className="w-4 h-4 mr-2" />
-                                Account
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem asChild>
-                                <Link href="/my-account" className="flex items-center">
-                                    <User className="w-4 h-4 mr-2" />
-                                    My Account
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/role-management" className="flex items-center">
-                                    <Settings className="w-4 h-4 mr-2" />
-                                    Settings
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
             )}
         </div>

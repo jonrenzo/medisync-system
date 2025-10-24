@@ -116,6 +116,17 @@ function parseMonthToYearMonth(monthStr: string): string {
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 
+function convertMonthYearToYearMonth(month: string, year: string): string {
+    const months: { [key: string]: string } = {
+        'january': '01', 'february': '02', 'march': '03', 'april': '04',
+        'may': '05', 'june': '06', 'july': '07', 'august': '08',
+        'september': '09', 'october': '10', 'november': '11', 'december': '12'
+    };
+
+    const monthNum = months[month.toLowerCase()] || '01';
+    return `${year}-${monthNum}`;
+}
+
 function isDataRow(row: any[]): boolean {
     if (!row || row.length < 6) return false;
 
@@ -147,13 +158,12 @@ function isDataRow(row: any[]): boolean {
     return hasValidUnit || hasNumbers;
 }
 
-function cleanData(rawRows: any[][]): {
+function cleanData(rawRows: any[][], monthYear: string): {
     records: MedicineRecord[];
     healthCenter: string;
     month: string;
 } {
-    const { healthCenter, month } = extractHealthCenterAndMonth(rawRows);
-    const monthYear = parseMonthToYearMonth(month);
+    const { healthCenter } = extractHealthCenterAndMonth(rawRows);
 
     const records: MedicineRecord[] = [];
     const seen = new Set<string>();
@@ -230,6 +240,8 @@ export async function POST(request: NextRequest) {
     try {
         const formData = await request.formData();
         const file = formData.get('file') as File;
+        const month = formData.get('month') as string;
+        const year = formData.get('year') as string;
 
         if (!file) {
             return NextResponse.json(
@@ -237,6 +249,16 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
+
+        if (!month || !year) {
+            return NextResponse.json(
+                { error: 'Month and year are required' },
+                { status: 400 }
+            );
+        }
+
+        // Convert month and year to YYYY-MM format
+        const monthYear = convertMonthYearToYearMonth(month, year);
 
         // Read file buffer
         const bytes = await file.arrayBuffer();
@@ -252,8 +274,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Clean and extract data
-        const { records, healthCenter, month } = cleanData(rawRows);
+        // Clean and extract data with the provided month/year
+        const { records, healthCenter } = cleanData(rawRows, monthYear);
 
         if (records.length === 0) {
             return NextResponse.json(
@@ -268,7 +290,7 @@ export async function POST(request: NextRequest) {
             .insert({
                 filename: file.name,
                 health_center: healthCenter,
-                month: month,
+                month: monthYear,
                 row_count: rawRows.length,
                 processed_count: records.length,
                 status: 'processing',
@@ -336,8 +358,8 @@ export async function POST(request: NextRequest) {
             totalRows: rawRows.length,
             uniqueMedicines,
             healthCenter,
-            month,
-            message: `Successfully imported ${insertedCount} medicine records from ${healthCenter}`,
+            month: monthYear,
+            message: `Successfully imported ${insertedCount} medicine records for ${month} ${year} from ${healthCenter}`,
         });
 
     } catch (error: any) {
