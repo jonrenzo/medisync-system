@@ -1,365 +1,415 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, UserPlus, Edit, Trash2, Search, Shield, Activity, Eye } from "lucide-react"
+import {useState, useEffect} from "react"
+import {supabase} from "@/lib/supabase"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
+import {Button} from "@/components/ui/button"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import {Alert, AlertDescription} from "@/components/ui/alert"
+import {AlertCircle, CheckCircle2, Loader2} from "lucide-react"
 
-const users = [
-    {
-        id: 1,
-        name: "Dr. Maria Santos",
-        email: "maria.santos@medisync.com",
-        role: "Admin",
-        status: "active",
-        lastLogin: "2024-01-15 09:30",
-    },
-    {
-        id: 2,
-        name: "John Dela Cruz",
-        email: "john.delacruz@medisync.com",
-        role: "Inventory Staff",
-        status: "active",
-        lastLogin: "2024-01-15 08:45",
-    },
-    {
-        id: 3,
-        name: "Sarah Johnson",
-        email: "sarah.johnson@medisync.com",
-        role: "Viewer",
-        status: "active",
-        lastLogin: "2024-01-14 16:20",
-    },
-    {
-        id: 4,
-        name: "Michael Brown",
-        email: "michael.brown@medisync.com",
-        role: "Inventory Staff",
-        status: "inactive",
-        lastLogin: "2024-01-10 14:15",
-    },
-    {
-        id: 5,
-        name: "Lisa Garcia",
-        email: "lisa.garcia@medisync.com",
-        role: "Admin",
-        status: "active",
-        lastLogin: "2024-01-15 07:30",
-    },
-]
-
-const activityLog = [
-    {
-        id: 1,
-        user: "Dr. Maria Santos",
-        action: "Added new medicine",
-        item: "Paracetamol 500mg",
-        timestamp: "2024-01-15 10:30",
-        type: "create",
-    },
-    {
-        id: 2,
-        user: "John Dela Cruz",
-        action: "Updated stock quantity",
-        item: "Amoxicillin 250mg",
-        timestamp: "2024-01-15 09:15",
-        type: "update",
-    },
-    {
-        id: 3,
-        user: "Sarah Johnson",
-        action: "Generated monthly report",
-        item: "January 2024 Report",
-        timestamp: "2024-01-15 08:45",
-        type: "report",
-    },
-    {
-        id: 4,
-        user: "Dr. Maria Santos",
-        action: "Deleted expired item",
-        item: "Ibuprofen 400mg",
-        timestamp: "2024-01-14 16:20",
-        type: "delete",
-    },
-    {
-        id: 5,
-        user: "John Dela Cruz",
-        action: "Marked item for disposal",
-        item: "Aspirin 100mg",
-        timestamp: "2024-01-14 14:30",
-        type: "disposal",
-    },
-]
-
-const rolePermissions = {
-    Admin: ["Create", "Read", "Update", "Delete", "Manage Users", "Generate Reports", "System Settings"],
-    "Inventory Staff": ["Create", "Read", "Update", "Generate Reports"],
-    Viewer: ["Read", "Generate Reports"],
+interface UserProfile {
+    id: string
+    username: string
+    email: string
+    role: string
+    first_name: string | null
+    created_at: string
 }
 
-export default function RoleManagement() {
-    const [searchTerm, setSearchTerm] = useState("")
-    const [selectedRole, setSelectedRole] = useState("all")
+interface LoginHistory {
+    log_id: string
+    activity_type: string
+    timestamp: string
+}
 
-    const filteredUsers = users.filter((user) => {
-        const matchesSearch =
-            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesRole = selectedRole === "all" || user.role === selectedRole
-        return matchesSearch && matchesRole
+export default function MyAccount() {
+    const [profile, setProfile] = useState<UserProfile | null>(null)
+    const [loginHistory, setLoginHistory] = useState<LoginHistory[]>([])
+    const [loading, setLoading] = useState(true)
+    const [saving, setSaving] = useState(false)
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
+
+    // Security settings
+    const [passwordForm, setPasswordForm] = useState({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
     })
 
-    return (
-        <div className="bg-background min-h-screen p-6 space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-dark">Role Management</h1>
-                <Button className="bg-primary hover:bg-primary/90 text-white">
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Add New User
-                </Button>
+    // For demo purposes - in production, you'd get this from auth context
+    const currentUserId = "demo-user-id"
+
+    useEffect(() => {
+        fetchProfile()
+        fetchLoginHistory()
+    }, [])
+
+    const fetchProfile = async () => {
+        try {
+            // In production, get from authenticated user
+            const {data, error} = await supabase
+                .from("users")
+                .select("*")
+                .limit(1)
+                .single()
+
+            if (error) throw error
+            setProfile(data)
+        } catch (err) {
+            console.error("Error fetching profile:", err)
+            setError("Failed to load profile")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const fetchLoginHistory = async () => {
+        try {
+            // Fetch recent activity from utilization records as audit trail
+            const {data, error} = await supabase
+                .from("utilizationrecord")
+                .select("dispensedid, dateissued, patientname")
+                .order("dateissued", {ascending: false})
+                .limit(10)
+
+            if (error) throw error
+
+            const history = data?.map(item => ({
+                log_id: item.dispensedid,
+                activity_type: `Dispensed medicine to ${item.patientname}`,
+                timestamp: item.dateissued
+            })) || []
+
+            setLoginHistory(history)
+        } catch (err) {
+            console.error("Error fetching login history:", err)
+        }
+    }
+
+    const handleUpdateProfile = async () => {
+        if (!profile) return
+
+        setError("")
+        setSuccess("")
+        setSaving(true)
+
+        try {
+            const {error} = await supabase
+                .from("users")
+                .update({
+                    username: profile.username,
+                    email: profile.email,
+                    first_name: profile.first_name,
+                })
+                .eq("id", profile.id)
+
+            if (error) throw error
+
+            setSuccess("Profile updated successfully!")
+            setTimeout(() => setSuccess(""), 3000)
+        } catch (err: any) {
+            console.error("Error updating profile:", err)
+            setError(err.message || "Failed to update profile")
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    const handleChangePassword = async () => {
+        setError("")
+        setSuccess("")
+
+        // Validation
+        if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+            setError("Please fill in all password fields")
+            return
+        }
+
+        if (passwordForm.newPassword.length < 6) {
+            setError("New password must be at least 6 characters")
+            return
+        }
+
+        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+            setError("New passwords do not match")
+            return
+        }
+
+        setSaving(true)
+
+        try {
+            if (!profile) return
+            const {data: user, error: userError} = await supabase
+                .from("users")
+                .select("password")
+                .eq("id", profile.id)
+                .single()
+
+            if (userError || !user) {
+                setError("User not found")
+                return
+            }
+
+            if (user.password !== passwordForm.currentPassword) {
+                setError("Current password is incorrect")
+                return
+            }
+
+            const {error: updateError} = await supabase
+                .from("users")
+                .update({password: passwordForm.newPassword})
+                .eq("id", profile.id)
+
+            if (updateError) {
+                throw updateError
+            }
+
+            setSuccess("Password changed successfully!")
+            setPasswordForm({
+                currentPassword: "",
+                newPassword: "",
+                confirmPassword: "",
+            })
+
+            setTimeout(() => setSuccess(""), 3000)
+        } catch (err: any) {
+            console.error("Error changing password:", err)
+            setError(err.message || "Failed to change password")
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleString()
+    }
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-background p-6 flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary"/>
             </div>
+        )
+    }
 
-            <Tabs defaultValue="users" className="space-y-6">
-                <TabsList>
-                    <TabsTrigger value="users">User Management</TabsTrigger>
-                    <TabsTrigger value="roles">Role Permissions</TabsTrigger>
-                    <TabsTrigger value="activity">Activity Log</TabsTrigger>
-                </TabsList>
+    return (
+        <div className="min-h-screen bg-background p-6">
+            <div className="max-w-4xl mx-auto space-y-6">
+                <div>
+                    <h1 className="text-3xl font-bold">My Account</h1>
+                    <p className="text-muted-foreground mt-1">Manage your personal details and security settings</p>
+                </div>
 
-                <TabsContent value="users" className="space-y-6">
-                    {/* User Management */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-dark">User Management</CardTitle>
-                            <CardDescription>Manage user accounts and assign roles</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            {/* Search and Filter */}
-                            <div className="flex gap-4 mb-6">
-                                <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <Input
-                                        placeholder="Search users..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10"
-                                    />
-                                </div>
-                                <Select value={selectedRole} onValueChange={setSelectedRole}>
-                                    <SelectTrigger className="w-48">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">All Roles</SelectItem>
-                                        <SelectItem value="Admin">Admin</SelectItem>
-                                        <SelectItem value="Inventory Staff">Inventory Staff</SelectItem>
-                                        <SelectItem value="Viewer">Viewer</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                {error && (
+                    <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4"/>
+                        <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                )}
 
-                            {/* User Statistics */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
+                {success && (
+                    <Alert className="bg-green-50 text-green-900 border-green-200">
+                        <CheckCircle2 className="h-4 w-4"/>
+                        <AlertDescription>{success}</AlertDescription>
+                    </Alert>
+                )}
+
+                <Tabs defaultValue="profile" className="space-y-4">
+                    <TabsList>
+                        <TabsTrigger value="profile">Profile Settings</TabsTrigger>
+                        <TabsTrigger value="security">Security Settings</TabsTrigger>
+                        <TabsTrigger value="activity">Account Activity</TabsTrigger>
+                    </TabsList>
+
+                    {/* Profile Settings Tab */}
+                    <TabsContent value="profile">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Personal Information</CardTitle>
+                                <CardDescription>Update your personal details and contact information</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {profile ? (
+                                    <div className="space-y-4">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
-                                                <p className="text-sm text-gray-600">Total Users</p>
-                                                <p className="text-2xl font-bold">{users.length}</p>
-                                            </div>
-                                            <Users className="w-8 h-8 text-primary" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Active Users</p>
-                                                <p className="text-2xl font-bold text-green-600">
-                                                    {users.filter((u) => u.status === "active").length}
-                                                </p>
-                                            </div>
-                                            <Shield className="w-8 h-8 text-green-500" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Admins</p>
-                                                <p className="text-2xl font-bold text-purple-600">
-                                                    {users.filter((u) => u.role === "Admin").length}
-                                                </p>
-                                            </div>
-                                            <Shield className="w-8 h-8 text-purple-500" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Staff</p>
-                                                <p className="text-2xl font-bold text-orange-600">
-                                                    {users.filter((u) => u.role === "Inventory Staff").length}
-                                                </p>
-                                            </div>
-                                            <Users className="w-8 h-8 text-orange-500" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-
-                            {/* Users List */}
-                            <div className="space-y-4">
-                                {filteredUsers.map((user) => (
-                                    <div key={user.id} className="flex items-center justify-between p-4 bg-white border rounded-lg">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                        <span className="text-primary font-medium">
-                          {user.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                        </span>
-                                            </div>
-                                            <div>
-                                                <div className="font-medium text-dark">{user.name}</div>
-                                                <div className="text-sm text-gray-500">{user.email}</div>
-                                                <div className="text-sm text-gray-500">Last login: {user.lastLogin}</div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-4">
-                                            <Badge variant={user.role === "Admin" ? "default" : "secondary"}>{user.role}</Badge>
-                                            <Badge variant={user.status === "active" ? "default" : "secondary"}>{user.status}</Badge>
-                                            <div className="flex gap-2">
-                                                <Button variant="outline" size="sm">
-                                                    <Edit className="w-4 h-4" />
-                                                </Button>
-                                                <Button variant="outline" size="sm">
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="roles" className="space-y-6">
-                    {/* Role Permissions */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {Object.entries(rolePermissions).map(([role, permissions]) => (
-                            <Card key={role}>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2 text-dark">
-                                        <Shield className="w-5 h-5" />
-                                        {role}
-                                    </CardTitle>
-                                    <CardDescription>{users.filter((u) => u.role === role).length} users with this role</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-2">
-                                        {permissions.map((permission, index) => (
-                                            <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                                <span className="text-sm">{permission}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <Button variant="outline" size="sm" className="w-full mt-4 bg-transparent">
-                                        <Edit className="w-4 h-4 mr-2" />
-                                        Edit Permissions
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </TabsContent>
-
-                <TabsContent value="activity" className="space-y-6">
-                    {/* Activity Log */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Activity Log</CardTitle>
-                            <CardDescription>Track user actions and system changes</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
-                                {activityLog.map((activity) => (
-                                    <div key={activity.id} className="flex items-center justify-between p-4 bg-white border rounded-lg">
-                                        <div className="flex items-center gap-4">
-                                            <div
-                                                className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                                    activity.type === "create"
-                                                        ? "bg-green-100"
-                                                        : activity.type === "update"
-                                                            ? "bg-blue-100"
-                                                            : activity.type === "delete"
-                                                                ? "bg-red-100"
-                                                                : activity.type === "disposal"
-                                                                    ? "bg-orange-100"
-                                                                    : "bg-gray-100"
-                                                }`}
-                                            >
-                                                <Activity
-                                                    className={`w-5 h-5 ${
-                                                        activity.type === "create"
-                                                            ? "text-green-600"
-                                                            : activity.type === "update"
-                                                                ? "text-blue-600"
-                                                                : activity.type === "delete"
-                                                                    ? "text-red-600"
-                                                                    : activity.type === "disposal"
-                                                                        ? "text-orange-600"
-                                                                        : "text-gray-600"
-                                                    }`}
+                                                <Label htmlFor="username">Username</Label>
+                                                <Input
+                                                    id="username"
+                                                    value={profile.username}
+                                                    onChange={(e) => setProfile({...profile, username: e.target.value})}
                                                 />
                                             </div>
                                             <div>
-                                                <div className="font-medium">{activity.user}</div>
-                                                <div className="text-sm text-gray-500">
-                                                    {activity.action}: {activity.item}
-                                                </div>
-                                                <div className="text-sm text-gray-400">{activity.timestamp}</div>
+                                                <Label htmlFor="first_name">Full Name</Label>
+                                                <Input
+                                                    id="first_name"
+                                                    value={profile.first_name || ""}
+                                                    onChange={(e) => setProfile({
+                                                        ...profile,
+                                                        first_name: e.target.value
+                                                    })}
+                                                    placeholder="Enter your full name"
+                                                />
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <Badge
-                                                variant={
-                                                    activity.type === "create"
-                                                        ? "default"
-                                                        : activity.type === "update"
-                                                            ? "secondary"
-                                                            : activity.type === "delete"
-                                                                ? "destructive"
-                                                                : "outline"
-                                                }
+
+                                        <div>
+                                            <Label htmlFor="email">Email Address</Label>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                value={profile.email}
+                                                onChange={(e) => setProfile({...profile, email: e.target.value})}
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <Label>Account Type</Label>
+                                            <Input
+                                                value={profile.role}
+                                                disabled
+                                                className="bg-gray-50"
+                                            />
+                                            <p className="text-xs text-muted-foreground mt-1">
+                                                Contact an administrator to change your account type
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <Label>Member Since</Label>
+                                            <Input
+                                                value={formatDate(profile.created_at)}
+                                                disabled
+                                                className="bg-gray-50"
+                                            />
+                                        </div>
+
+                                        <div className="flex justify-end">
+                                            <Button
+                                                onClick={handleUpdateProfile}
+                                                disabled={saving}
+                                                className="bg-primary text-white hover:bg-primary/90"
                                             >
-                                                {activity.type}
-                                            </Badge>
-                                            <Button variant="outline" size="sm">
-                                                <Eye className="w-4 h-4" />
+                                                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                                                Update Profile
                                             </Button>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                                ) : (
+                                    <p className="text-muted-foreground">No profile data available</p>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Security Settings Tab */}
+                    <TabsContent value="security">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Security Settings</CardTitle>
+                                <CardDescription>Manage your login credentials</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                    <div>
+                                        <h3 className="font-semibold mb-4">Change Password</h3>
+                                        <div className="space-y-4">
+                                            <div>
+                                                <Label htmlFor="current-password">Current Password</Label>
+                                                <Input
+                                                    id="current-password"
+                                                    type="password"
+                                                    value={passwordForm.currentPassword}
+                                                    onChange={(e) => setPasswordForm({
+                                                        ...passwordForm,
+                                                        currentPassword: e.target.value
+                                                    })}
+                                                    placeholder="Enter current password"
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor="new-password">New Password</Label>
+                                                <Input
+                                                    id="new-password"
+                                                    type="password"
+                                                    value={passwordForm.newPassword}
+                                                    onChange={(e) => setPasswordForm({
+                                                        ...passwordForm,
+                                                        newPassword: e.target.value
+                                                    })}
+                                                    placeholder="Enter new password (min 6 characters)"
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor="confirm-password">Confirm New Password</Label>
+                                                <Input
+                                                    id="confirm-password"
+                                                    type="password"
+                                                    value={passwordForm.confirmPassword}
+                                                    onChange={(e) => setPasswordForm({
+                                                        ...passwordForm,
+                                                        confirmPassword: e.target.value
+                                                    })}
+                                                    placeholder="Confirm new password"
+                                                />
+                                            </div>
+                                            <div className="flex justify-end">
+                                                <Button
+                                                    onClick={handleChangePassword}
+                                                    disabled={saving}
+                                                    className="bg-primary text-white hover:bg-primary/90"
+                                                >
+                                                    {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                                                    Change Password
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Account Activity Tab */}
+                    <TabsContent value="activity">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Account Log History</CardTitle>
+                                <CardDescription>Recent account activities and administrative changes</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-2">
+                                    {loginHistory.length === 0 ? (
+                                        <div
+                                            className="flex items-center justify-center h-64 text-muted-foreground border rounded-lg">
+                                            <p>No activity logs found</p>
+                                        </div>
+                                    ) : (
+                                        loginHistory.map((log) => (
+                                            <div
+                                                key={log.log_id}
+                                                className="flex items-start justify-between p-4 border rounded-lg hover:bg-gray-50"
+                                            >
+                                                <div className="flex-1">
+                                                    <p className="font-medium text-sm">{log.activity_type}</p>
+                                                    <p className="text-xs text-muted-foreground mt-1">
+                                                        {formatDate(log.timestamp)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
+            </div>
         </div>
     )
 }

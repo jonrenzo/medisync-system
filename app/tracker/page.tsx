@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { AlertTriangle, Package, QrCode, RotateCcw, Trash2, CheckCircle, Mail, History, Search } from "lucide-react"
+import {useState} from "react"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
+import {Button} from "@/components/ui/button"
+import {Badge} from "@/components/ui/badge"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import {Input} from "@/components/ui/input"
+import {AlertTriangle, Package, QrCode, RotateCcw, Trash2, CheckCircle, Mail, History, Search} from "lucide-react"
 
 const alerts = [
     {
@@ -26,7 +26,7 @@ const alerts = [
         expiryDate: "2024-01-20",
         status: "active",
     },
-    { id: 3, medicine: "Ibuprofen", type: "Out of Stock", batch: "202512031", quantity: 0, status: "critical" },
+    {id: 3, medicine: "Ibuprofen", type: "Out of Stock", batch: "202512031", quantity: 0, status: "critical"},
     {
         id: 4,
         medicine: "Aspirin",
@@ -72,20 +72,20 @@ export default function Tracker() {
     const [searchTerm, setSearchTerm] = useState("")
 
     return (
-        <div className="bg-background min-h-screen p-6 space-y-6">
+        <div className="min-h-screen p-6 bg-background space-y-6">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-dark">Tracker</h1>
                 <div className="flex gap-2">
-                    <Button className="bg-primary text-white hover:bg-primary/90" size="sm">
-                        <QrCode className="w-4 h-4 mr-2" />
+                    <Button className="text-white bg-primary hover:bg-primary/90" size="sm">
+                        <QrCode className="mr-2 h-4 w-4"/>
                         Scan QR/Barcode
                     </Button>
                     <Button
                         variant="outline"
-                        className="border-primary text-primary hover:bg-primary hover:text-white bg-transparent"
+                        className="bg-transparent border-primary text-primary hover:bg-primary hover:text-white"
                         size="sm"
                     >
-                        <History className="w-4 h-4 mr-2" />
+                        <History className="mr-2 h-4 w-4"/>
                         View Batch History
                     </Button>
                 </div>
@@ -101,13 +101,15 @@ export default function Tracker() {
                     {/* Search and Filter */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-dark">Stock Alerts & Expiry Warnings</CardTitle>
+                            <CardTitle className="flex items-center gap-2 text-dark">Stock Alerts & Expiry
+                                Warnings</CardTitle>
                             <CardDescription>Monitor low stock, overstock, and expiry alerts</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="flex gap-4 mb-6">
+                            <div className="mb-6 flex gap-4">
                                 <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                    <Search
+                                        className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400"/>
                                     <Input
                                         placeholder="Search alerts..."
                                         value={searchTerm}
@@ -118,7 +120,7 @@ export default function Tracker() {
                             </div>
 
                             {/* Alert Summary Cards */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
                                 <Card className="border-red-200 bg-red-50">
                                     <CardContent className="p-4">
                                         <div className="flex items-center justify-between">
@@ -126,7 +128,7 @@ export default function Tracker() {
                                                 <p className="text-sm text-red-600">Critical Alerts</p>
                                                 <p className="text-2xl font-bold text-red-700">3</p>
                                             </div>
-                                            <AlertTriangle className="w-8 h-8 text-red-500" />
+                                            <AlertTriangle className="h-8 w-8 text-red-500"/>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -138,7 +140,7 @@ export default function Tracker() {
                                                 <p className="text-sm text-orange-600">Low Stock</p>
                                                 <p className="text-2xl font-bold text-orange-700">8</p>
                                             </div>
-                                            <Package className="w-8 h-8 text-orange-500" />
+                                            <Package className="h-8 w-8 text-orange-500"/>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -150,7 +152,7 @@ export default function Tracker() {
                                                 <p className="text-sm text-primary">In Stock</p>
                                                 <p className="text-2xl font-bold text-primary">156</p>
                                             </div>
-                                            <CheckCircle className="w-8 h-8 text-primary" />
+                                            <CheckCircle className="h-8 w-8 text-primary"/>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -162,7 +164,7 @@ export default function Tracker() {
                                                 <p className="text-sm text-purple-600">Overstock</p>
                                                 <p className="text-2xl font-bold text-purple-700">12</p>
                                             </div>
-                                            <Package className="w-8 h-8 text-purple-500" />
+                                            <Package className="h-8 w-8 text-purple-500"/>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -171,7 +173,8 @@ export default function Tracker() {
                             {/* Alerts List */}
                             <div className="space-y-4">
                                 {alerts.map((alert) => (
-                                    <div key={alert.id} className="flex items-center justify-between p-4 bg-white border rounded-lg">
+                                    <div key={alert.id}
+                                         className="flex items-center justify-between rounded-lg border bg-white p-4">
                                         <div className="flex items-center gap-4">
                                             <AlertTriangle
                                                 className={`w-5 h-5 ${
@@ -205,18 +208,18 @@ export default function Tracker() {
                                             </Badge>
                                             <Button
                                                 variant="outline"
-                                                className="border-primary text-primary hover:bg-primary hover:text-white bg-transparent"
+                                                className="bg-transparent border-primary text-primary hover:bg-primary hover:text-white"
                                                 size="sm"
                                             >
-                                                <CheckCircle className="w-4 h-4 mr-2" />
+                                                <CheckCircle className="mr-2 h-4 w-4"/>
                                                 Mark as Resolved
                                             </Button>
                                             <Button
                                                 variant="outline"
-                                                className="border-primary text-primary hover:bg-primary hover:text-white bg-transparent"
+                                                className="bg-transparent border-primary text-primary hover:bg-primary hover:text-white"
                                                 size="sm"
                                             >
-                                                <Mail className="w-4 h-4 mr-2" />
+                                                <Mail className="mr-2 h-4 w-4"/>
                                                 Send Reminder
                                             </Button>
                                         </div>
@@ -234,23 +237,24 @@ export default function Tracker() {
                             <CardDescription>Track disposed items and returns</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="flex gap-2 mb-6">
-                                <Button className="bg-primary text-white hover:bg-primary/90">
-                                    <Trash2 className="w-4 h-4 mr-2" />
+                            <div className="mb-6 flex gap-2">
+                                <Button className="text-white bg-primary hover:bg-primary/90">
+                                    <Trash2 className="mr-2 h-4 w-4"/>
                                     Mark for Return
                                 </Button>
                                 <Button
                                     variant="outline"
-                                    className="border-primary text-primary hover:bg-primary hover:text-white bg-transparent"
+                                    className="bg-transparent border-primary text-primary hover:bg-primary hover:text-white"
                                 >
-                                    <RotateCcw className="w-4 h-4 mr-2" />
+                                    <RotateCcw className="mr-2 h-4 w-4"/>
                                     Return Item
                                 </Button>
                             </div>
 
                             <div className="space-y-4">
                                 {disposalItems.map((item) => (
-                                    <div key={item.id} className="flex items-center justify-between p-4 bg-white border rounded-lg">
+                                    <div key={item.id}
+                                         className="flex items-center justify-between rounded-lg border bg-white p-4">
                                         <div>
                                             <div className="font-medium">{item.medicine}</div>
                                             <div className="text-sm text-gray-500">
@@ -265,10 +269,10 @@ export default function Tracker() {
                                             {item.status === "pending" && (
                                                 <Button
                                                     variant="outline"
-                                                    className="border-primary text-primary hover:bg-primary hover:text-white bg-transparent"
+                                                    className="bg-transparent border-primary text-primary hover:bg-primary hover:text-white"
                                                     size="sm"
                                                 >
-                                                    <CheckCircle className="w-4 h-4 mr-2" />
+                                                    <CheckCircle className="mr-2 h-4 w-4"/>
                                                     Complete
                                                 </Button>
                                             )}

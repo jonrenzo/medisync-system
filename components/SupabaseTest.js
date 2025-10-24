@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import {useState, useEffect} from 'react'
+import {supabase} from '../lib/supabase'
 
 export default function SupabaseTest() {
     const [connected, setConnected] = useState(false)
@@ -8,7 +8,7 @@ export default function SupabaseTest() {
         // Simple test to check connection
         const testConnection = async () => {
             try {
-                const { data, error } = await supabase.auth.getSession()
+                const {data, error} = await supabase.auth.getSession()
                 if (!error) {
                     setConnected(true)
                     console.log('✅ Supabase connected successfully')

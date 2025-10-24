@@ -1,6 +1,6 @@
 // app/api/upload-medicine-stocks/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from "@/lib/supabase";
+import {NextRequest, NextResponse} from 'next/server';
+import {supabase} from "@/lib/supabase";
 import * as XLSX from 'xlsx';
 import Papa from 'papaparse';
 
@@ -18,7 +18,7 @@ interface MedicineRecord {
 }
 
 function extractMedicineParts(medicineName: string): { baseName: string; dosage: string } {
-    if (!medicineName) return { baseName: '', dosage: '' };
+    if (!medicineName) return {baseName: '', dosage: ''};
 
     const cleaned = medicineName
         .replace(/\u00A0/g, ' ')
@@ -40,7 +40,7 @@ function extractMedicineParts(medicineName: string): { baseName: string; dosage:
         .replace(/\b(tablet|capsule|bottle|sachet|syrup|drops|suspension|granules|ampule|vial|oral|solution|tab|cap)s?\b/gi, '')
         .trim();
 
-    return { baseName, dosage };
+    return {baseName, dosage};
 }
 
 function parseNumber(value: any): number {
@@ -77,7 +77,7 @@ function extractHealthCenterAndMonth(rows: any[][]): { healthCenter: string; mon
         }
     }
 
-    return { healthCenter, month };
+    return {healthCenter, month};
 }
 
 function parseMonthToYearMonth(monthStr: string): string {
@@ -116,6 +116,17 @@ function parseMonthToYearMonth(monthStr: string): string {
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 
+function convertMonthYearToYearMonth(month: string, year: string): string {
+    const months: { [key: string]: string } = {
+        'january': '01', 'february': '02', 'march': '03', 'april': '04',
+        'may': '05', 'june': '06', 'july': '07', 'august': '08',
+        'september': '09', 'october': '10', 'november': '11', 'december': '12'
+    };
+
+    const monthNum = months[month.toLowerCase()] || '01';
+    return `${year}-${monthNum}`;
+}
+
 function isDataRow(row: any[]): boolean {
     if (!row || row.length < 6) return false;
 
@@ -147,13 +158,12 @@ function isDataRow(row: any[]): boolean {
     return hasValidUnit || hasNumbers;
 }
 
-function cleanData(rawRows: any[][]): {
+function cleanData(rawRows: any[][], monthYear: string): {
     records: MedicineRecord[];
     healthCenter: string;
     month: string;
 } {
-    const { healthCenter, month } = extractHealthCenterAndMonth(rawRows);
-    const monthYear = parseMonthToYearMonth(month);
+    const {healthCenter} = extractHealthCenterAndMonth(rawRows);
 
     const records: MedicineRecord[] = [];
     const seen = new Set<string>();
@@ -171,7 +181,7 @@ function cleanData(rawRows: any[][]): {
         if (!medicineName || medicineName.length < 3) continue;
         if (beginningBalance === 0 && delivery === 0 && dispensed === 0 && endingBalance === 0) continue;
 
-        const { baseName, dosage } = extractMedicineParts(medicineName);
+        const {baseName, dosage} = extractMedicineParts(medicineName);
 
         const uniqueKey = `${baseName.toLowerCase()}-${dosage}-${monthYear}`;
         if (seen.has(uniqueKey)) continue;
@@ -191,7 +201,7 @@ function cleanData(rawRows: any[][]): {
         });
     }
 
-    return { records, healthCenter, month: monthYear };
+    return {records, healthCenter, month: monthYear};
 }
 
 function parseFile(buffer: Buffer, filename: string): any[][] {
@@ -204,15 +214,14 @@ function parseFile(buffer: Buffer, filename: string): any[][] {
             skipEmptyLines: true
         });
         return result.data as any[][];
-    }
-    else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-        const workbook = XLSX.read(buffer, { type: 'buffer' });
+    } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+        const workbook = XLSX.read(buffer, {type: 'buffer'});
 
         const allRows: any[][] = [];
 
         workbook.SheetNames.forEach(sheetName => {
             const worksheet = workbook.Sheets[sheetName];
-            const sheetRows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' }) as any[][];
+            const sheetRows = XLSX.utils.sheet_to_json(worksheet, {header: 1, defval: ''}) as any[][];
 
             if (allRows.length > 0) allRows.push([]);
 
@@ -220,8 +229,7 @@ function parseFile(buffer: Buffer, filename: string): any[][] {
         });
 
         return allRows;
-    }
-    else {
+    } else {
         throw new Error('Unsupported file format. Please upload CSV, TXT, or Excel files.');
     }
 }
@@ -230,13 +238,25 @@ export async function POST(request: NextRequest) {
     try {
         const formData = await request.formData();
         const file = formData.get('file') as File;
+        const month = formData.get('month') as string;
+        const year = formData.get('year') as string;
 
         if (!file) {
             return NextResponse.json(
-                { error: 'No file provided' },
-                { status: 400 }
+                {error: 'No file provided'},
+                {status: 400}
             );
         }
+
+        if (!month || !year) {
+            return NextResponse.json(
+                {error: 'Month and year are required'},
+                {status: 400}
+            );
+        }
+
+        // Convert month and year to YYYY-MM format
+        const monthYear = convertMonthYearToYearMonth(month, year);
 
         // Read file buffer
         const bytes = await file.arrayBuffer();
@@ -247,28 +267,28 @@ export async function POST(request: NextRequest) {
 
         if (!rawRows || rawRows.length === 0) {
             return NextResponse.json(
-                { error: 'File is empty or could not be parsed' },
-                { status: 400 }
+                {error: 'File is empty or could not be parsed'},
+                {status: 400}
             );
         }
 
-        // Clean and extract data
-        const { records, healthCenter, month } = cleanData(rawRows);
+        // Clean and extract data with the provided month/year
+        const {records, healthCenter} = cleanData(rawRows, monthYear);
 
         if (records.length === 0) {
             return NextResponse.json(
-                { error: 'No valid medicine records found. Please check your file format.' },
-                { status: 400 }
+                {error: 'No valid medicine records found. Please check your file format.'},
+                {status: 400}
             );
         }
 
         // Create upload record
-        const { data: uploadData, error: uploadError } = await supabase
+        const {data: uploadData, error: uploadError} = await supabase
             .from('uploads')
             .insert({
                 filename: file.name,
                 health_center: healthCenter,
-                month: month,
+                month: monthYear,
                 row_count: rawRows.length,
                 processed_count: records.length,
                 status: 'processing',
@@ -294,7 +314,7 @@ export async function POST(request: NextRequest) {
 
         for (let i = 0; i < recordsWithUploadId.length; i += batchSize) {
             const batch = recordsWithUploadId.slice(i, i + batchSize);
-            const { error: insertError } = await supabase
+            const {error: insertError} = await supabase
                 .from('medicine_inventory')
                 .insert(batch);
 
@@ -316,7 +336,7 @@ export async function POST(request: NextRequest) {
         // Update upload status to completed
         await supabase
             .from('uploads')
-            .update({ status: 'completed' })
+            .update({status: 'completed'})
             .eq('id', uploadId);
 
         // Refresh materialized view (optional - may fail if view doesn't exist yet)
@@ -336,15 +356,15 @@ export async function POST(request: NextRequest) {
             totalRows: rawRows.length,
             uniqueMedicines,
             healthCenter,
-            month,
-            message: `Successfully imported ${insertedCount} medicine records from ${healthCenter}`,
+            month: monthYear,
+            message: `Successfully imported ${insertedCount} medicine records for ${month} ${year} from ${healthCenter}`,
         });
 
     } catch (error: any) {
         console.error('Upload error:', error);
         return NextResponse.json(
-            { error: error.message || 'Upload failed' },
-            { status: 500 }
+            {error: error.message || 'Upload failed'},
+            {status: 500}
         );
     }
 }

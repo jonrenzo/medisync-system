@@ -1,13 +1,13 @@
 "use client"
 
 import type React from "react"
-import { Lexend } from "next/font/google"
+import {Lexend} from "next/font/google"
 import "./globals.css"
-import { Sidebar } from "@/components/sidebar"
-import { usePathname } from "next/navigation"
+import {Sidebar} from "@/components/sidebar"
+import {usePathname} from "next/navigation"
 
 
-const lexend = Lexend({ subsets: ["latin"]})
+const lexend = Lexend({subsets: ["latin"]})
 
 export default function ClientLayout({
                                          children,
@@ -24,7 +24,7 @@ export default function ClientLayout({
             <main className="w-full bg-background">{children}</main>
         ) : (
             <div className="flex h-screen bg-background">
-                <Sidebar />
+                <Sidebar/>
                 <main className="flex-1 overflow-auto bg-background">{children}</main>
             </div>
         )}

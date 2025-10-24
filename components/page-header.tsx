@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Bell, Settings, User } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {useState} from "react"
+import {Button} from "@/components/ui/button"
+import {Badge} from "@/components/ui/badge"
+import {Bell, Settings, User} from "lucide-react"
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover"
 import Link from "next/link"
 
 const notifications = [
@@ -44,11 +44,11 @@ interface PageHeaderProps {
     showActions?: boolean
 }
 
-export function PageHeader({ title, showActions = true }: PageHeaderProps) {
+export function PageHeader({title, showActions = true}: PageHeaderProps) {
     const [unreadCount] = useState(notifications.filter((n) => !n.read).length)
 
     return (
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-dark">{title}</h1>
             {showActions && (
                 <div className="flex items-center gap-3">
@@ -56,9 +56,10 @@ export function PageHeader({ title, showActions = true }: PageHeaderProps) {
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline" size="sm" className="relative bg-transparent">
-                                <Bell className="w-4 h-4" />
+                                <Bell className="h-4 w-4"/>
                                 {unreadCount > 0 && (
-                                    <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500 text-white text-xs">
+                                    <Badge
+                                        className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 p-0 text-xs text-white">
                                         {unreadCount}
                                     </Badge>
                                 )}
@@ -67,7 +68,7 @@ export function PageHeader({ title, showActions = true }: PageHeaderProps) {
                         <PopoverContent className="w-80" align="end">
                             <div className="space-y-2">
                                 <h4 className="font-medium text-dark">Notifications</h4>
-                                <div className="space-y-2 max-h-64 overflow-y-auto">
+                                <div className="max-h-64 overflow-y-auto space-y-2">
                                     {notifications.map((notification) => (
                                         <div
                                             key={notification.id}
@@ -83,30 +84,6 @@ export function PageHeader({ title, showActions = true }: PageHeaderProps) {
                             </div>
                         </PopoverContent>
                     </Popover>
-
-                    {/* Settings/Account Dropdown */}
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                                <Settings className="w-4 h-4 mr-2" />
-                                Account
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem asChild>
-                                <Link href="/my-account" className="flex items-center">
-                                    <User className="w-4 h-4 mr-2" />
-                                    My Account
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/role-management" className="flex items-center">
-                                    <Settings className="w-4 h-4 mr-2" />
-                                    Settings
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
             )}
         </div>

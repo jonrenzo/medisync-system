@@ -1,365 +1,516 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, UserPlus, Edit, Trash2, Search, Shield, Activity, Eye } from "lucide-react"
+import {useState, useEffect} from "react"
+import {supabase} from "@/lib/supabase"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
+import {Button} from "@/components/ui/button"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import {AlertCircle, Edit, Trash2, UserPlus, Loader2} from "lucide-react"
+import {Alert, AlertDescription} from "@/components/ui/alert"
 
-const users = [
-    {
-        id: 1,
-        name: "Dr. Maria Santos",
-        email: "maria.santos@medisync.com",
-        role: "Admin",
-        status: "active",
-        lastLogin: "2024-01-15 09:30",
-    },
-    {
-        id: 2,
-        name: "John Dela Cruz",
-        email: "john.delacruz@medisync.com",
-        role: "Inventory Staff",
-        status: "active",
-        lastLogin: "2024-01-15 08:45",
-    },
-    {
-        id: 3,
-        name: "Sarah Johnson",
-        email: "sarah.johnson@medisync.com",
-        role: "Viewer",
-        status: "active",
-        lastLogin: "2024-01-14 16:20",
-    },
-    {
-        id: 4,
-        name: "Michael Brown",
-        email: "michael.brown@medisync.com",
-        role: "Inventory Staff",
-        status: "inactive",
-        lastLogin: "2024-01-10 14:15",
-    },
-    {
-        id: 5,
-        name: "Lisa Garcia",
-        email: "lisa.garcia@medisync.com",
-        role: "Admin",
-        status: "active",
-        lastLogin: "2024-01-15 07:30",
-    },
-]
-
-const activityLog = [
-    {
-        id: 1,
-        user: "Dr. Maria Santos",
-        action: "Added new medicine",
-        item: "Paracetamol 500mg",
-        timestamp: "2024-01-15 10:30",
-        type: "create",
-    },
-    {
-        id: 2,
-        user: "John Dela Cruz",
-        action: "Updated stock quantity",
-        item: "Amoxicillin 250mg",
-        timestamp: "2024-01-15 09:15",
-        type: "update",
-    },
-    {
-        id: 3,
-        user: "Sarah Johnson",
-        action: "Generated monthly report",
-        item: "January 2024 Report",
-        timestamp: "2024-01-15 08:45",
-        type: "report",
-    },
-    {
-        id: 4,
-        user: "Dr. Maria Santos",
-        action: "Deleted expired item",
-        item: "Ibuprofen 400mg",
-        timestamp: "2024-01-14 16:20",
-        type: "delete",
-    },
-    {
-        id: 5,
-        user: "John Dela Cruz",
-        action: "Marked item for disposal",
-        item: "Aspirin 100mg",
-        timestamp: "2024-01-14 14:30",
-        type: "disposal",
-    },
-]
-
-const rolePermissions = {
-    Admin: ["Create", "Read", "Update", "Delete", "Manage Users", "Generate Reports", "System Settings"],
-    "Inventory Staff": ["Create", "Read", "Update", "Generate Reports"],
-    Viewer: ["Read", "Generate Reports"],
+interface User {
+    id: string
+    username: string
+    email: string
+    role: string
+    first_name: string | null
+    created_at: string
 }
 
-export default function RoleManagement() {
-    const [searchTerm, setSearchTerm] = useState("")
-    const [selectedRole, setSelectedRole] = useState("all")
+interface AuditLog {
+    log_id: string
+    user_id: string
+    activity_type: string
+    timestamp: string
+    username?: string
+}
 
-    const filteredUsers = users.filter((user) => {
-        const matchesSearch =
-            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesRole = selectedRole === "all" || user.role === selectedRole
-        return matchesSearch && matchesRole
+export default function UserManagement() {
+    const [users, setUsers] = useState<User[]>([])
+    const [auditLogs, setAuditLogs] = useState<AuditLog[]>([])
+    const [loading, setLoading] = useState(true)
+    const [isAddUserOpen, setIsAddUserOpen] = useState(false)
+    const [isEditUserOpen, setIsEditUserOpen] = useState(false)
+    const [selectedUser, setSelectedUser] = useState<User | null>(null)
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
+
+    const [newUser, setNewUser] = useState({
+        username: "",
+        email: "",
+        password: "",
+        role: "Health Center Workers",
+        first_name: "",
     })
 
+    const roles = [
+        "Health Center Workers",
+        "Inventory Staff 1",
+        "Inventory Staff 2",
+        "Admin"
+    ]
+
+    useEffect(() => {
+        fetchUsers()
+        fetchAuditLogs()
+    }, [])
+
+    const fetchUsers = async () => {
+        try {
+            const {data, error} = await supabase
+                .from("users")
+                .select("*")
+                .order("created_at", {ascending: false})
+
+            if (error) throw error
+            setUsers(data || [])
+        } catch (err) {
+            console.error("Error fetching users:", err)
+            setError("Failed to load users")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const fetchAuditLogs = async () => {
+        try {
+            const {data: logs, error: logsError} = await supabase
+                .from("utilizationrecord")
+                .select(`
+                    dispensedid,
+                    patientname,
+                    itemcode,
+                    issuedquantity,
+                    dateissued
+                `)
+                .order("dateissued", {ascending: false})
+                .limit(50)
+
+            if (logsError) throw logsError
+
+            // Get item descriptions for the itemcodes
+            const itemCodes = logs?.map(log => log.itemcode) || []
+            const {data: itemsData} = await supabase
+                .from("items")
+                .select("itemcode, itemdescription")
+                .in("itemcode", itemCodes)
+
+            // Transform dispensed records into audit logs format
+            const auditData = logs?.map(log => {
+                const item = itemsData?.find(i => i.itemcode === log.itemcode)
+                const medicineName = item?.itemdescription || log.itemcode
+                const quantity = log.issuedquantity || 0
+
+                return {
+                    log_id: log.dispensedid,
+                    user_id: "system",
+                    activity_type: `Dispensed ${quantity}x ${medicineName} to ${log.patientname}`,
+                    timestamp: log.dateissued,
+                    username: "System"
+                }
+            }) || []
+
+            setAuditLogs(auditData)
+        } catch (err) {
+            console.error("Error fetching audit logs:", err)
+        }
+    }
+
+    const handleAddUser = async () => {
+        setError("")
+        setSuccess("")
+
+        // Validation
+        if (!newUser.username || !newUser.email || !newUser.password) {
+            setError("Please fill in all required fields")
+            return
+        }
+
+        if (newUser.password.length < 6) {
+            setError("Password must be at least 6 characters")
+            return
+        }
+
+        try {
+            // Insert into users table
+            const {data, error} = await supabase
+                .from("users")
+                .insert([{
+                    username: newUser.username,
+                    email: newUser.email,
+                    role: newUser.role,
+                    first_name: newUser.first_name || null,
+                }])
+                .select()
+
+            if (error) throw error
+
+            setSuccess("User added successfully!")
+            setIsAddUserOpen(false)
+            setNewUser({
+                username: "",
+                email: "",
+                password: "",
+                role: "Health Center Workers",
+                first_name: "",
+            })
+            fetchUsers()
+
+            setTimeout(() => setSuccess(""), 3000)
+        } catch (err: any) {
+            console.error("Error adding user:", err)
+            setError(err.message || "Failed to add user")
+        }
+    }
+
+    const handleEditUser = async () => {
+        if (!selectedUser) return
+
+        setError("")
+        setSuccess("")
+
+        try {
+            const {error} = await supabase
+                .from("users")
+                .update({
+                    username: selectedUser.username,
+                    email: selectedUser.email,
+                    role: selectedUser.role,
+                    first_name: selectedUser.first_name,
+                })
+                .eq("id", selectedUser.id)
+
+            if (error) throw error
+
+            setSuccess("User updated successfully!")
+            setIsEditUserOpen(false)
+            setSelectedUser(null)
+            fetchUsers()
+
+            setTimeout(() => setSuccess(""), 3000)
+        } catch (err: any) {
+            console.error("Error updating user:", err)
+            setError(err.message || "Failed to update user")
+        }
+    }
+
+    const handleDeleteUser = async (userId: string) => {
+        if (!confirm("Are you sure you want to delete this user?")) return
+
+        setError("")
+        setSuccess("")
+
+        try {
+            const {error} = await supabase
+                .from("users")
+                .delete()
+                .eq("id", userId)
+
+            if (error) throw error
+
+            setSuccess("User deleted successfully!")
+            fetchUsers()
+
+            setTimeout(() => setSuccess(""), 3000)
+        } catch (err: any) {
+            console.error("Error deleting user:", err)
+            setError(err.message || "Failed to delete user")
+        }
+    }
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleString()
+    }
+
     return (
-        <div className="bg-background min-h-screen p-6 space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-dark">Role Management</h1>
-                <Button className="bg-primary hover:bg-primary/90 text-white">
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Add New User
-                </Button>
-            </div>
+        <div className="min-h-screen bg-background p-6">
+            <div className="max-w-7xl mx-auto space-y-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold">User Management</h1>
+                        <p className="text-muted-foreground mt-1">Manage system users and access levels</p>
+                    </div>
 
-            <Tabs defaultValue="users" className="space-y-6">
-                <TabsList>
-                    <TabsTrigger value="users">User Management</TabsTrigger>
-                    <TabsTrigger value="roles">Role Permissions</TabsTrigger>
-                    <TabsTrigger value="activity">Activity Log</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="users" className="space-y-6">
-                    {/* User Management */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-dark">User Management</CardTitle>
-                            <CardDescription>Manage user accounts and assign roles</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            {/* Search and Filter */}
-                            <div className="flex gap-4 mb-6">
-                                <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
+                        <DialogTrigger asChild>
+                            <Button className="bg-primary text-white hover:bg-primary/90">
+                                <UserPlus className="mr-2 h-4 w-4"/>
+                                Add New User
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Add New User</DialogTitle>
+                                <DialogDescription>Create a new user account with role assignment</DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                                <div>
+                                    <Label htmlFor="username">Username *</Label>
                                     <Input
-                                        placeholder="Search users..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10"
+                                        id="username"
+                                        value={newUser.username}
+                                        onChange={(e) => setNewUser({...newUser, username: e.target.value})}
+                                        placeholder="Enter username"
                                     />
                                 </div>
-                                <Select value={selectedRole} onValueChange={setSelectedRole}>
-                                    <SelectTrigger className="w-48">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">All Roles</SelectItem>
-                                        <SelectItem value="Admin">Admin</SelectItem>
-                                        <SelectItem value="Inventory Staff">Inventory Staff</SelectItem>
-                                        <SelectItem value="Viewer">Viewer</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <div>
+                                    <Label htmlFor="first_name">Full Name</Label>
+                                    <Input
+                                        id="first_name"
+                                        value={newUser.first_name}
+                                        onChange={(e) => setNewUser({...newUser, first_name: e.target.value})}
+                                        placeholder="Enter full name"
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="email">Email *</Label>
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        value={newUser.email}
+                                        onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                                        placeholder="Enter email"
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="password">Password *</Label>
+                                    <Input
+                                        id="password"
+                                        type="password"
+                                        value={newUser.password}
+                                        onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                                        placeholder="Minimum 6 characters"
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="role">Role *</Label>
+                                    <Select value={newUser.role} onValueChange={(value) => setNewUser({
+                                        ...newUser,
+                                        role: value
+                                    })}>
+                                        <SelectTrigger>
+                                            <SelectValue/>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {roles.map(role => (
+                                                <SelectItem key={role} value={role}>{role}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="flex justify-end gap-2">
+                                    <Button variant="outline" onClick={() => setIsAddUserOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleAddUser} className="bg-primary text-white">
+                                        Add User
+                                    </Button>
+                                </div>
                             </div>
+                        </DialogContent>
+                    </Dialog>
+                </div>
 
-                            {/* User Statistics */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Total Users</p>
-                                                <p className="text-2xl font-bold">{users.length}</p>
-                                            </div>
-                                            <Users className="w-8 h-8 text-primary" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                {error && (
+                    <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4"/>
+                        <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                )}
 
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Active Users</p>
-                                                <p className="text-2xl font-bold text-green-600">
-                                                    {users.filter((u) => u.status === "active").length}
-                                                </p>
-                                            </div>
-                                            <Shield className="w-8 h-8 text-green-500" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                {success && (
+                    <Alert className="bg-green-50 text-green-900 border-green-200">
+                        <AlertDescription>{success}</AlertDescription>
+                    </Alert>
+                )}
 
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Admins</p>
-                                                <p className="text-2xl font-bold text-purple-600">
-                                                    {users.filter((u) => u.role === "Admin").length}
-                                                </p>
-                                            </div>
-                                            <Shield className="w-8 h-8 text-purple-500" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                <Tabs defaultValue="users" className="space-y-4">
+                    <TabsList>
+                        <TabsTrigger value="users">Users and Access</TabsTrigger>
+                        <TabsTrigger value="activity">Activity Logs</TabsTrigger>
+                    </TabsList>
 
-                                <Card>
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm text-gray-600">Staff</p>
-                                                <p className="text-2xl font-bold text-orange-600">
-                                                    {users.filter((u) => u.role === "Inventory Staff").length}
-                                                </p>
-                                            </div>
-                                            <Users className="w-8 h-8 text-orange-500" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-
-                            {/* Users List */}
-                            <div className="space-y-4">
-                                {filteredUsers.map((user) => (
-                                    <div key={user.id} className="flex items-center justify-between p-4 bg-white border rounded-lg">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                        <span className="text-primary font-medium">
-                          {user.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                        </span>
-                                            </div>
-                                            <div>
-                                                <div className="font-medium text-dark">{user.name}</div>
-                                                <div className="text-sm text-gray-500">{user.email}</div>
-                                                <div className="text-sm text-gray-500">Last login: {user.lastLogin}</div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-4">
-                                            <Badge variant={user.role === "Admin" ? "default" : "secondary"}>{user.role}</Badge>
-                                            <Badge variant={user.status === "active" ? "default" : "secondary"}>{user.status}</Badge>
-                                            <div className="flex gap-2">
-                                                <Button variant="outline" size="sm">
-                                                    <Edit className="w-4 h-4" />
-                                                </Button>
-                                                <Button variant="outline" size="sm">
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
+                    <TabsContent value="users">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>User Accounts</CardTitle>
+                                <CardDescription>View and manage all system users</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {loading ? (
+                                    <div className="flex items-center justify-center h-64">
+                                        <Loader2 className="h-8 w-8 animate-spin text-primary"/>
                                     </div>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="roles" className="space-y-6">
-                    {/* Role Permissions */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {Object.entries(rolePermissions).map(([role, permissions]) => (
-                            <Card key={role}>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2 text-dark">
-                                        <Shield className="w-5 h-5" />
-                                        {role}
-                                    </CardTitle>
-                                    <CardDescription>{users.filter((u) => u.role === role).length} users with this role</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-2">
-                                        {permissions.map((permission, index) => (
-                                            <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                                <span className="text-sm">{permission}</span>
+                                ) : users.length === 0 ? (
+                                    <div
+                                        className="flex items-center justify-center h-64 text-muted-foreground border rounded-lg">
+                                        <p>No users found</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        {users.map((user) => (
+                                            <div
+                                                key={user.id}
+                                                className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div
+                                                        className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                                        <span
+                                                            className="text-primary font-semibold">{user.username.charAt(0).toUpperCase()}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="font-semibold">
+                                                            {user.first_name || user.username}
+                                                        </h3>
+                                                        <p className="text-sm text-gray-600">{user.email}</p>
+                                                        <p className="text-xs text-gray-500 mt-1">
+                                                            Role: {user.role} • Joined {formatDate(user.created_at)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            setSelectedUser(user)
+                                                            setIsEditUserOpen(true)
+                                                        }}
+                                                    >
+                                                        <Edit className="h-4 w-4"/>
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteUser(user.id)}
+                                                        className="text-red-600 hover:text-red-700"
+                                                    >
+                                                        <Trash2 className="h-4 w-4"/>
+                                                    </Button>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
-                                    <Button variant="outline" size="sm" className="w-full mt-4 bg-transparent">
-                                        <Edit className="w-4 h-4 mr-2" />
-                                        Edit Permissions
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </TabsContent>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
 
-                <TabsContent value="activity" className="space-y-6">
-                    {/* Activity Log */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Activity Log</CardTitle>
-                            <CardDescription>Track user actions and system changes</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
-                                {activityLog.map((activity) => (
-                                    <div key={activity.id} className="flex items-center justify-between p-4 bg-white border rounded-lg">
-                                        <div className="flex items-center gap-4">
+                    <TabsContent value="activity">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Activity Logs</CardTitle>
+                                <CardDescription>Recent system activities and changes</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-2">
+                                    {auditLogs.length === 0 ? (
+                                        <div
+                                            className="flex items-center justify-center h-64 text-muted-foreground border rounded-lg">
+                                            <p>No activity logs found</p>
+                                        </div>
+                                    ) : (
+                                        auditLogs.map((log) => (
                                             <div
-                                                className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                                                    activity.type === "create"
-                                                        ? "bg-green-100"
-                                                        : activity.type === "update"
-                                                            ? "bg-blue-100"
-                                                            : activity.type === "delete"
-                                                                ? "bg-red-100"
-                                                                : activity.type === "disposal"
-                                                                    ? "bg-orange-100"
-                                                                    : "bg-gray-100"
-                                                }`}
+                                                key={log.log_id}
+                                                className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50"
                                             >
-                                                <Activity
-                                                    className={`w-5 h-5 ${
-                                                        activity.type === "create"
-                                                            ? "text-green-600"
-                                                            : activity.type === "update"
-                                                                ? "text-blue-600"
-                                                                : activity.type === "delete"
-                                                                    ? "text-red-600"
-                                                                    : activity.type === "disposal"
-                                                                        ? "text-orange-600"
-                                                                        : "text-gray-600"
-                                                    }`}
-                                                />
-                                            </div>
-                                            <div>
-                                                <div className="font-medium">{activity.user}</div>
-                                                <div className="text-sm text-gray-500">
-                                                    {activity.action}: {activity.item}
+                                                <div>
+                                                    <p className="text-sm font-medium">{log.activity_type}</p>
+                                                    <p className="text-xs text-gray-500">
+                                                        by {log.username} • {formatDate(log.timestamp)}
+                                                    </p>
                                                 </div>
-                                                <div className="text-sm text-gray-400">{activity.timestamp}</div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Badge
-                                                variant={
-                                                    activity.type === "create"
-                                                        ? "default"
-                                                        : activity.type === "update"
-                                                            ? "secondary"
-                                                            : activity.type === "delete"
-                                                                ? "destructive"
-                                                                : "outline"
-                                                }
-                                            >
-                                                {activity.type}
-                                            </Badge>
-                                            <Button variant="outline" size="sm">
-                                                <Eye className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
+                                        ))
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
+
+                {/* Edit User Dialog */}
+                <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Edit User</DialogTitle>
+                            <DialogDescription>Update user information and role</DialogDescription>
+                        </DialogHeader>
+                        {selectedUser && (
+                            <div className="space-y-4">
+                                <div>
+                                    <Label htmlFor="edit-username">Username</Label>
+                                    <Input
+                                        id="edit-username"
+                                        value={selectedUser.username}
+                                        onChange={(e) => setSelectedUser({
+                                            ...selectedUser,
+                                            username: e.target.value
+                                        })}
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="edit-first_name">Full Name</Label>
+                                    <Input
+                                        id="edit-first_name"
+                                        value={selectedUser.first_name || ""}
+                                        onChange={(e) => setSelectedUser({
+                                            ...selectedUser,
+                                            first_name: e.target.value
+                                        })}
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="edit-email">Email</Label>
+                                    <Input
+                                        id="edit-email"
+                                        type="email"
+                                        value={selectedUser.email}
+                                        onChange={(e) => setSelectedUser({...selectedUser, email: e.target.value})}
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="edit-role">Role</Label>
+                                    <Select value={selectedUser.role} onValueChange={(value) => setSelectedUser({
+                                        ...selectedUser,
+                                        role: value
+                                    })}>
+                                        <SelectTrigger>
+                                            <SelectValue/>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {roles.map(role => (
+                                                <SelectItem key={role} value={role}>{role}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="flex justify-end gap-2">
+                                    <Button variant="outline" onClick={() => setIsEditUserOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleEditUser} className="bg-primary text-white">
+                                        Save Changes
+                                    </Button>
+                                </div>
                             </div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                        )}
+                    </DialogContent>
+                </Dialog>
+            </div>
         </div>
     )
 }
