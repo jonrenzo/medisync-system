@@ -1,0 +1,9 @@
+fastapi
+mangum
+pandas
+numpy
+statsmodels
+scikit-learn
+supabase
+python-dotenv
+pydantic
