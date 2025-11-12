@@ -37,7 +37,7 @@ def sanitize_nan(obj):
 # -------------------- SETUP --------------------
 warnings.filterwarnings("ignore")
 
-env_path = Path(__file__).resolve().parent.parent / ".env.local"
+env_path = ".env.local"
 load_dotenv(dotenv_path=env_path)
 
 SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
@@ -55,6 +55,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "https://www.medisync.tech",
+        "https://medisync-system-qkko.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
