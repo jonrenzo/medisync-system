@@ -51,7 +51,7 @@ interface TopItem {
 }
 
 export default function Reports() {
-    const [month, setMonth] = useState(1)
+    const [month, setMonth] = useState(new Date().getMonth() + 1)
     const [year, setYear] = useState(new Date().getFullYear())
     const [searchQuery, setSearchQuery] = useState("")
     const [reportData, setReportData] = useState<ReportRow[]>([])
@@ -633,8 +633,7 @@ export default function Reports() {
                                                     <div>
                                                         <p className="text-sm text-gray-600">Total Dispensed</p>
                                                         <p className="text-2xl font-bold">
-
-                                                            {Math.round(reportData.reduce((sum, row) => sum + row.issuedquantity, 0))}
+                                                            {reportData.reduce((sum, row) => sum + row.issuedquantity, 0)}
                                                         </p>
                                                     </div>
                                                     <TrendingUp className="h-8 w-8 text-green-500"/>
@@ -647,7 +646,7 @@ export default function Reports() {
                                                     <div>
                                                         <p className="text-sm text-gray-600">Total Requested</p>
                                                         <p className="text-2xl font-bold">
-                                                            {Math.round(reportData.reduce((sum, row) => sum + row.quantityrequested, 0))}
+                                                            {reportData.reduce((sum, row) => sum + row.quantityrequested, 0)}
                                                         </p>
                                                     </div>
                                                     <TrendingDown className="h-8 w-8 text-blue-500"/>
@@ -673,7 +672,7 @@ export default function Reports() {
                                                     <div>
                                                         <p className="text-sm text-gray-600">Stock Value</p>
                                                         <p className="text-2xl font-bold">
-                                                            P{reportData.reduce((sum, row) => sum + row.stockonhand, 0)}
+                                                            {reportData.reduce((sum, row) => sum + row.stockonhand, 0)}
                                                         </p>
                                                     </div>
                                                     <Package className="h-8 w-8 text-purple-500"/>
