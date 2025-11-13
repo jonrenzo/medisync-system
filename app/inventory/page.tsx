@@ -56,7 +56,7 @@ export default function Inventory() {
         "December",
     ]
     const years = ["2023", "2024", "2025", "2026"]
-    const [selectedMonth, setSelectedMonth] = useState("October")
+    const [selectedMonth, setSelectedMonth] = useState("January")
     const [selectedYear, setSelectedYear] = useState("2025")
 
 

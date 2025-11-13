@@ -1,0 +1,801 @@
+reportid,itemcode,itemdescription,unitofmeasurement,beginningbalance,quantityrequested,issuedquantity,stockonhand,month,year
+3596,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,186.00,0.00,0.00,186.00,1,2025
+3597,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,309.00,0.00,0.00,309.00,1,2025
+3598,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,481.00,0.00,0.00,481.00,1,2025
+3599,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,172.00,0.00,0.00,172.00,1,2025
+3600,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,147.00,0.00,0.00,147.00,1,2025
+3601,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,102.00,0.00,0.00,102.00,1,2025
+3602,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,333.00,0.00,0.00,333.00,1,2025
+3603,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,302.00,0.00,0.00,302.00,1,2025
+3604,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,210.00,0.00,0.00,210.00,1,2025
+3605,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,113.00,0.00,0.00,113.00,1,2025
+3606,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,486.00,0.00,0.00,486.00,1,2025
+3607,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,438.00,0.00,0.00,438.00,1,2025
+3608,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,288.00,0.00,0.00,288.00,1,2025
+3609,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,378.00,0.00,0.00,378.00,1,2025
+3610,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,460.00,0.00,0.00,460.00,1,2025
+3611,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,245.00,0.00,0.00,245.00,1,2025
+3612,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,255.00,0.00,0.00,255.00,1,2025
+3613,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,357.00,0.00,0.00,357.00,1,2025
+3614,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,466.00,0.00,0.00,466.00,1,2025
+3615,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,426.00,0.00,0.00,426.00,1,2025
+3616,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,207.00,0.00,0.00,207.00,1,2025
+3617,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,168.00,0.00,0.00,168.00,1,2025
+3618,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,199.00,0.00,0.00,199.00,1,2025
+3619,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,126.00,0.00,0.00,126.00,1,2025
+3620,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,317.00,0.00,0.00,317.00,1,2025
+3621,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,384.00,0.00,0.00,384.00,1,2025
+3622,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,122.00,0.00,0.00,122.00,1,2025
+3623,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,493.00,0.00,0.00,493.00,1,2025
+3624,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,493.00,0.00,0.00,493.00,1,2025
+3625,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,478.00,0.00,0.00,478.00,1,2025
+3626,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,191.00,0.00,0.00,191.00,1,2025
+3627,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,355.00,0.00,0.00,355.00,1,2025
+3628,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,198.00,0.00,0.00,198.00,1,2025
+3629,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,471.00,0.00,0.00,471.00,1,2025
+3630,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,415.00,0.00,0.00,415.00,1,2025
+3631,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,252.00,0.00,0.00,252.00,1,2025
+3632,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,470.00,0.00,0.00,470.00,1,2025
+3633,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,344.00,0.00,0.00,344.00,1,2025
+3634,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,310.00,0.00,0.00,310.00,1,2025
+3635,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,241.00,0.00,0.00,241.00,1,2025
+3636,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,107.00,0.00,0.00,107.00,1,2025
+3637,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,137.00,0.00,0.00,137.00,1,2025
+3638,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,208.00,0.00,0.00,208.00,1,2025
+3639,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,188.00,0.00,0.00,188.00,1,2025
+3640,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,188.00,0.00,0.00,188.00,1,2025
+3641,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,390.00,0.00,0.00,390.00,1,2025
+3642,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,247.00,0.00,0.00,247.00,1,2025
+3643,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,495.00,0.00,0.00,495.00,1,2025
+3644,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,419.00,0.00,0.00,419.00,1,2025
+3645,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,454.00,0.00,0.00,454.00,1,2025
+3646,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,360.00,0.00,0.00,360.00,1,2025
+3647,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,206.00,0.00,0.00,206.00,1,2025
+3648,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,194.00,0.00,0.00,194.00,1,2025
+3649,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,409.00,0.00,0.00,409.00,1,2025
+3650,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,182.00,0.00,0.00,182.00,1,2025
+3651,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,377.00,0.00,0.00,377.00,1,2025
+3652,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,115.00,0.00,0.00,115.00,1,2025
+3653,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,136.00,0.00,0.00,136.00,1,2025
+3654,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,407.00,0.00,0.00,407.00,1,2025
+3655,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,413.00,0.00,0.00,413.00,1,2025
+3656,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,174.00,0.00,0.00,174.00,1,2025
+3657,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,228.00,0.00,0.00,228.00,1,2025
+3658,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,481.00,0.00,0.00,481.00,1,2025
+3659,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,303.00,0.00,0.00,303.00,1,2025
+3660,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,169.00,0.00,0.00,169.00,1,2025
+3661,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,357.00,0.00,0.00,357.00,1,2025
+3662,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,479.00,0.00,0.00,479.00,1,2025
+3663,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,306.00,0.00,0.00,306.00,1,2025
+3664,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,304.00,0.00,0.00,304.00,1,2025
+3665,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,214.00,0.00,0.00,214.00,1,2025
+3666,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,434.00,0.00,0.00,434.00,1,2025
+3667,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,383.00,0.00,0.00,383.00,1,2025
+3668,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,414.00,0.00,0.00,414.00,1,2025
+3669,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,153.00,0.00,0.00,153.00,1,2025
+3670,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,247.00,0.00,0.00,247.00,1,2025
+3671,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,427.00,0.00,0.00,427.00,1,2025
+3672,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,499.00,0.00,0.00,499.00,1,2025
+3673,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,149.00,0.00,0.00,149.00,1,2025
+3674,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,330.00,0.00,0.00,330.00,1,2025
+3675,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,120.00,0.00,0.00,120.00,1,2025
+3676,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,187.00,0.00,0.00,187.00,1,2025
+3677,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,129.00,0.00,0.00,129.00,1,2025
+3678,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,373.00,0.00,0.00,373.00,1,2025
+3679,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,415.00,0.00,0.00,415.00,1,2025
+3680,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,130.00,0.00,0.00,130.00,1,2025
+3681,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,315.00,0.00,0.00,315.00,1,2025
+3682,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,333.00,0.00,0.00,333.00,1,2025
+3683,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,329.00,0.00,0.00,329.00,1,2025
+3684,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,275.00,0.00,0.00,275.00,1,2025
+3685,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,366.00,0.00,0.00,366.00,1,2025
+3686,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,172.00,0.00,0.00,172.00,1,2025
+3687,MSD-MED 0094,ORS 200ml/Sachet,Sachet,278.00,0.00,0.00,278.00,1,2025
+3688,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,396.00,0.00,0.00,396.00,1,2025
+3689,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,259.00,0.00,0.00,259.00,1,2025
+3690,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,490.00,0.00,0.00,490.00,1,2025
+3691,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,457.00,0.00,0.00,457.00,1,2025
+3692,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,317.00,0.00,0.00,317.00,1,2025
+3693,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,219.00,0.00,0.00,219.00,1,2025
+3694,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,152.00,0.00,0.00,152.00,1,2025
+3695,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,208.00,0.00,0.00,208.00,1,2025
+3696,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,235.00,235.00,235.00,235.00,2,2025
+3698,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,376.00,376.00,376.00,376.00,2,2025
+3700,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,366.00,366.00,366.00,366.00,2,2025
+3702,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,282.00,282.00,282.00,282.00,2,2025
+3704,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,148.00,148.00,148.00,148.00,2,2025
+3706,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,343.00,343.00,343.00,343.00,2,2025
+3708,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,142.00,142.00,142.00,142.00,2,2025
+3710,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,356.00,356.00,356.00,356.00,2,2025
+3712,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,433.00,433.00,433.00,433.00,2,2025
+3714,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,414.00,414.00,414.00,414.00,2,2025
+3716,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,354.00,354.00,354.00,354.00,2,2025
+3718,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,325.00,325.00,325.00,325.00,2,2025
+3720,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,378.00,378.00,378.00,378.00,2,2025
+3722,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,446.00,446.00,446.00,446.00,2,2025
+3724,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,487.00,487.00,487.00,487.00,2,2025
+3726,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,254.00,254.00,254.00,254.00,2,2025
+3728,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,492.00,492.00,492.00,492.00,2,2025
+3730,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,297.00,297.00,297.00,297.00,2,2025
+4496,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,151.00,151.00,151.00,151.00,6,2025
+4498,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,319.00,319.00,319.00,319.00,6,2025
+4500,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,297.00,297.00,297.00,297.00,6,2025
+4502,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,273.00,273.00,273.00,273.00,6,2025
+4504,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,242.00,242.00,242.00,242.00,6,2025
+4506,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,176.00,176.00,176.00,176.00,6,2025
+4508,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,373.00,373.00,373.00,373.00,6,2025
+4510,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,395.00,395.00,395.00,395.00,6,2025
+4512,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,181.00,181.00,181.00,181.00,6,2025
+3732,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,292.00,292.00,292.00,292.00,2,2025
+3734,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,175.00,175.00,175.00,175.00,2,2025
+3736,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,458.00,458.00,458.00,458.00,2,2025
+3738,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,430.00,430.00,430.00,430.00,2,2025
+3740,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,140.00,140.00,140.00,140.00,2,2025
+3742,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,269.00,269.00,269.00,269.00,2,2025
+3744,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,348.00,348.00,348.00,348.00,2,2025
+3746,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,366.00,366.00,366.00,366.00,2,2025
+3748,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,438.00,438.00,438.00,438.00,2,2025
+3750,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,494.00,494.00,494.00,494.00,2,2025
+3752,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,223.00,223.00,223.00,223.00,2,2025
+3754,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,160.00,160.00,160.00,160.00,2,2025
+3756,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,302.00,302.00,302.00,302.00,2,2025
+3758,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,240.00,240.00,240.00,240.00,2,2025
+3760,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,482.00,482.00,482.00,482.00,2,2025
+3762,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,394.00,394.00,394.00,394.00,2,2025
+3764,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,209.00,209.00,209.00,209.00,2,2025
+3766,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,104.00,104.00,104.00,104.00,2,2025
+3768,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,335.00,335.00,335.00,335.00,2,2025
+3770,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,217.00,217.00,217.00,217.00,2,2025
+3772,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,215.00,215.00,215.00,215.00,2,2025
+3774,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,440.00,440.00,440.00,440.00,2,2025
+3776,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,442.00,442.00,442.00,442.00,2,2025
+3778,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,230.00,230.00,230.00,230.00,2,2025
+3780,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,121.00,121.00,121.00,121.00,2,2025
+3782,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,312.00,312.00,312.00,312.00,2,2025
+3784,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,467.00,467.00,467.00,467.00,2,2025
+3786,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,336.00,336.00,336.00,336.00,2,2025
+3788,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,401.00,401.00,401.00,401.00,2,2025
+3790,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,354.00,354.00,354.00,354.00,2,2025
+3792,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,437.00,437.00,437.00,437.00,2,2025
+3794,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,371.00,371.00,371.00,371.00,2,2025
+3796,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,192.00,192.00,192.00,192.00,2,2025
+3798,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,109.00,109.00,109.00,109.00,2,2025
+4514,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,452.00,452.00,452.00,452.00,6,2025
+4516,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,389.00,389.00,389.00,389.00,6,2025
+4518,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,319.00,319.00,319.00,319.00,6,2025
+4520,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,388.00,388.00,388.00,388.00,6,2025
+4522,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,219.00,219.00,219.00,219.00,6,2025
+4524,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,419.00,419.00,419.00,419.00,6,2025
+4526,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,358.00,358.00,358.00,358.00,6,2025
+4528,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,465.00,465.00,465.00,465.00,6,2025
+4530,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,186.00,186.00,186.00,186.00,6,2025
+4532,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,105.00,105.00,105.00,105.00,6,2025
+4534,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,151.00,151.00,151.00,151.00,6,2025
+4536,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,469.00,469.00,469.00,469.00,6,2025
+4538,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,487.00,487.00,487.00,487.00,6,2025
+4540,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,222.00,222.00,222.00,222.00,6,2025
+4542,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,288.00,288.00,288.00,288.00,6,2025
+4544,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,335.00,335.00,335.00,335.00,6,2025
+3800,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,325.00,325.00,325.00,325.00,2,2025
+3802,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,443.00,443.00,443.00,443.00,2,2025
+3804,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,334.00,334.00,334.00,334.00,2,2025
+3806,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,371.00,371.00,371.00,371.00,2,2025
+3808,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,466.00,466.00,466.00,466.00,2,2025
+3810,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,173.00,173.00,173.00,173.00,2,2025
+3812,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,215.00,215.00,215.00,215.00,2,2025
+3814,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,494.00,494.00,494.00,494.00,2,2025
+3816,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,132.00,132.00,132.00,132.00,2,2025
+3818,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,301.00,301.00,301.00,301.00,2,2025
+3820,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,316.00,316.00,316.00,316.00,2,2025
+3822,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,478.00,478.00,478.00,478.00,2,2025
+3824,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,412.00,412.00,412.00,412.00,2,2025
+3826,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,216.00,216.00,216.00,216.00,2,2025
+3828,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,222.00,222.00,222.00,222.00,2,2025
+3830,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,304.00,304.00,304.00,304.00,2,2025
+3832,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,391.00,391.00,391.00,391.00,2,2025
+3834,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,348.00,348.00,348.00,348.00,2,2025
+3836,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,196.00,196.00,196.00,196.00,2,2025
+3838,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,455.00,455.00,455.00,455.00,2,2025
+3840,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,115.00,115.00,115.00,115.00,2,2025
+3842,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,185.00,185.00,185.00,185.00,2,2025
+3844,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,134.00,134.00,134.00,134.00,2,2025
+3846,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,253.00,253.00,253.00,253.00,2,2025
+3848,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,134.00,134.00,134.00,134.00,2,2025
+3850,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,345.00,345.00,345.00,345.00,2,2025
+3852,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,103.00,103.00,103.00,103.00,2,2025
+3854,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,235.00,235.00,235.00,235.00,2,2025
+3856,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,239.00,239.00,239.00,239.00,2,2025
+3858,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,445.00,445.00,445.00,445.00,2,2025
+3860,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,325.00,325.00,325.00,325.00,2,2025
+3862,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,203.00,203.00,203.00,203.00,2,2025
+3864,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,237.00,237.00,237.00,237.00,2,2025
+4546,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,391.00,391.00,391.00,391.00,6,2025
+4548,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,466.00,466.00,466.00,466.00,6,2025
+4550,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,200.00,200.00,200.00,200.00,6,2025
+4552,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,449.00,449.00,449.00,449.00,6,2025
+4554,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,268.00,268.00,268.00,268.00,6,2025
+4556,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,126.00,126.00,126.00,126.00,6,2025
+4558,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,253.00,253.00,253.00,253.00,6,2025
+4560,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,357.00,357.00,357.00,357.00,6,2025
+4562,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,248.00,248.00,248.00,248.00,6,2025
+4564,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,299.00,299.00,299.00,299.00,6,2025
+4566,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,381.00,381.00,381.00,381.00,6,2025
+4568,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,394.00,394.00,394.00,394.00,6,2025
+4570,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,186.00,186.00,186.00,186.00,6,2025
+4572,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,238.00,238.00,238.00,238.00,6,2025
+4574,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,109.00,109.00,109.00,109.00,6,2025
+4576,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,382.00,382.00,382.00,382.00,6,2025
+3866,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,135.00,135.00,135.00,135.00,2,2025
+3868,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,107.00,107.00,107.00,107.00,2,2025
+3870,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,439.00,439.00,439.00,439.00,2,2025
+3872,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,144.00,144.00,144.00,144.00,2,2025
+3874,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,328.00,328.00,328.00,328.00,2,2025
+3876,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,427.00,427.00,427.00,427.00,2,2025
+3878,MSD-MED 0094,ORS 200ml/Sachet,Sachet,344.00,344.00,344.00,344.00,2,2025
+3880,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,412.00,412.00,412.00,412.00,2,2025
+3882,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,453.00,453.00,453.00,453.00,2,2025
+3884,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,440.00,440.00,440.00,440.00,2,2025
+3886,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,120.00,120.00,120.00,120.00,2,2025
+3888,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,400.00,400.00,400.00,400.00,2,2025
+3890,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,213.00,213.00,213.00,213.00,2,2025
+3892,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,495.00,495.00,495.00,495.00,2,2025
+3894,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,378.00,378.00,378.00,378.00,2,2025
+3896,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,267.00,267.00,267.00,267.00,3,2025
+3898,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,495.00,495.00,495.00,495.00,3,2025
+3900,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,115.00,115.00,115.00,115.00,3,2025
+3902,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,317.00,317.00,317.00,317.00,3,2025
+3904,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,474.00,474.00,474.00,474.00,3,2025
+3906,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,339.00,339.00,339.00,339.00,3,2025
+3908,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,183.00,183.00,183.00,183.00,3,2025
+3910,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,424.00,424.00,424.00,424.00,3,2025
+3912,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,330.00,330.00,330.00,330.00,3,2025
+3914,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,194.00,194.00,194.00,194.00,3,2025
+3916,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,288.00,288.00,288.00,288.00,3,2025
+3918,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,229.00,229.00,229.00,229.00,3,2025
+3920,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,199.00,199.00,199.00,199.00,3,2025
+3922,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,468.00,468.00,468.00,468.00,3,2025
+3924,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,271.00,271.00,271.00,271.00,3,2025
+3926,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,105.00,105.00,105.00,105.00,3,2025
+3928,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,210.00,210.00,210.00,210.00,3,2025
+3930,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,109.00,109.00,109.00,109.00,3,2025
+3932,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,410.00,410.00,410.00,410.00,3,2025
+3934,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,180.00,180.00,180.00,180.00,3,2025
+3936,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,151.00,151.00,151.00,151.00,3,2025
+3938,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,118.00,118.00,118.00,118.00,3,2025
+3940,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,306.00,306.00,306.00,306.00,3,2025
+3942,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,306.00,306.00,306.00,306.00,3,2025
+3944,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,290.00,290.00,290.00,290.00,3,2025
+4578,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,376.00,376.00,376.00,376.00,6,2025
+4580,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,161.00,161.00,161.00,161.00,6,2025
+4582,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,442.00,442.00,442.00,442.00,6,2025
+4584,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,397.00,397.00,397.00,397.00,6,2025
+4586,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,184.00,184.00,184.00,184.00,6,2025
+4588,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,113.00,113.00,113.00,113.00,6,2025
+4590,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,143.00,143.00,143.00,143.00,6,2025
+4592,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,452.00,452.00,452.00,452.00,6,2025
+4594,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,138.00,138.00,138.00,138.00,6,2025
+4596,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,295.00,295.00,295.00,295.00,6,2025
+4598,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,248.00,248.00,248.00,248.00,6,2025
+4600,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,124.00,124.00,124.00,124.00,6,2025
+4602,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,373.00,373.00,373.00,373.00,6,2025
+3946,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,127.00,127.00,127.00,127.00,3,2025
+3948,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,432.00,432.00,432.00,432.00,3,2025
+3950,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,253.00,253.00,253.00,253.00,3,2025
+3952,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,444.00,444.00,444.00,444.00,3,2025
+3954,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,451.00,451.00,451.00,451.00,3,2025
+3956,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,403.00,403.00,403.00,403.00,3,2025
+3958,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,132.00,132.00,132.00,132.00,3,2025
+3960,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,380.00,380.00,380.00,380.00,3,2025
+3962,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,416.00,416.00,416.00,416.00,3,2025
+3964,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,444.00,444.00,444.00,444.00,3,2025
+3966,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,308.00,308.00,308.00,308.00,3,2025
+3968,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,281.00,281.00,281.00,281.00,3,2025
+3970,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,396.00,396.00,396.00,396.00,3,2025
+3972,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,426.00,426.00,426.00,426.00,3,2025
+3974,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,225.00,225.00,225.00,225.00,3,2025
+3976,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,493.00,493.00,493.00,493.00,3,2025
+3978,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,219.00,219.00,219.00,219.00,3,2025
+3980,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,343.00,343.00,343.00,343.00,3,2025
+3982,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,181.00,181.00,181.00,181.00,3,2025
+3984,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,191.00,191.00,191.00,191.00,3,2025
+3986,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,296.00,296.00,296.00,296.00,3,2025
+3988,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,381.00,381.00,381.00,381.00,3,2025
+3990,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,283.00,283.00,283.00,283.00,3,2025
+3992,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,498.00,498.00,498.00,498.00,3,2025
+3994,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,461.00,461.00,461.00,461.00,3,2025
+3996,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,146.00,146.00,146.00,146.00,3,2025
+3998,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,358.00,358.00,358.00,358.00,3,2025
+4000,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,127.00,127.00,127.00,127.00,3,2025
+4002,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,244.00,244.00,244.00,244.00,3,2025
+4004,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,475.00,475.00,475.00,475.00,3,2025
+4006,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,215.00,215.00,215.00,215.00,3,2025
+4008,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,447.00,447.00,447.00,447.00,3,2025
+4010,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,418.00,418.00,418.00,418.00,3,2025
+4012,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,290.00,290.00,290.00,290.00,3,2025
+4604,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,468.00,468.00,468.00,468.00,6,2025
+4606,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,176.00,176.00,176.00,176.00,6,2025
+4608,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,472.00,472.00,472.00,472.00,6,2025
+4610,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,200.00,200.00,200.00,200.00,6,2025
+4612,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,483.00,483.00,483.00,483.00,6,2025
+4614,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,438.00,438.00,438.00,438.00,6,2025
+4616,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,127.00,127.00,127.00,127.00,6,2025
+4618,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,359.00,359.00,359.00,359.00,6,2025
+4620,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,349.00,349.00,349.00,349.00,6,2025
+4622,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,226.00,226.00,226.00,226.00,6,2025
+4624,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,322.00,322.00,322.00,322.00,6,2025
+4626,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,329.00,329.00,329.00,329.00,6,2025
+4628,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,289.00,289.00,289.00,289.00,6,2025
+4630,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,370.00,370.00,370.00,370.00,6,2025
+4632,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,202.00,202.00,202.00,202.00,6,2025
+4634,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,435.00,435.00,435.00,435.00,6,2025
+4014,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,192.00,192.00,192.00,192.00,3,2025
+4016,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,374.00,374.00,374.00,374.00,3,2025
+4018,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,355.00,355.00,355.00,355.00,3,2025
+4020,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,455.00,455.00,455.00,455.00,3,2025
+4022,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,102.00,102.00,102.00,102.00,3,2025
+4024,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,400.00,400.00,400.00,400.00,3,2025
+4026,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,381.00,381.00,381.00,381.00,3,2025
+4028,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,402.00,402.00,402.00,402.00,3,2025
+4030,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,129.00,129.00,129.00,129.00,3,2025
+4032,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,238.00,238.00,238.00,238.00,3,2025
+4034,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,405.00,405.00,405.00,405.00,3,2025
+4036,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,282.00,282.00,282.00,282.00,3,2025
+4038,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,385.00,385.00,385.00,385.00,3,2025
+4040,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,369.00,369.00,369.00,369.00,3,2025
+4042,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,489.00,489.00,489.00,489.00,3,2025
+4044,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,445.00,445.00,445.00,445.00,3,2025
+4046,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,459.00,459.00,459.00,459.00,3,2025
+4048,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,259.00,259.00,259.00,259.00,3,2025
+4050,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,293.00,293.00,293.00,293.00,3,2025
+4052,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,293.00,293.00,293.00,293.00,3,2025
+4054,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,238.00,238.00,238.00,238.00,3,2025
+4056,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,499.00,499.00,499.00,499.00,3,2025
+4058,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,395.00,395.00,395.00,395.00,3,2025
+4060,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,334.00,334.00,334.00,334.00,3,2025
+4062,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,404.00,404.00,404.00,404.00,3,2025
+4064,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,362.00,362.00,362.00,362.00,3,2025
+4066,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,200.00,200.00,200.00,200.00,3,2025
+4068,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,388.00,388.00,388.00,388.00,3,2025
+4070,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,498.00,498.00,498.00,498.00,3,2025
+4072,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,357.00,357.00,357.00,357.00,3,2025
+4074,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,204.00,204.00,204.00,204.00,3,2025
+4076,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,149.00,149.00,149.00,149.00,3,2025
+4078,MSD-MED 0094,ORS 200ml/Sachet,Sachet,218.00,218.00,218.00,218.00,3,2025
+4080,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,152.00,152.00,152.00,152.00,3,2025
+4636,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,496.00,496.00,496.00,496.00,6,2025
+4638,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,150.00,150.00,150.00,150.00,6,2025
+4640,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,391.00,391.00,391.00,391.00,6,2025
+4642,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,404.00,404.00,404.00,404.00,6,2025
+4644,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,488.00,488.00,488.00,488.00,6,2025
+4646,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,218.00,218.00,218.00,218.00,6,2025
+4648,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,379.00,379.00,379.00,379.00,6,2025
+4650,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,135.00,135.00,135.00,135.00,6,2025
+4652,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,308.00,308.00,308.00,308.00,6,2025
+4654,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,293.00,293.00,293.00,293.00,6,2025
+4656,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,274.00,274.00,274.00,274.00,6,2025
+4658,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,331.00,331.00,331.00,331.00,6,2025
+4660,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,196.00,196.00,196.00,196.00,6,2025
+4662,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,212.00,212.00,212.00,212.00,6,2025
+4664,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,428.00,428.00,428.00,428.00,6,2025
+4666,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,348.00,348.00,348.00,348.00,6,2025
+4082,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,334.00,334.00,334.00,334.00,3,2025
+4084,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,440.00,440.00,440.00,440.00,3,2025
+4086,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,286.00,286.00,286.00,286.00,3,2025
+4088,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,235.00,235.00,235.00,235.00,3,2025
+4090,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,158.00,158.00,158.00,158.00,3,2025
+4092,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,193.00,193.00,193.00,193.00,3,2025
+4094,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,283.00,283.00,283.00,283.00,3,2025
+4096,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,353.00,353.00,353.00,353.00,4,2025
+4098,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,260.00,260.00,260.00,260.00,4,2025
+4100,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,495.00,495.00,495.00,495.00,4,2025
+4102,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,458.00,458.00,458.00,458.00,4,2025
+4104,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,285.00,285.00,285.00,285.00,4,2025
+4106,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,268.00,268.00,268.00,268.00,4,2025
+4108,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,484.00,484.00,484.00,484.00,4,2025
+4110,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,158.00,158.00,158.00,158.00,4,2025
+4112,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,169.00,169.00,169.00,169.00,4,2025
+4114,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,262.00,262.00,262.00,262.00,4,2025
+4116,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,324.00,324.00,324.00,324.00,4,2025
+4118,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,113.00,113.00,113.00,113.00,4,2025
+4120,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,178.00,178.00,178.00,178.00,4,2025
+4122,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,398.00,398.00,398.00,398.00,4,2025
+4124,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,254.00,254.00,254.00,254.00,4,2025
+4126,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,366.00,366.00,366.00,366.00,4,2025
+4128,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,463.00,463.00,463.00,463.00,4,2025
+4130,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,103.00,103.00,103.00,103.00,4,2025
+4132,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,251.00,251.00,251.00,251.00,4,2025
+4134,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,267.00,267.00,267.00,267.00,4,2025
+4136,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,250.00,250.00,250.00,250.00,4,2025
+4138,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,171.00,171.00,171.00,171.00,4,2025
+4140,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,491.00,491.00,491.00,491.00,4,2025
+4142,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,382.00,382.00,382.00,382.00,4,2025
+4144,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,251.00,251.00,251.00,251.00,4,2025
+4146,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,348.00,348.00,348.00,348.00,4,2025
+4148,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,219.00,219.00,219.00,219.00,4,2025
+4150,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,231.00,231.00,231.00,231.00,4,2025
+4152,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,314.00,314.00,314.00,314.00,4,2025
+4668,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,451.00,451.00,451.00,451.00,6,2025
+4670,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,358.00,358.00,358.00,358.00,6,2025
+4672,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,390.00,390.00,390.00,390.00,6,2025
+4674,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,464.00,464.00,464.00,464.00,6,2025
+4676,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,331.00,331.00,331.00,331.00,6,2025
+4678,MSD-MED 0094,ORS 200ml/Sachet,Sachet,315.00,315.00,315.00,315.00,6,2025
+4680,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,494.00,494.00,494.00,494.00,6,2025
+4682,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,362.00,362.00,362.00,362.00,6,2025
+4684,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,338.00,338.00,338.00,338.00,6,2025
+4686,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,143.00,143.00,143.00,143.00,6,2025
+4688,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,500.00,500.00,500.00,500.00,6,2025
+4690,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,188.00,188.00,188.00,188.00,6,2025
+4692,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,410.00,410.00,410.00,410.00,6,2025
+4694,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,334.00,334.00,334.00,334.00,6,2025
+4896,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,137.00,119.00,137.00,137.00,8,2025
+4898,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,146.00,151.00,146.00,146.00,8,2025
+4900,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,172.00,186.00,172.00,172.00,8,2025
+4902,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,107.00,123.00,107.00,107.00,8,2025
+4904,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,130.00,194.00,130.00,130.00,8,2025
+4906,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,196.00,183.00,196.00,196.00,8,2025
+4908,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,184.00,150.00,184.00,184.00,8,2025
+4910,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,114.00,198.00,114.00,114.00,8,2025
+4154,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,496.00,496.00,496.00,496.00,4,2025
+4156,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,233.00,233.00,233.00,233.00,4,2025
+4158,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,220.00,220.00,220.00,220.00,4,2025
+4160,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,105.00,105.00,105.00,105.00,4,2025
+4162,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,438.00,438.00,438.00,438.00,4,2025
+4164,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,347.00,347.00,347.00,347.00,4,2025
+4166,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,427.00,427.00,427.00,427.00,4,2025
+4168,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,223.00,223.00,223.00,223.00,4,2025
+4170,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,100.00,100.00,100.00,100.00,4,2025
+4172,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,284.00,284.00,284.00,284.00,4,2025
+4174,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,281.00,281.00,281.00,281.00,4,2025
+4176,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,494.00,494.00,494.00,494.00,4,2025
+4178,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,249.00,249.00,249.00,249.00,4,2025
+4180,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,497.00,497.00,497.00,497.00,4,2025
+4182,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,317.00,317.00,317.00,317.00,4,2025
+4184,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,281.00,281.00,281.00,281.00,4,2025
+4186,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,199.00,199.00,199.00,199.00,4,2025
+4188,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,354.00,354.00,354.00,354.00,4,2025
+4190,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,273.00,273.00,273.00,273.00,4,2025
+4192,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,220.00,220.00,220.00,220.00,4,2025
+4194,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,426.00,426.00,426.00,426.00,4,2025
+4196,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,300.00,300.00,300.00,300.00,4,2025
+4198,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,217.00,217.00,217.00,217.00,4,2025
+4200,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,123.00,123.00,123.00,123.00,4,2025
+4202,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,361.00,361.00,361.00,361.00,4,2025
+4204,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,272.00,272.00,272.00,272.00,4,2025
+4206,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,151.00,151.00,151.00,151.00,4,2025
+4208,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,286.00,286.00,286.00,286.00,4,2025
+4210,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,430.00,430.00,430.00,430.00,4,2025
+4212,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,303.00,303.00,303.00,303.00,4,2025
+4214,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,376.00,376.00,376.00,376.00,4,2025
+4216,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,168.00,168.00,168.00,168.00,4,2025
+4218,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,277.00,277.00,277.00,277.00,4,2025
+4220,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,153.00,153.00,153.00,153.00,4,2025
+4696,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,117.00,198.00,117.00,117.00,7,2025
+4698,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,175.00,156.00,175.00,175.00,7,2025
+4700,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,111.00,183.00,111.00,111.00,7,2025
+4702,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,115.00,199.00,115.00,115.00,7,2025
+4704,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,102.00,180.00,102.00,102.00,7,2025
+4706,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,196.00,150.00,196.00,196.00,7,2025
+4708,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,187.00,104.00,187.00,187.00,7,2025
+4710,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,163.00,183.00,163.00,163.00,7,2025
+4712,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,142.00,179.00,142.00,142.00,7,2025
+4714,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,175.00,198.00,175.00,175.00,7,2025
+4716,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,126.00,175.00,126.00,126.00,7,2025
+4718,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,107.00,170.00,107.00,107.00,7,2025
+4720,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,137.00,183.00,137.00,137.00,7,2025
+4722,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,131.00,119.00,131.00,131.00,7,2025
+4724,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,148.00,181.00,148.00,148.00,7,2025
+4222,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,317.00,317.00,317.00,317.00,4,2025
+4224,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,472.00,472.00,472.00,472.00,4,2025
+4226,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,183.00,183.00,183.00,183.00,4,2025
+4228,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,477.00,477.00,477.00,477.00,4,2025
+4230,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,433.00,433.00,433.00,433.00,4,2025
+4232,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,485.00,485.00,485.00,485.00,4,2025
+4234,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,264.00,264.00,264.00,264.00,4,2025
+4236,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,123.00,123.00,123.00,123.00,4,2025
+4238,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,185.00,185.00,185.00,185.00,4,2025
+4240,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,181.00,181.00,181.00,181.00,4,2025
+4242,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,134.00,134.00,134.00,134.00,4,2025
+4244,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,468.00,468.00,468.00,468.00,4,2025
+4246,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,365.00,365.00,365.00,365.00,4,2025
+4248,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,383.00,383.00,383.00,383.00,4,2025
+4250,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,150.00,150.00,150.00,150.00,4,2025
+4252,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,187.00,187.00,187.00,187.00,4,2025
+4254,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,406.00,406.00,406.00,406.00,4,2025
+4256,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,297.00,297.00,297.00,297.00,4,2025
+4258,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,269.00,269.00,269.00,269.00,4,2025
+4260,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,276.00,276.00,276.00,276.00,4,2025
+4262,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,478.00,478.00,478.00,478.00,4,2025
+4264,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,152.00,152.00,152.00,152.00,4,2025
+4266,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,439.00,439.00,439.00,439.00,4,2025
+4268,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,194.00,194.00,194.00,194.00,4,2025
+4270,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,288.00,288.00,288.00,288.00,4,2025
+4272,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,154.00,154.00,154.00,154.00,4,2025
+4274,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,207.00,207.00,207.00,207.00,4,2025
+4276,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,154.00,154.00,154.00,154.00,4,2025
+4278,MSD-MED 0094,ORS 200ml/Sachet,Sachet,370.00,370.00,370.00,370.00,4,2025
+4280,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,237.00,237.00,237.00,237.00,4,2025
+4282,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,484.00,484.00,484.00,484.00,4,2025
+4284,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,280.00,280.00,280.00,280.00,4,2025
+4286,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,185.00,185.00,185.00,185.00,4,2025
+4288,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,464.00,464.00,464.00,464.00,4,2025
+4726,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,111.00,193.00,111.00,111.00,7,2025
+4728,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,136.00,197.00,136.00,136.00,7,2025
+4730,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,146.00,195.00,146.00,146.00,7,2025
+4732,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,193.00,161.00,193.00,193.00,7,2025
+4734,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,142.00,158.00,142.00,142.00,7,2025
+4736,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,155.00,167.00,155.00,155.00,7,2025
+4738,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,172.00,137.00,172.00,172.00,7,2025
+4740,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,187.00,179.00,187.00,187.00,7,2025
+4742,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,107.00,170.00,107.00,107.00,7,2025
+4744,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,107.00,147.00,107.00,107.00,7,2025
+4746,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,196.00,142.00,196.00,196.00,7,2025
+4748,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,177.00,106.00,177.00,177.00,7,2025
+4750,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,143.00,186.00,143.00,143.00,7,2025
+4752,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,194.00,198.00,194.00,194.00,7,2025
+4754,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,158.00,189.00,158.00,158.00,7,2025
+4756,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,169.00,188.00,169.00,169.00,7,2025
+4290,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,475.00,475.00,475.00,475.00,4,2025
+4292,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,428.00,428.00,428.00,428.00,4,2025
+4294,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,240.00,240.00,240.00,240.00,4,2025
+4296,MSD-MED 0054,Celecoxib 200mg Capsule 1's,Capsule,382.00,382.00,382.00,382.00,5,2025
+4298,MSD-MED 0031,Cetirizine 10mg Tablet 1's,Tablet,197.00,197.00,197.00,197.00,5,2025
+4300,MSD-MED 0032,Cetirizine 5mg/5ml Syrup x 30ml,Bottle,291.00,291.00,291.00,291.00,5,2025
+4302,MSD-MED 0033,Cetirizine 2.5mg/ml Drops x 10ml,Bottle,397.00,397.00,397.00,397.00,5,2025
+4304,MSD-MED 0034,Cholecalciferol 400IU x 600mg Capsule 1's,Capsule,309.00,309.00,309.00,309.00,5,2025
+4306,MSD-MED 0035,Cinnarizine 25mg Tablet 1's,Tablet,333.00,333.00,333.00,333.00,5,2025
+4308,MSD-MED 0036,Ciprofloxacin 500mg Tablet 1's,Tablet,195.00,195.00,195.00,195.00,5,2025
+4310,MSD-MED 0037,Clarithromycin 125mg/5ml Suspension 50ml x1s,Bottle,442.00,442.00,442.00,442.00,5,2025
+4312,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,293.00,293.00,293.00,293.00,5,2025
+4314,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,260.00,260.00,260.00,260.00,5,2025
+4316,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,187.00,187.00,187.00,187.00,5,2025
+4318,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,138.00,138.00,138.00,138.00,5,2025
+4320,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,373.00,373.00,373.00,373.00,5,2025
+4322,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,472.00,472.00,472.00,472.00,5,2025
+4324,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,498.00,498.00,498.00,498.00,5,2025
+4326,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,373.00,373.00,373.00,373.00,5,2025
+4328,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,444.00,444.00,444.00,444.00,5,2025
+4330,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,393.00,393.00,393.00,393.00,5,2025
+4332,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,298.00,298.00,298.00,298.00,5,2025
+4334,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,269.00,269.00,269.00,269.00,5,2025
+4336,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,321.00,321.00,321.00,321.00,5,2025
+4338,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,207.00,207.00,207.00,207.00,5,2025
+4340,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,130.00,130.00,130.00,130.00,5,2025
+4342,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,399.00,399.00,399.00,399.00,5,2025
+4344,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,124.00,124.00,124.00,124.00,5,2025
+4346,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,274.00,274.00,274.00,274.00,5,2025
+4348,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,243.00,243.00,243.00,243.00,5,2025
+4350,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,179.00,179.00,179.00,179.00,5,2025
+4352,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,499.00,499.00,499.00,499.00,5,2025
+4354,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,207.00,207.00,207.00,207.00,5,2025
+4356,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,336.00,336.00,336.00,336.00,5,2025
+4758,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,104.00,111.00,104.00,104.00,7,2025
+4760,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,109.00,193.00,109.00,109.00,7,2025
+4762,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,126.00,195.00,126.00,126.00,7,2025
+4764,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,136.00,195.00,136.00,136.00,7,2025
+4766,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,170.00,182.00,170.00,170.00,7,2025
+4768,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,105.00,147.00,105.00,105.00,7,2025
+4770,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,168.00,154.00,168.00,168.00,7,2025
+4772,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,164.00,170.00,164.00,164.00,7,2025
+4774,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,146.00,152.00,146.00,146.00,7,2025
+4776,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,179.00,106.00,179.00,179.00,7,2025
+4778,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,194.00,165.00,194.00,194.00,7,2025
+4780,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,120.00,137.00,120.00,120.00,7,2025
+4782,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,126.00,148.00,126.00,126.00,7,2025
+4784,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,174.00,198.00,174.00,174.00,7,2025
+4786,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,140.00,145.00,140.00,140.00,7,2025
+4788,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,195.00,188.00,195.00,195.00,7,2025
+4358,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,199.00,199.00,199.00,199.00,5,2025
+4360,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,500.00,500.00,500.00,500.00,5,2025
+4362,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,237.00,237.00,237.00,237.00,5,2025
+4364,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,269.00,269.00,269.00,269.00,5,2025
+4366,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,333.00,333.00,333.00,333.00,5,2025
+4368,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,382.00,382.00,382.00,382.00,5,2025
+4370,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,313.00,313.00,313.00,313.00,5,2025
+4372,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,338.00,338.00,338.00,338.00,5,2025
+4374,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,273.00,273.00,273.00,273.00,5,2025
+4376,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,200.00,200.00,200.00,200.00,5,2025
+4378,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,163.00,163.00,163.00,163.00,5,2025
+4380,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,344.00,344.00,344.00,344.00,5,2025
+4382,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,418.00,418.00,418.00,418.00,5,2025
+4384,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,117.00,117.00,117.00,117.00,5,2025
+4386,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,159.00,159.00,159.00,159.00,5,2025
+4388,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,460.00,460.00,460.00,460.00,5,2025
+4390,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,398.00,398.00,398.00,398.00,5,2025
+4392,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,372.00,372.00,372.00,372.00,5,2025
+4394,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,490.00,490.00,490.00,490.00,5,2025
+4396,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,289.00,289.00,289.00,289.00,5,2025
+4398,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,158.00,158.00,158.00,158.00,5,2025
+4400,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,136.00,136.00,136.00,136.00,5,2025
+4402,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,255.00,255.00,255.00,255.00,5,2025
+4404,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,221.00,221.00,221.00,221.00,5,2025
+4406,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,169.00,169.00,169.00,169.00,5,2025
+4408,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,149.00,149.00,149.00,149.00,5,2025
+4410,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,150.00,150.00,150.00,150.00,5,2025
+4412,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,340.00,340.00,340.00,340.00,5,2025
+4414,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,230.00,230.00,230.00,230.00,5,2025
+4416,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,321.00,321.00,321.00,321.00,5,2025
+4418,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,258.00,258.00,258.00,258.00,5,2025
+4420,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,305.00,305.00,305.00,305.00,5,2025
+4422,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,182.00,182.00,182.00,182.00,5,2025
+4424,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,413.00,413.00,413.00,413.00,5,2025
+4790,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,126.00,182.00,126.00,126.00,7,2025
+4792,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,109.00,125.00,109.00,109.00,7,2025
+4794,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,119.00,178.00,119.00,119.00,7,2025
+4796,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,148.00,101.00,148.00,148.00,7,2025
+4798,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,107.00,153.00,107.00,107.00,7,2025
+4800,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,193.00,181.00,193.00,193.00,7,2025
+4802,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,122.00,104.00,122.00,122.00,7,2025
+4804,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,137.00,108.00,137.00,137.00,7,2025
+4806,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,114.00,191.00,114.00,114.00,7,2025
+4808,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,151.00,178.00,151.00,151.00,7,2025
+4810,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,139.00,193.00,139.00,139.00,7,2025
+4812,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,172.00,188.00,172.00,172.00,7,2025
+4814,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,179.00,195.00,179.00,179.00,7,2025
+4816,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,190.00,169.00,190.00,190.00,7,2025
+4818,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,116.00,187.00,116.00,116.00,7,2025
+4820,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,153.00,151.00,153.00,153.00,7,2025
+4426,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,308.00,308.00,308.00,308.00,5,2025
+4428,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,401.00,401.00,401.00,401.00,5,2025
+4430,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,172.00,172.00,172.00,172.00,5,2025
+4432,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,339.00,339.00,339.00,339.00,5,2025
+4434,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,467.00,467.00,467.00,467.00,5,2025
+4436,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,452.00,452.00,452.00,452.00,5,2025
+4438,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,316.00,316.00,316.00,316.00,5,2025
+4440,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,200.00,200.00,200.00,200.00,5,2025
+4442,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,264.00,264.00,264.00,264.00,5,2025
+4444,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,418.00,418.00,418.00,418.00,5,2025
+4446,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,312.00,312.00,312.00,312.00,5,2025
+4448,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,480.00,480.00,480.00,480.00,5,2025
+4450,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,458.00,458.00,458.00,458.00,5,2025
+4452,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,295.00,295.00,295.00,295.00,5,2025
+4454,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,107.00,107.00,107.00,107.00,5,2025
+4456,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,444.00,444.00,444.00,444.00,5,2025
+4458,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,322.00,322.00,322.00,322.00,5,2025
+4460,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,298.00,298.00,298.00,298.00,5,2025
+4462,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,310.00,310.00,310.00,310.00,5,2025
+4464,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,351.00,351.00,351.00,351.00,5,2025
+4466,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,403.00,403.00,403.00,403.00,5,2025
+4468,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,276.00,276.00,276.00,276.00,5,2025
+4470,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,179.00,179.00,179.00,179.00,5,2025
+4472,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,103.00,103.00,103.00,103.00,5,2025
+4474,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,433.00,433.00,433.00,433.00,5,2025
+4476,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,312.00,312.00,312.00,312.00,5,2025
+4478,MSD-MED 0094,ORS 200ml/Sachet,Sachet,397.00,397.00,397.00,397.00,5,2025
+4480,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,408.00,408.00,408.00,408.00,5,2025
+4482,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,268.00,268.00,268.00,268.00,5,2025
+4484,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,142.00,142.00,142.00,142.00,5,2025
+4486,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,445.00,445.00,445.00,445.00,5,2025
+4488,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,347.00,347.00,347.00,347.00,5,2025
+4490,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,376.00,376.00,376.00,376.00,5,2025
+4492,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,235.00,235.00,235.00,235.00,5,2025
+4822,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,153.00,114.00,153.00,153.00,7,2025
+4824,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,117.00,133.00,117.00,117.00,7,2025
+4826,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,131.00,159.00,131.00,131.00,7,2025
+4828,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,169.00,160.00,169.00,169.00,7,2025
+4830,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,133.00,105.00,133.00,133.00,7,2025
+4832,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,168.00,160.00,168.00,168.00,7,2025
+4834,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,185.00,196.00,185.00,185.00,7,2025
+4836,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,133.00,181.00,133.00,133.00,7,2025
+4838,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,143.00,158.00,143.00,143.00,7,2025
+4840,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,143.00,169.00,143.00,143.00,7,2025
+4842,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,150.00,104.00,150.00,150.00,7,2025
+4844,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,101.00,197.00,101.00,101.00,7,2025
+4846,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,166.00,170.00,166.00,166.00,7,2025
+4848,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,116.00,179.00,116.00,116.00,7,2025
+4850,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,185.00,174.00,185.00,185.00,7,2025
+4852,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,182.00,157.00,182.00,182.00,7,2025
+4494,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,476.00,476.00,476.00,476.00,5,2025
+4854,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,175.00,199.00,175.00,175.00,7,2025
+4856,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,126.00,157.00,126.00,126.00,7,2025
+4858,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,118.00,155.00,118.00,118.00,7,2025
+4860,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,105.00,119.00,105.00,105.00,7,2025
+4862,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,131.00,192.00,131.00,131.00,7,2025
+4864,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,187.00,150.00,187.00,187.00,7,2025
+4866,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,169.00,189.00,169.00,169.00,7,2025
+4868,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,107.00,193.00,107.00,107.00,7,2025
+4870,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,149.00,155.00,149.00,149.00,7,2025
+4872,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,170.00,188.00,170.00,170.00,7,2025
+4874,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,150.00,182.00,150.00,150.00,7,2025
+4876,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,117.00,142.00,117.00,117.00,7,2025
+4878,MSD-MED 0094,ORS 200ml/Sachet,Sachet,179.00,193.00,179.00,179.00,7,2025
+4880,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,184.00,147.00,184.00,184.00,7,2025
+4882,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,198.00,123.00,198.00,198.00,7,2025
+4884,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,181.00,193.00,181.00,181.00,7,2025
+4886,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,163.00,193.00,163.00,163.00,7,2025
+4888,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,149.00,158.00,149.00,149.00,7,2025
+4890,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,106.00,141.00,106.00,106.00,7,2025
+4892,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,113.00,198.00,113.00,113.00,7,2025
+4894,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,142.00,113.00,142.00,142.00,7,2025
+4912,MSD-MED 0001,Acetylcysteine 100mg Granules x 1's,Sachet,194.00,110.00,194.00,194.00,8,2025
+4914,MSD-MED 0002,Acetylcysteine 200mg Granules x 1's,Tablet,144.00,101.00,144.00,144.00,8,2025
+4916,MSD-MED 0003,Acetylcysteine 600mg Tablet x 1's,Tablet,141.00,128.00,141.00,141.00,8,2025
+4918,MSD-MED 0004,Allopurinol 300mg Tablet 1's,Tablet,117.00,162.00,117.00,117.00,8,2025
+4920,MSD-MED 0006,Aluminum Magnesium 200mg/100mg Tablet 1's,Tablet,145.00,147.00,145.00,145.00,8,2025
+4922,MSD-MED 0007,Amlodipine Besylate 5mg Tablet x1's,Tablet,145.00,179.00,145.00,145.00,8,2025
+4924,MSD-MED 0008,Amlodipine Besylate 10mg Tablet x1's,Tablet,174.00,155.00,174.00,174.00,8,2025
+4926,MSD-MED 0009,Amoxicillin Trihydrate 100mg/ml Drops x 10ml,Bottle,102.00,160.00,102.00,102.00,8,2025
+4928,MSD-MED 0010,Amoxicillin Trihydrate 250mg/5ml Suspension x 60ml,Bottle,137.00,114.00,137.00,137.00,8,2025
+4930,MSD-MED 0011,Amoxicillin Trihydrate 500mg Capsule x 1's,Capsule,190.00,178.00,190.00,190.00,8,2025
+4932,MSD-MED 0012,Ascorbic Acid 100mg/5ml Syrup x 60ml,Bottle,137.00,111.00,137.00,137.00,8,2025
+4934,MSD-MED 0013,Ascorbic Acid 100mg/ml Drops x 15ml,Bottle,126.00,155.00,126.00,126.00,8,2025
+4936,MSD-MED 0014,Ascorbic Acid 500mg Tablet x 1's,Tablet,187.00,154.00,187.00,187.00,8,2025
+4938,MSD-MED 0015,Atenolol 50mg Tablet 1's,Tablet,112.00,169.00,112.00,112.00,8,2025
+4940,MSD-MED 0016,Atorvastatin 20mg Tablet 1's,Tablet,144.00,188.00,144.00,144.00,8,2025
+4942,MSD-MED 0017,Atorvastatin 40mg Tablet 1's,Tablet,155.00,180.00,155.00,155.00,8,2025
+4944,MSD-MED 0018,Atorvastatin 80mg Tablet 1's,Tablet,108.00,133.00,108.00,108.00,8,2025
+4946,MSD-MED 0019,Azithromycin 500mg Tablet 1's,Tablet,182.00,101.00,182.00,182.00,8,2025
+4948,MSD-MED 0020,Betahistine 16mg Tablet 1's,Tablet,103.00,165.00,103.00,103.00,8,2025
+4950,MSD-MED 0021,Butamirate 50mg Tablet 1's,Tablet,192.00,121.00,192.00,192.00,8,2025
+4952,MSD-MED 0022,CaCO3 600mg+Cholecalciferol Vit D3 400IU Tablet x 1's,Tablet,186.00,191.00,186.00,186.00,8,2025
+4954,MSD-MED 0023,Captopril 25mg Tablet x 1's,Tablet,114.00,145.00,114.00,114.00,8,2025
+4956,MSD-MED 0024,Cefalexin 100mg/ml Drops x 10ml,Bottle,104.00,109.00,104.00,104.00,8,2025
+4958,MSD-MED 0025,Cefalexin 250mg/5ml Suspension x 60ml,Bottle,190.00,137.00,190.00,190.00,8,2025
+4960,MSD-MED 0026,Cefixime 100mg/5ml Drops 100ml,Bottle,197.00,149.00,197.00,197.00,8,2025
+4962,MSD-MED 0027,Cefixime 20mg/ml Drops 10ml,Bottle,175.00,166.00,175.00,175.00,8,2025
+4964,MSD-MED 0028,Cefuroxime 125mg/5ml Drops x 60ml,Bottle,176.00,197.00,176.00,176.00,8,2025
+4966,MSD-MED 0029,Cefuroxime 250mg/5ml Suspension x 60ml,Bottle,126.00,158.00,126.00,126.00,8,2025
+4968,MSD-MED 0030,Cefuroxime 500mg Tablet 1's,Tablet,181.00,165.00,181.00,181.00,8,2025
+4970,MSD-MED 0038,Clarithromycin 500mg Tablet 1's,Tablet,150.00,197.00,150.00,150.00,8,2025
+4972,MSD-MED 0039,Clindamycin 300mg Capsule 1's,Capsule,156.00,104.00,156.00,156.00,8,2025
+4974,MSD-MED 0040,Clopidogrel 75mg Tablet 1's,Tablet,122.00,159.00,122.00,122.00,8,2025
+4976,MSD-MED 0041,Cloxacillin 250mg/5ml Suspension x 60ml,Bottle,138.00,198.00,138.00,138.00,8,2025
+4978,MSD-MED 0042,Cloxacillin 500mg Capsule x 1's,Capsule,107.00,166.00,107.00,107.00,8,2025
+4980,MSD-MED 0043,Co-Amoxiclav 457mg/5ml Suspension x 60ml,Bottle,132.00,191.00,132.00,132.00,8,2025
+4982,MSD-MED 0044,Co-Amoxiclav 625mg Tablet x 1's,Tablet,176.00,178.00,176.00,176.00,8,2025
+4984,MSD-MED 0045,Co-Amoxiclav 875mcg+125mcg (1g) Tablet x 1's,Tablet,104.00,193.00,104.00,104.00,8,2025
+4986,MSD-MED 0046,Cotrimoxazole 200mg/40mg/5ml Suspension x 70ml,Bottle,140.00,151.00,140.00,140.00,8,2025
+4988,MSD-MED 0047,Cotrimoxazole 800mg/160mg Scored Tablet x 1's,Tablet,114.00,105.00,114.00,114.00,8,2025
+4990,MSD-MED 0048,Dicycloverine 10mg/5ml Syrup 60ml,Bottle,105.00,147.00,105.00,105.00,8,2025
+4992,MSD-MED 0049,Diphenhydramine 12.5mg/5ml Syrup,Syrup,150.00,178.00,150.00,150.00,8,2025
+4994,MSD-MED 0050,Doxycycline 100mg Capsule 1's,Capsule,156.00,154.00,156.00,156.00,8,2025
+4996,MSD-MED 0051,Eperisone 50mg Tablet 1's,Tablet,137.00,189.00,137.00,137.00,8,2025
+4998,MSD-MED 0052,Epinephrine 1mg/ml Vial x 1's,Vial,173.00,169.00,173.00,173.00,8,2025
+5000,MSD-MED 0053,Erythromycin 0.5% Ointment,Vial,111.00,168.00,111.00,111.00,8,2025
+5002,MSD-MED 0055,Felodipine 5mg MR Tablet x1s,Tablet,109.00,177.00,109.00,109.00,8,2025
+5004,MSD-MED 0056,Fenofibrate 160mg Capsule 1's,Capsule,195.00,190.00,195.00,195.00,8,2025
+5006,MSD-MED 0118,Folic Acid 5mg Tablet 1's,Tablet,177.00,173.00,177.00,177.00,8,2025
+5008,MSD-MED 0057,Fluticasone 250mcg+Formoterol 25mcg MDI,Bottle,153.00,133.00,153.00,153.00,8,2025
+5010,MSD-MED 0058,Fluticasone 250mcg+Salmeterol 25mcg MDI,Bottle,128.00,185.00,128.00,128.00,8,2025
+5012,MSD-MED 0060,Fluticasone 250mcg+Salmeterol (Propionate) 25mcg MDI,Tablet,195.00,180.00,195.00,195.00,8,2025
+5014,MSD-MED 0061,Fosfomycin Trometamol 3g Granules for Soln.,Sachet,189.00,174.00,189.00,189.00,8,2025
+5016,MSD-MED 0062,Gabapentin 100mg Tablet 1's,Tablet,145.00,181.00,145.00,145.00,8,2025
+5018,MSD-MED 0063,Gliclazide 30mg Tablet 1's,Tablet,114.00,160.00,114.00,114.00,8,2025
+5020,MSD-MED 0064,Hydrocortisone Cream 1% x 10g,Tube,102.00,152.00,102.00,102.00,8,2025
+5022,MSD-MED 0065,Hyoscine Butylbromide 10mg Tablet 1's,Tablet,119.00,101.00,119.00,119.00,8,2025
+5024,MSD-MED 0067,Ibuprofen 200mg/ml 60ml Syrup,Bottle,181.00,167.00,181.00,181.00,8,2025
+5026,MSD-MED 0143,Ipratropium Br 500mcg + Salbutamol 2.5mg Resp.Soln 2.5ml UDV x 1's,Nebule,153.00,157.00,153.00,153.00,8,2025
+5028,MSD-MED 0068,Irbesartan 300mg Tablet 1's,Tablet,111.00,123.00,111.00,111.00,8,2025
+5030,MSD-MED 0069,Isosorbide Mononitrate 30mg Tablet x1's,Tablet,190.00,151.00,190.00,190.00,8,2025
+5032,MSD-MED 0070,Isosorbide Mononitrate 60mg Tablet x1's,Tablet,104.00,179.00,104.00,104.00,8,2025
+5034,MSD-MED 0071,Lactulose 3.3gm/5ml x 120ml,Bottle,147.00,198.00,147.00,147.00,8,2025
+5036,MSD-MED 0072,Lagundi 300mg Tablet x 1's,Tablet,185.00,112.00,185.00,185.00,8,2025
+5038,MSD-MED 0073,Lagundi 600mg Tablet x 1's,Tablet,149.00,157.00,149.00,149.00,8,2025
+5040,MSD-MED 0074,Lagundi 300mg/5ml Syrup x 60ml,Bottle,121.00,193.00,121.00,121.00,8,2025
+5042,MSD-MED 0075,Lansoprazole 30mg Capsule 1's,Capsule,179.00,166.00,179.00,179.00,8,2025
+5044,MSD-MED 0076,Loratadine 10mg Tablet 1's,Tablet,190.00,193.00,190.00,190.00,8,2025
+5046,MSD-MED 0077,Losartan Potassium 100mg Scored Tablet x 1's,Tablet,120.00,121.00,120.00,120.00,8,2025
+5048,MSD-MED 0078,Losartan K 50mg+HCTZ 12.5mg Tablet 1's,Tablet,116.00,115.00,116.00,116.00,8,2025
+5050,MSD-MED 0079,Mefenamic Acid 500mg Scored Tablet x 1's,Capsule,124.00,133.00,124.00,124.00,8,2025
+5052,MSD-MED 0080,Metformin 500mg Tablet x1s,Tablet,105.00,101.00,105.00,105.00,8,2025
+5054,MSD-MED 0081,Methyldopa 250mg Tablet 1's,Tablet,151.00,155.00,151.00,151.00,8,2025
+5056,MSD-MED 0082,Metoprolol 100mg Tablet 1's,Tablet,126.00,142.00,126.00,126.00,8,2025
+5058,MSD-MED 0083,Metronidazole 500mg Tablet 1's,Tablet,161.00,123.00,161.00,161.00,8,2025
+5060,MSD-MED 0084,Montelukast 5mg Tablet x1s,Tablet,143.00,199.00,143.00,143.00,8,2025
+5062,MSD-MED 0085,Montelukast 10mg Tablet x1s,Tablet,178.00,193.00,178.00,178.00,8,2025
+5064,MSD-MED 0086,Multivitamins Capsule x 1's,Capsule,112.00,170.00,112.00,112.00,8,2025
+5066,MSD-MED 0087,Multivitamins Drops x 15ml,Bottle,104.00,192.00,104.00,104.00,8,2025
+5068,MSD-MED 0088,Multivitamins Syrup x 60ml,Bottle,192.00,109.00,192.00,192.00,8,2025
+5070,MSD-MED 0089,Mupirocin 2% Topical Ointment,Tube,141.00,188.00,141.00,141.00,8,2025
+5072,MSD-MED 0090,Omeprazole 20mg Capsule x 1's,Capsule,189.00,114.00,189.00,189.00,8,2025
+5074,MSD-MED 0092,Omeprazole 40mg Capsule x 1's,Capsule,178.00,186.00,178.00,178.00,8,2025
+5076,MSD-MED 0093,ORS 4.1g/Sachet,Sachet,108.00,151.00,108.00,108.00,8,2025
+5078,MSD-MED 0094,ORS 200ml/Sachet,Sachet,178.00,116.00,178.00,178.00,8,2025
+5080,MSD-MED 0095,Paracetamol 100mg/ml Drops x 60ml,Bottle,168.00,116.00,168.00,168.00,8,2025
+5082,MSD-MED 0096,Paracetamol 250mg/5ml Syrup x 60ml,Bottle,198.00,167.00,198.00,198.00,8,2025
+5084,MSD-MED 0097,Paracetamol 500mg Scored Tablet x 1's,Tablet,145.00,151.00,145.00,145.00,8,2025
+5086,MSD-MED 0098,Paracetamol 125mg Suppository,Tablet,150.00,111.00,150.00,150.00,8,2025
+5088,MSD-MED 0099,Permethrin Lotion 5% x 30ml,Bottle,171.00,157.00,171.00,171.00,8,2025
+5090,MSD-MED 0100,Rosuvastatin 10mg Tablet x 1's,Bottle,194.00,112.00,194.00,194.00,8,2025
+5092,MSD-MED 0101,Rosuvastatin 20mg Tablet x 1's,Tablet,164.00,170.00,164.00,164.00,8,2025
+5094,MSD-MED 0102,Salbutamol 2.5mg/2.5ml Nebules x 1's,Nebule,106.00,123.00,106.00,106.00,8,2025

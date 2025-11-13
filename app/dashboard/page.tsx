@@ -52,7 +52,7 @@ interface DashboardStats {
 export default function Dashboard() {
     const router = useRouter()
     const [loading, setLoading] = useState(true)
-    const [selectedMonth, setSelectedMonth] = useState("October")
+    const [selectedMonth, setSelectedMonth] = useState("January")
     const [selectedYear, setSelectedYear] = useState("2025")
     const [stats, setStats] = useState<DashboardStats>({
         totalMedicines: 0,
