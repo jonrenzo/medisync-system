@@ -585,14 +585,15 @@ export default function Reports() {
                                         <Card>
                                             <CardContent className="pt-6">
                                                 <div className="text-sm text-gray-600">Total Items</div>
-                                                <div className="text-2xl font-bold">{filteredData.length}</div>
+                                                <div
+                                                    className="text-2xl font-bold">{Math.round(filteredData.length)}</div>
                                             </CardContent>
                                         </Card>
                                         <Card>
                                             <CardContent className="pt-6">
                                                 <div className="text-sm text-gray-600">Total Stock on Hand</div>
                                                 <div className="text-2xl font-bold">
-                                                    {filteredData.reduce((sum, row) => sum + row.stockonhand, 0)}
+                                                    {Math.round(filteredData.reduce((sum, row) => sum + row.stockonhand, 0))}
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -600,7 +601,7 @@ export default function Reports() {
                                             <CardContent className="pt-6">
                                                 <div className="text-sm text-gray-600">Total Requested</div>
                                                 <div className="text-2xl font-bold">
-                                                    {filteredData.reduce((sum, row) => sum + row.quantityrequested, 0)}
+                                                    {Math.round(filteredData.reduce((sum, row) => sum + row.quantityrequested, 0))}
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -608,7 +609,7 @@ export default function Reports() {
                                             <CardContent className="pt-6">
                                                 <div className="text-sm text-gray-600">Total Issued</div>
                                                 <div className="text-2xl font-bold">
-                                                    {filteredData.reduce((sum, row) => sum + row.issuedquantity, 0)}
+                                                    {Math.round(filteredData.reduce((sum, row) => sum + row.issuedquantity, 0))}
                                                 </div>
                                             </CardContent>
                                         </Card>
