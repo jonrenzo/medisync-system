@@ -89,23 +89,36 @@ export function DailyDispenseTabs({selectedMonth, selectedYear}: DailyDispenseTa
 
     // === Fetch Utilization Records ===
     useEffect(() => {
-        if (stocks.length === 0) return
+        if (stocks.length === 0) return;
 
         const fetchRecords = async () => {
-            const allRecords: Record<string, UtilizationRecord[]> = {}
-            for (const stock of stocks) {
-                const {data, error} = await supabase
-                    .from("utilizationrecord")
-                    .select("*")
-                    .eq("itemcode", stock.itemcode)
-                    .order("dateissued", {ascending: false})
-                if (!error && data) allRecords[stock.itemcode] = data
-            }
-            setRecords(allRecords)
-        }
+            const itemCodes = stocks.map(s => s.itemcode);
 
-        fetchRecords()
-    }, [stocks])
+            const {data, error} = await supabase
+                .from("utilizationrecord")
+                .select("*")
+                .in("itemcode", itemCodes)
+                .order("dateissued", {ascending: false});
+
+            if (error) return;
+
+            // Group by itemcode
+            const grouped: Record<string, UtilizationRecord[]> = {};
+
+            itemCodes.forEach(code => {
+                grouped[code] = []
+            });
+
+            data?.forEach(record => {
+                if (!grouped[record.itemcode]) grouped[record.itemcode] = [];
+                grouped[record.itemcode].push(record);
+            });
+
+            setRecords(grouped);
+        };
+
+        fetchRecords();
+    }, [stocks]);
 
     // === Selection Handlers ===
     const handleSelectAll = (itemcode: string, checked: boolean) => {
@@ -247,7 +260,6 @@ export function DailyDispenseTabs({selectedMonth, selectedYear}: DailyDispenseTa
             `dispensed-${activeStock.itemdescription}-${selectedMonth}-${selectedYear}.pdf`
         );
     };
-
 
     const handleCloseModal = () => {
         setIsModalOpen(false)
