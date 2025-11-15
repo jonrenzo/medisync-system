@@ -537,7 +537,7 @@ export default function Reports() {
                                                             {row.beginningbalance}
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-center font-medium">
-                                                            {Math.round(row.quantityrequested)}
+                                                            {row.beginningbalance}
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-center font-medium">
                                                             {Math.round(row.issuedquantity)}

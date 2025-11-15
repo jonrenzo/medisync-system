@@ -1,11 +1,22 @@
 "use client"
 
 import ProtectedPage from "@/components/ProtectedPage";
-import {useState, useEffect} from "react"
+import {useState, useEffect, useMemo} from "react"
 import {supabase} from "@/lib/supabase"
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
-import {Search, Loader2, AlertCircle, Plus, ChevronDown} from "lucide-react"
+import {
+    Search,
+    Loader2,
+    AlertCircle,
+    Plus,
+    ChevronDown,
+    ArrowUpDown,
+    ArrowUp,
+    ArrowDown,
+    X,
+    Filter
+} from "lucide-react"
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {InventoryTable, type InventoryItem} from "@/components/requisitions/requisition-table"
 import {AddEditInventoryModal} from "@/components/requisitions/add-edit-inventory-modal"
@@ -31,6 +42,12 @@ export default function Inventory() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
 
+    // New filter states
+    const [sortBy, setSortBy] = useState<string>('entryNo')
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+    const [expiryFilter, setExpiryFilter] = useState<string>('all')
+    const [stockFilter, setStockFilter] = useState<string>('all')
+
     // Medicines
     const [medicines, setMedicines] = useState<Medicine[]>([])
     const [medicineLoading, setMedicineLoading] = useState(true)
@@ -43,23 +60,38 @@ export default function Inventory() {
     const itemsPerPage = 50
     const medicineItemsPerPage = 10
     const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December",
     ]
     const years = ["2023", "2024", "2025", "2026"]
     const [selectedMonth, setSelectedMonth] = useState("January")
     const [selectedYear, setSelectedYear] = useState("2025")
 
+    const sortOptions = [
+        {value: 'entryNo', label: 'Entry Number'},
+        {value: 'itemCode', label: 'Item Code'},
+        {value: 'itemDescription', label: 'Item Description'},
+        {value: 'expirationDate', label: 'Expiration Date'},
+        {value: 'quantityRequested', label: 'Quantity Requested'},
+        {value: 'quantityIssued', label: 'Quantity Issued'},
+        {value: 'unitCost', label: 'Unit Cost'},
+        {value: 'totalAmount', label: 'Total Amount'}
+    ];
+
+    const expiryOptions = [
+        {value: 'all', label: 'All Items'},
+        {value: 'expired', label: 'Expired'},
+        {value: 'expiring30', label: 'Expiring in 30 days'},
+        {value: 'expiring90', label: 'Expiring in 90 days'},
+        {value: 'valid', label: 'Valid (Not Expiring Soon)'}
+    ];
+
+    const stockOptions = [
+        {value: 'all', label: 'All Stock Levels'},
+        {value: 'inStock', label: 'In Stock (Qty > 0)'},
+        {value: 'lowStock', label: 'Low Stock (Qty < 10)'},
+        {value: 'outOfStock', label: 'Out of Stock (Qty = 0)'}
+    ];
 
     useEffect(() => {
         fetchInventoryData()
@@ -86,7 +118,7 @@ export default function Inventory() {
                 year,
                 items ( itemdescription, dosage, unitofmeasurement )
             `)
-                .eq("month", months.indexOf(selectedMonth) + 1) // convert text month -> number
+                .eq("month", months.indexOf(selectedMonth) + 1)
                 .eq("year", parseInt(selectedYear))
                 .order("inventoryid", {ascending: false})
 
@@ -111,7 +143,6 @@ export default function Inventory() {
     useEffect(() => {
         fetchInventoryData()
     }, [selectedMonth, selectedYear])
-
 
     const handleSaveInventory = async (formData: {
         itemcode: string
@@ -233,7 +264,130 @@ export default function Inventory() {
         setEditingMedicine(null)
     }
 
-    /** ========== FILTERING & PAGINATION ========== **/
+    /** ========== FILTERING, SORTING & PAGINATION ========== **/
+    const toggleSortOrder = () => {
+        setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    };
+
+    const clearAllFilters = () => {
+        setSearchTerm('');
+        setSortBy('entryNo');
+        setSortOrder('asc');
+        setExpiryFilter('all');
+        setStockFilter('all');
+    };
+
+    const activeFiltersCount = [
+        searchTerm !== '',
+        expiryFilter !== 'all',
+        stockFilter !== 'all',
+        sortBy !== 'entryNo' || sortOrder !== 'asc'
+    ].filter(Boolean).length;
+
+    // Advanced filtering and sorting
+    const filteredAndSortedInventory = useMemo(() => {
+        let result = [...inventoryData];
+
+        // Apply search filter
+        if (searchTerm) {
+            const lower = searchTerm.toLowerCase();
+            result = result.filter((item) =>
+                item.itemcode?.toLowerCase().includes(lower) ||
+                item.itemdescription?.toLowerCase().includes(lower) ||
+                item.batchlotno?.toLowerCase().includes(lower)
+            );
+        }
+
+        // Apply expiry filter
+        if (expiryFilter !== 'all') {
+            const now = new Date();
+            result = result.filter(item => {
+                if (!item.expirationdate) return false;
+                const expDate = new Date(item.expirationdate);
+                const daysUntilExpiry = (expDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+
+                if (expiryFilter === 'expired') return daysUntilExpiry < 0;
+                if (expiryFilter === 'expiring30') return daysUntilExpiry >= 0 && daysUntilExpiry <= 30;
+                if (expiryFilter === 'expiring90') return daysUntilExpiry >= 0 && daysUntilExpiry <= 90;
+                if (expiryFilter === 'valid') return daysUntilExpiry > 90;
+                return true;
+            });
+        }
+
+        // Apply stock filter
+        if (stockFilter !== 'all') {
+            result = result.filter(item => {
+                const qty = item.quantityissued || 0;
+                if (stockFilter === 'inStock') return qty > 0;
+                if (stockFilter === 'lowStock') return qty > 0 && qty < 10;
+                if (stockFilter === 'outOfStock') return qty === 0;
+                return true;
+            });
+        }
+
+        // Apply sorting
+        result.sort((a, b) => {
+            let aVal: any, bVal: any;
+
+            switch (sortBy) {
+                case 'entryNo':
+                    aVal = a.inventoryid;
+                    bVal = b.inventoryid;
+                    break;
+                case 'itemCode':
+                    aVal = a.itemcode || '';
+                    bVal = b.itemcode || '';
+                    break;
+                case 'itemDescription':
+                    aVal = a.itemdescription || '';
+                    bVal = b.itemdescription || '';
+                    break;
+                case 'expirationDate':
+                    aVal = a.expirationdate ? new Date(a.expirationdate).getTime() : 0;
+                    bVal = b.expirationdate ? new Date(b.expirationdate).getTime() : 0;
+                    break;
+                case 'quantityRequested':
+                    aVal = a.quantityrequested || 0;
+                    bVal = b.quantityrequested || 0;
+                    break;
+                case 'quantityIssued':
+                    aVal = a.quantityissued || 0;
+                    bVal = b.quantityissued || 0;
+                    break;
+                case 'unitCost':
+                    aVal = a.unitcost || 0;
+                    bVal = b.unitcost || 0;
+                    break;
+                case 'totalAmount':
+                    aVal = a.totalamount || 0;
+                    bVal = b.totalamount || 0;
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (typeof aVal === 'string') {
+                return sortOrder === 'asc'
+                    ? aVal.localeCompare(bVal)
+                    : bVal.localeCompare(aVal);
+            } else {
+                return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+            }
+        });
+
+        return result;
+    }, [inventoryData, searchTerm, expiryFilter, stockFilter, sortBy, sortOrder]);
+
+    const paginatedInventory = useMemo(() => {
+        return filteredAndSortedInventory.slice(
+            (currentPage - 1) * itemsPerPage,
+            currentPage * itemsPerPage
+        );
+    }, [filteredAndSortedInventory, currentPage, itemsPerPage]);
+
+    const inventoryTotalPages = Math.ceil(filteredAndSortedInventory.length / itemsPerPage);
+
+    // Medicine filtering and pagination
     const filterItems = <T extends { [key: string]: any }>(
         data: T[],
         search: string,
@@ -245,14 +399,6 @@ export default function Inventory() {
 
     const paginate = <T, >(data: T[], page: number, perPage: number) =>
         data.slice((page - 1) * perPage, page * perPage)
-
-    const filteredInventory = filterItems(inventoryData, searchTerm, [
-        "itemcode",
-        "itemdescription",
-        "batchlotno",
-    ])
-    const paginatedInventory = paginate(filteredInventory, currentPage, itemsPerPage)
-    const inventoryTotalPages = Math.ceil(filteredInventory.length / itemsPerPage)
 
     const filteredMedicines = filterItems(medicines, medicineSearchTerm, [
         "itemcode",
@@ -310,7 +456,7 @@ export default function Inventory() {
                                 </div>
                             ) : (
                                 <MedicineTable
-                                    key={medicineSearchTerm} // Reset component when search changes
+                                    key={medicineSearchTerm}
                                     medicines={filteredMedicines}
                                     onEdit={openEditMedicine}
                                     onDelete={handleDeleteMedicine}
@@ -327,7 +473,7 @@ export default function Inventory() {
                                 {/* Month */}
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" className="w-40 justify-between bg-transparent">
+                                        <Button variant="outline" className="w-40 justify-between bg-white">
                                             {selectedMonth}
                                             <ChevronDown className="h-4 w-4"/>
                                         </Button>
@@ -348,7 +494,7 @@ export default function Inventory() {
                                 {/* Year */}
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" className="w-40 justify-between bg-transparent">
+                                        <Button variant="outline" className="w-40 justify-between bg-white">
                                             {selectedYear}
                                             <ChevronDown className="h-4 w-4"/>
                                         </Button>
@@ -369,7 +515,9 @@ export default function Inventory() {
 
                             <Button variant="outline">Export</Button>
                         </div>
+
                         <div className="rounded-lg border bg-white p-6 space-y-6">
+                            {/* Search and Add Button */}
                             <div className="mb-4 flex items-center gap-4">
                                 <div className="relative max-w-sm flex-1">
                                     <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400"/>
@@ -386,6 +534,164 @@ export default function Inventory() {
                                 </Button>
                             </div>
 
+                            {/* Advanced Filters Row */}
+                            <div className="flex flex-wrap items-center gap-3 pb-4 border-b">
+                                <div className="flex items-center gap-2">
+                                    <Filter className="h-4 w-4 text-gray-500"/>
+                                    <span className="text-sm font-medium text-gray-700">Filters:</span>
+                                </div>
+
+                                {/* Sort By */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="outline" size="sm" className="gap-2">
+                                            <ArrowUpDown className="h-4 w-4"/>
+                                            Sort: {sortOptions.find(opt => opt.value === sortBy)?.label}
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {sortOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setSortBy(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    sortBy === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Sort Order Toggle */}
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={toggleSortOrder}
+                                    className="gap-2"
+                                >
+                                    {sortOrder === 'asc' ? (
+                                        <ArrowUp className="h-4 w-4"/>
+                                    ) : (
+                                        <ArrowDown className="h-4 w-4"/>
+                                    )}
+                                    {sortOrder === 'asc' ? 'Ascending' : 'Descending'}
+                                </Button>
+
+                                {/* Expiry Filter */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className={expiryFilter !== 'all' ? 'border-blue-500 text-blue-700' : ''}
+                                        >
+                                            {expiryOptions.find(opt => opt.value === expiryFilter)?.label}
+                                            <ChevronDown className="ml-2 h-4 w-4"/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {expiryOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setExpiryFilter(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    expiryFilter === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Stock Level Filter */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className={stockFilter !== 'all' ? 'border-blue-500 text-blue-700' : ''}
+                                        >
+                                            {stockOptions.find(opt => opt.value === stockFilter)?.label}
+                                            <ChevronDown className="ml-2 h-4 w-4"/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {stockOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setStockFilter(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    stockFilter === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Clear Filters */}
+                                {activeFiltersCount > 0 && (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={clearAllFilters}
+                                        className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                    >
+                                        <X className="h-4 w-4"/>
+                                        Clear All ({activeFiltersCount})
+                                    </Button>
+                                )}
+                            </div>
+
+                            {/* Active Filters Display */}
+                            {activeFiltersCount > 0 && (
+                                <div className="flex flex-wrap gap-2">
+                                    {searchTerm && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+                                            Search: "{searchTerm}"
+                                            <button onClick={() => setSearchTerm('')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {expiryFilter !== 'all' && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
+                                            {expiryOptions.find(opt => opt.value === expiryFilter)?.label}
+                                            <button onClick={() => setExpiryFilter('all')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {stockFilter !== 'all' && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                                            {stockOptions.find(opt => opt.value === stockFilter)?.label}
+                                            <button onClick={() => setStockFilter('all')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {(sortBy !== 'entryNo' || sortOrder !== 'asc') && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">
+                                            Sort: {sortOptions.find(opt => opt.value === sortBy)?.label} ({sortOrder === 'asc' ? '↑' : '↓'})
+                                            <button onClick={() => {
+                                                setSortBy('entryNo');
+                                                setSortOrder('asc');
+                                            }}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                </div>
+                            )}
+
                             {error && (
                                 <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-4">
                                     <AlertCircle className="h-5 w-5 text-red-600"/>
@@ -399,12 +705,23 @@ export default function Inventory() {
                                     Loading inventory...
                                 </div>
                             ) : (
-                                <InventoryTable
-                                    items={paginatedInventory}
-                                    startIndex={(currentPage - 1) * itemsPerPage}
-                                    onEdit={openEditInventory}
-                                    onDelete={handleDeleteInventory}
-                                />
+                                <>
+                                    <InventoryTable
+                                        items={paginatedInventory}
+                                        startIndex={(currentPage - 1) * itemsPerPage}
+                                        onEdit={openEditInventory}
+                                        onDelete={handleDeleteInventory}
+                                    />
+
+                                    {/* Results summary */}
+                                    <div className="text-sm text-gray-600">
+                                        Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedInventory.length)} of {filteredAndSortedInventory.length} results
+                                        {filteredAndSortedInventory.length !== inventoryData.length && (
+                                            <span
+                                                className="text-gray-500"> (filtered from {inventoryData.length} total)</span>
+                                        )}
+                                    </div>
+                                </>
                             )}
                         </div>
 
