@@ -1,13 +1,26 @@
 "use client"
 
 import ProtectedPage from "@/components/ProtectedPage";
-import {useState, useEffect} from "react"
+import {useState, useEffect, useMemo} from "react"
 import {supabase} from "@/lib/supabase"
 import {Tabs, TabsList, TabsTrigger, TabsContent} from "@/components/ui/tabs"
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent} from "@/components/ui/dropdown-menu"
-import {Bell, ChevronDown, Loader2, AlertCircle, Download, Send} from "lucide-react"
+import {
+    Bell,
+    ChevronDown,
+    Loader2,
+    AlertCircle,
+    Download,
+    Send,
+    Search,
+    ArrowUpDown,
+    ArrowUp,
+    ArrowDown,
+    X,
+    Filter
+} from "lucide-react"
 import {StockTable, type StocksItem} from "@/components/stocks/stocks-table"
 import {ReorderTable, type ReorderItem} from "@/components/reorder/reorder-table"
 import {DailyDispenseTabs} from "@/components/dispensed/daily-dispensed-table"
@@ -17,18 +30,8 @@ import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
 
 const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
 ]
 const years = ["2023", "2024", "2025", "2026"]
 
@@ -51,8 +54,44 @@ export default function StocksManagement() {
     const [selectedStock, setSelectedStock] = useState<StocksItem | null>(null)
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editingStock, setEditingStock] = useState<StocksItem | null>(null)
+
+    // Filter states for stocks
+    const [sortBy, setSortBy] = useState<string>('itemcode')
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+    const [statusFilter, setStatusFilter] = useState<string>('all')
+    const [stockLevelFilter, setStockLevelFilter] = useState<string>('all')
+    const [reorderFilter, setReorderFilter] = useState<string>('all')
+
     const itemsPerPage = 10
 
+    const sortOptions = [
+        {value: 'itemcode', label: 'Item Code'},
+        {value: 'itemname', label: 'Item Name'},
+        {value: 'beginningbalance', label: 'Beginning Balance'},
+        {value: 'stockonhand', label: 'Stock on Hand'},
+        {value: 'stockstatus', label: 'Stock Status'}
+    ];
+
+    const statusOptions = [
+        {value: 'all', label: 'All Status'},
+        {value: 'In Stock', label: 'In Stock'},
+        {value: 'Out of Stock', label: 'Out of Stock'},
+        {value: 'Low Stock', label: 'Low Stock'}
+    ];
+
+    const stockLevelOptions = [
+        {value: 'all', label: 'All Stock Levels'},
+        {value: 'high', label: 'High Stock (>50)'},
+        {value: 'medium', label: 'Medium Stock (10-50)'},
+        {value: 'low', label: 'Low Stock (<10)'},
+        {value: 'zero', label: 'Zero Stock'}
+    ];
+
+    const reorderFilterOptions = [
+        {value: 'all', label: 'All Items'},
+        {value: 'reorder', label: 'In Reorder List'},
+        {value: 'not_reorder', label: 'Not in Reorder List'}
+    ];
 
     // Fetch Stocks Table
     useEffect(() => {
@@ -61,7 +100,6 @@ export default function StocksManagement() {
                 setLoading(true)
                 setError(null)
 
-                // Convert month name to number (1-12)
                 const monthNumber = months.indexOf(selectedMonth) + 1
                 const yearNumber = parseInt(selectedYear)
 
@@ -119,7 +157,6 @@ export default function StocksManagement() {
                 setReorderLoading(true)
                 setReorderError(null)
 
-                // Fetch reorder items
                 const {data: reorderData, error: reorderError} = await supabase
                     .from("reorder")
                     .select("*")
@@ -132,10 +169,8 @@ export default function StocksManagement() {
                     return
                 }
 
-                // Get unique item codes
                 const itemCodes = [...new Set(reorderData.map(r => r.itemcode))]
 
-                // Fetch items data
                 const {data: itemsData, error: itemsError} = await supabase
                     .from("items")
                     .select("itemcode, itemdescription, unitofmeasurement, dosage")
@@ -143,7 +178,6 @@ export default function StocksManagement() {
 
                 if (itemsError) throw itemsError
 
-                // Fetch latest stocks data for each item
                 const {data: stocksData, error: stocksError} = await supabase
                     .from("stocks")
                     .select("itemcode, stockonhand, stockid")
@@ -152,10 +186,8 @@ export default function StocksManagement() {
 
                 if (stocksError) throw stocksError
 
-                // Create lookup maps
                 const itemsMap = new Map(itemsData?.map(item => [item.itemcode, item]))
 
-                // Get the latest stock for each itemcode
                 const stocksMap = new Map()
                 stocksData?.forEach(stock => {
                     if (!stocksMap.has(stock.itemcode)) {
@@ -163,7 +195,6 @@ export default function StocksManagement() {
                     }
                 })
 
-                // Combine data
                 const formatted = reorderData.map((item: any) => {
                     const itemData = itemsMap.get(item.itemcode)
                     const stockData = stocksMap.get(item.itemcode)
@@ -190,6 +221,118 @@ export default function StocksManagement() {
 
         fetchReorderItems()
     }, [])
+
+    const toggleSortOrder = () => {
+        setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    };
+
+    const clearAllFilters = () => {
+        setSearchTerm('');
+        setSortBy('itemcode');
+        setSortOrder('asc');
+        setStatusFilter('all');
+        setStockLevelFilter('all');
+        setReorderFilter('all');
+    };
+
+    const activeFiltersCount = [
+        searchTerm !== '',
+        statusFilter !== 'all',
+        stockLevelFilter !== 'all',
+        reorderFilter !== 'all',
+        sortBy !== 'itemcode' || sortOrder !== 'asc'
+    ].filter(Boolean).length;
+
+    // Advanced filtering and sorting for stocks
+    const filteredAndSortedStocks = useMemo(() => {
+        let result = [...stocks];
+
+        // Apply search filter
+        if (searchTerm) {
+            const lower = searchTerm.toLowerCase();
+            result = result.filter((stock) =>
+                stock.itemcode?.toLowerCase().includes(lower) ||
+                stock.itemname?.toLowerCase().includes(lower)
+            );
+        }
+
+        // Apply status filter
+        if (statusFilter !== 'all') {
+            result = result.filter(stock => stock.stockstatus === statusFilter);
+        }
+
+        // Apply stock level filter
+        if (stockLevelFilter !== 'all') {
+            result = result.filter(stock => {
+                const qty = stock.stockonhand || 0;
+                if (stockLevelFilter === 'high') return qty > 50;
+                if (stockLevelFilter === 'medium') return qty >= 10 && qty <= 50;
+                if (stockLevelFilter === 'low') return qty > 0 && qty < 10;
+                if (stockLevelFilter === 'zero') return qty === 0;
+                return true;
+            });
+        }
+
+        // Apply reorder filter
+        if (reorderFilter !== 'all') {
+            result = result.filter(stock => {
+                if (reorderFilter === 'reorder') return stock.listtoreorder === true;
+                if (reorderFilter === 'not_reorder') return stock.listtoreorder === false;
+                return true;
+            });
+        }
+
+        // Apply sorting
+        result.sort((a, b) => {
+            let aVal: any, bVal: any;
+
+            switch (sortBy) {
+                case 'itemcode':
+                    aVal = a.itemcode || '';
+                    bVal = b.itemcode || '';
+                    break;
+                case 'itemname':
+                    aVal = a.itemname || '';
+                    bVal = b.itemname || '';
+                    break;
+                case 'beginningbalance':
+                    aVal = a.beginningbalance || 0;
+                    bVal = b.beginningbalance || 0;
+                    break;
+                case 'stockonhand':
+                    aVal = a.stockonhand || 0;
+                    bVal = b.stockonhand || 0;
+                    break;
+                case 'stockstatus':
+                    aVal = a.stockstatus || '';
+                    bVal = b.stockstatus || '';
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (typeof aVal === 'string') {
+                return sortOrder === 'asc'
+                    ? aVal.localeCompare(bVal)
+                    : bVal.localeCompare(aVal);
+            } else {
+                return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+            }
+        });
+
+        return result;
+    }, [stocks, searchTerm, statusFilter, stockLevelFilter, reorderFilter, sortBy, sortOrder]);
+
+    const totalPages = Math.ceil(filteredAndSortedStocks.length / itemsPerPage)
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const paginated = filteredAndSortedStocks.slice(startIndex, startIndex + itemsPerPage)
+
+    const filteredReorder = reorderItems.filter((item) =>
+        item.itemdescription.toLowerCase().includes(reorderSearchTerm.toLowerCase()),
+    )
+    const reorderTotalPages = Math.ceil(filteredReorder.length / itemsPerPage)
+    const reorderStartIndex = (reorderCurrentPage - 1) * itemsPerPage
+    const reorderPaginated = filteredReorder.slice(reorderStartIndex, reorderStartIndex + itemsPerPage)
 
     const handleAddToReorder = (stock: StocksItem) => {
         setSelectedStock(stock)
@@ -233,22 +376,18 @@ export default function StocksManagement() {
 
     const handleReorderEdit = (item: ReorderItem) => {
         console.log("Edit reorder item:", item)
-        // open modal later
     }
 
     const handleReorderRemove = async (id: number) => {
         if (!confirm("Are you sure you want to remove this item from the reorder list?")) return
 
         try {
-            // Find the item to get its itemcode before deleting
             const itemToRemove = reorderItems.find((item) => item.id === id)
             if (!itemToRemove) return
 
-            // Delete from reorder table
             const {error} = await supabase.from("reorder").delete().eq("reorderid", id)
             if (error) throw error
 
-            // Update the stocks table to set listtoreorder back to false
             const {error: updateError} = await supabase
                 .from("stocks")
                 .update({listtoreorder: false})
@@ -256,7 +395,6 @@ export default function StocksManagement() {
 
             if (updateError) throw updateError
 
-            // Update local stocks state
             setStocks((prevStocks) =>
                 prevStocks.map((stock) =>
                     stock.itemcode === itemToRemove.itemcode
@@ -265,7 +403,6 @@ export default function StocksManagement() {
                 )
             )
 
-            // Update reorder items state
             setReorderItems((prev) => prev.filter((item) => item.id !== id))
 
             alert("Item removed from reorder list successfully!")
@@ -274,20 +411,13 @@ export default function StocksManagement() {
         }
     }
 
-    // Export Reorder Table
     const handleExportReorderPDF = () => {
         const doc = new jsPDF("p", "mm", "a4");
-
         doc.setFontSize(16);
         doc.text("Reorder List", 14, 16);
 
         const tableColumn = [
-            "Description",
-            "UOM",
-            "Dosage",
-            "Stock on Hand",
-            "Qty Requested",
-            "In-charge",
+            "Description", "UOM", "Dosage", "Stock on Hand", "Qty Requested", "In-charge",
         ];
 
         const tableRows = filteredReorder.map((item) => [
@@ -309,28 +439,19 @@ export default function StocksManagement() {
         doc.save(`reorder-${new Date().toISOString().split("T")[0]}.pdf`);
     };
 
-    // Export Stocks Table
     const handleExportStocksPDF = () => {
         const doc = new jsPDF("p", "mm", "a4");
-
         doc.setFontSize(16);
         doc.text("Stocks Report", 14, 16);
-
         doc.setFontSize(12);
         doc.text(`Month: ${selectedMonth}`, 14, 24);
         doc.text(`Year: ${selectedYear}`, 14, 30);
 
         const tableColumn = [
-            "Item Code",
-            "Item Name",
-            "UOM",
-            "Dosage",
-            "Beginning",
-            "On Hand",
-            "Status",
+            "Item Code", "Item Name", "UOM", "Dosage", "Beginning", "On Hand", "Status",
         ];
 
-        const tableRows = filtered.map((item) => [
+        const tableRows = filteredAndSortedStocks.map((item) => [
             item.itemcode,
             item.itemname,
             item.unitofmeasurement,
@@ -352,17 +473,11 @@ export default function StocksManagement() {
 
     const generateReorderPDFFile = () => {
         const doc = new jsPDF("p", "mm", "a4");
-
         doc.setFontSize(16);
         doc.text("Reorder List", 14, 16);
 
         const tableColumn = [
-            "Description",
-            "UOM",
-            "Dosage",
-            "Stock on Hand",
-            "Qty Requested",
-            "In-charge",
+            "Description", "UOM", "Dosage", "Stock on Hand", "Qty Requested", "In-charge",
         ];
 
         const tableRows = filteredReorder.map((item) => [
@@ -386,13 +501,11 @@ export default function StocksManagement() {
             .split("T")[0]}.pdf`;
 
         doc.save(filename);
-
         return filename;
     };
 
     const handleSendReport = () => {
         const filename = generateReorderPDFFile();
-
         const email = "cityhealth@pasigcity.gov.ph";
         const subject = encodeURIComponent("Reorder Report");
         const body = encodeURIComponent(
@@ -461,27 +574,10 @@ export default function StocksManagement() {
         }
     }
 
-    const filtered = stocks.filter(
-        (s) =>
-            s.itemcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            s.itemname.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
-    const totalPages = Math.ceil(filtered.length / itemsPerPage)
-    const startIndex = (currentPage - 1) * itemsPerPage
-    const paginated = filtered.slice(startIndex, startIndex + itemsPerPage)
-
-    const filteredReorder = reorderItems.filter((item) =>
-        item.itemdescription.toLowerCase().includes(reorderSearchTerm.toLowerCase()),
-    )
-    const reorderTotalPages = Math.ceil(filteredReorder.length / itemsPerPage)
-    const reorderStartIndex = (reorderCurrentPage - 1) * itemsPerPage
-    const reorderPaginated = filteredReorder.slice(reorderStartIndex, reorderStartIndex + itemsPerPage)
-
     const handleSaveReorder = async (quantity: number, personInCharge: string) => {
         if (!selectedStock) return
 
         try {
-            // Insert into reorder table
             const {data, error} = await supabase
                 .from("reorder")
                 .insert({
@@ -496,7 +592,6 @@ export default function StocksManagement() {
 
             if (error) throw error
 
-            // Update the stock's listtoreorder field to true
             const {error: updateError} = await supabase
                 .from("stocks")
                 .update({listtoreorder: true})
@@ -504,7 +599,6 @@ export default function StocksManagement() {
 
             if (updateError) throw updateError
 
-            // Update local stocks state to reflect the change
             setStocks((prevStocks) =>
                 prevStocks.map((stock) =>
                     stock.stockid === selectedStock.stockid
@@ -513,14 +607,12 @@ export default function StocksManagement() {
                 )
             )
 
-            // Refresh reorder items
             const {data: reorderData, error: fetchError} = await supabase
                 .from("reorder")
                 .select("*")
                 .order("reorderid", {ascending: false})
 
             if (!fetchError && reorderData) {
-                // Re-fetch with the same logic as in useEffect
                 const itemCodes = [...new Set(reorderData.map(r => r.itemcode))]
 
                 const [{data: itemsData}, {data: stocksData}] = await Promise.all([
@@ -564,7 +656,6 @@ export default function StocksManagement() {
     return (
         <ProtectedPage pageName="Stocks">
             <div className="min-h-screen p-6 bg-background space-y-6">
-                {/* Header */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Stocks Management</h1>
                     <Button variant="outline" size="icon" className="rounded-lg bg-transparent">
@@ -572,7 +663,6 @@ export default function StocksManagement() {
                     </Button>
                 </div>
 
-                {/* Tabs */}
                 <Tabs defaultValue="stocks" className="space-y-6">
                     <TabsList>
                         <TabsTrigger value="stocks">Stocks</TabsTrigger>
@@ -585,10 +675,9 @@ export default function StocksManagement() {
                         {/* Month / Year Filters */}
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex gap-4">
-                                {/* Month */}
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" className="w-40 justify-between bg-transparent">
+                                        <Button variant="outline" className="w-40 justify-between bg-white">
                                             {selectedMonth}
                                             <ChevronDown className="h-4 w-4"/>
                                         </Button>
@@ -606,10 +695,9 @@ export default function StocksManagement() {
                                     </DropdownMenuContent>
                                 </DropdownMenu>
 
-                                {/* Year */}
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" className="w-40 justify-between bg-transparent">
+                                        <Button variant="outline" className="w-40 justify-between bg-white">
                                             {selectedYear}
                                             <ChevronDown className="h-4 w-4"/>
                                         </Button>
@@ -632,15 +720,213 @@ export default function StocksManagement() {
                         </div>
 
                         {/* Search + Table */}
-                        <div className="rounded-lg border-2 border-gray-800 bg-white p-6">
-                            <div className="mb-6 flex items-center justify-between gap-4">
-                                <Input
-                                    placeholder="Search by item code or name..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-64"
-                                />
+                        <div className="rounded-lg border-2 bg-white p-6">
+                            {/* Search Bar */}
+                            <div className="mb-4 flex items-center gap-4">
+                                <div className="relative max-w-sm flex-1">
+                                    <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400"/>
+                                    <Input
+                                        placeholder="Search by item code or name..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10"
+                                    />
+                                </div>
                             </div>
+
+                            {/* Advanced Filters Row */}
+                            <div className="flex flex-wrap items-center gap-3 mb-4 pb-4 border-b">
+                                <div className="flex items-center gap-2">
+                                    <Filter className="h-4 w-4 text-gray-500"/>
+                                    <span className="text-sm font-medium text-gray-700">Filters:</span>
+                                </div>
+
+                                {/* Sort By */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="outline" size="sm" className="gap-2">
+                                            <ArrowUpDown className="h-4 w-4"/>
+                                            Sort: {sortOptions.find(opt => opt.value === sortBy)?.label}
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {sortOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setSortBy(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    sortBy === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Sort Order Toggle */}
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={toggleSortOrder}
+                                    className="gap-2"
+                                >
+                                    {sortOrder === 'asc' ? (
+                                        <ArrowUp className="h-4 w-4"/>
+                                    ) : (
+                                        <ArrowDown className="h-4 w-4"/>
+                                    )}
+                                    {sortOrder === 'asc' ? 'Ascending' : 'Descending'}
+                                </Button>
+
+                                {/* Status Filter */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className={statusFilter !== 'all' ? 'border-blue-500 text-blue-700' : ''}
+                                        >
+                                            {statusOptions.find(opt => opt.value === statusFilter)?.label}
+                                            <ChevronDown className="ml-2 h-4 w-4"/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {statusOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setStatusFilter(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    statusFilter === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Stock Level Filter */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className={stockLevelFilter !== 'all' ? 'border-blue-500 text-blue-700' : ''}
+                                        >
+                                            {stockLevelOptions.find(opt => opt.value === stockLevelFilter)?.label}
+                                            <ChevronDown className="ml-2 h-4 w-4"/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {stockLevelOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setStockLevelFilter(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    stockLevelFilter === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Reorder Status Filter */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className={reorderFilter !== 'all' ? 'border-blue-500 text-blue-700' : ''}
+                                        >
+                                            {reorderFilterOptions.find(opt => opt.value === reorderFilter)?.label}
+                                            <ChevronDown className="ml-2 h-4 w-4"/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        {reorderFilterOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setReorderFilter(option.value)}
+                                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                                                    reorderFilter === option.value ? 'bg-gray-50 font-medium' : ''
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Clear Filters */}
+                                {activeFiltersCount > 0 && (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={clearAllFilters}
+                                        className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                    >
+                                        <X className="h-4 w-4"/>
+                                        Clear All ({activeFiltersCount})
+                                    </Button>
+                                )}
+                            </div>
+
+                            {/* Active Filters Display */}
+                            {activeFiltersCount > 0 && (
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {searchTerm && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+                                            Search: "{searchTerm}"
+                                            <button onClick={() => setSearchTerm('')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {statusFilter !== 'all' && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
+                                            {statusOptions.find(opt => opt.value === statusFilter)?.label}
+                                            <button onClick={() => setStatusFilter('all')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {stockLevelFilter !== 'all' && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                                            {stockLevelOptions.find(opt => opt.value === stockLevelFilter)?.label}
+                                            <button onClick={() => setStockLevelFilter('all')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {reorderFilter !== 'all' && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">
+                                            {reorderFilterOptions.find(opt => opt.value === reorderFilter)?.label}
+                                            <button onClick={() => setReorderFilter('all')}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {(sortBy !== 'itemcode' || sortOrder !== 'asc') && (
+                                        <span
+                                            className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-sm">
+                                            Sort: {sortOptions.find(opt => opt.value === sortBy)?.label} ({sortOrder === 'asc' ? '↑' : '↓'})
+                                            <button onClick={() => {
+                                                setSortBy('itemcode');
+                                                setSortOrder('asc');
+                                            }}>
+                                                <X className="h-3 w-3"/>
+                                            </button>
+                                        </span>
+                                    )}
+                                </div>
+                            )}
 
                             {/* Loading */}
                             {loading && (
@@ -662,22 +948,32 @@ export default function StocksManagement() {
 
                             {/* Table */}
                             {!loading && !error && (
-                                <StockTable
-                                    stocks={paginated}
-                                    startIndex={startIndex}
-                                    onEdit={handleEditStock}
-                                    onDelete={handleDelete}
-                                    onBulkDelete={handleBulkDelete}
-                                    onAddToReorder={handleAddToReorder}
-                                />
+                                <>
+                                    <StockTable
+                                        stocks={paginated}
+                                        startIndex={startIndex}
+                                        onEdit={handleEditStock}
+                                        onDelete={handleDelete}
+                                        onBulkDelete={handleBulkDelete}
+                                        onAddToReorder={handleAddToReorder}
+                                    />
+
+                                    {/* Results summary */}
+                                    <div className="mt-4 text-sm text-gray-600">
+                                        Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredAndSortedStocks.length)} of {filteredAndSortedStocks.length} results
+                                        {filteredAndSortedStocks.length !== stocks.length && (
+                                            <span
+                                                className="text-gray-500"> (filtered from {stocks.length} total)</span>
+                                        )}
+                                    </div>
+                                </>
                             )}
 
                             {/* Pagination */}
-                            {!loading && !error && filtered.length > 0 && (
+                            {!loading && !error && filteredAndSortedStocks.length > 0 && (
                                 <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
                                     <div className="text-sm text-gray-600">
-                                        Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filtered.length)} of{" "}
-                                        {filtered.length} entries
+                                        Page {currentPage} of {totalPages}
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Button
@@ -707,10 +1003,8 @@ export default function StocksManagement() {
                     {/* === DISPENSED TAB === */}
                     <TabsContent value="daily" className="space-y-6">
                         <div className="rounded-lg border bg-white p-6 border-border">
-                            {/* Month / Year Filters */}
                             <div className="mb-4 flex items-center justify-between">
                                 <div className="flex gap-4">
-                                    {/* Month */}
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="outline" className="w-40 justify-between bg-transparent">
@@ -731,7 +1025,6 @@ export default function StocksManagement() {
                                         </DropdownMenuContent>
                                     </DropdownMenu>
 
-                                    {/* Year */}
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="outline" className="w-40 justify-between bg-transparent">
@@ -759,7 +1052,6 @@ export default function StocksManagement() {
 
                     {/* === REORDER TAB === */}
                     <TabsContent value="reorder" className="space-y-6">
-                        {/* Action Buttons */}
                         <div className="flex items-center justify-between gap-4">
                             <Input
                                 placeholder="Search by item description..."
@@ -784,9 +1076,7 @@ export default function StocksManagement() {
                             </div>
                         </div>
 
-                        {/* Reorder Table */}
                         <div className="rounded-lg border-2 border-gray-800 bg-white p-6">
-                            {/* Loading */}
                             {reorderLoading && (
                                 <div className="flex items-center justify-center py-12">
                                     <Loader2 className="h-8 w-8 animate-spin text-primary"/>
@@ -794,7 +1084,6 @@ export default function StocksManagement() {
                                 </div>
                             )}
 
-                            {/* Error */}
                             {reorderError && (
                                 <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
                                     <div className="flex items-center gap-3">
@@ -804,7 +1093,6 @@ export default function StocksManagement() {
                                 </div>
                             )}
 
-                            {/* Table */}
                             {!reorderLoading && !reorderError && (
                                 <>
                                     <ReorderTable
@@ -814,7 +1102,6 @@ export default function StocksManagement() {
                                         onRemove={handleReorderRemove}
                                     />
 
-                                    {/* Pagination */}
                                     {filteredReorder.length > 0 && (
                                         <div
                                             className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
@@ -846,7 +1133,6 @@ export default function StocksManagement() {
                                         </div>
                                     )}
 
-                                    {/* Empty State */}
                                     {filteredReorder.length === 0 && (
                                         <div className="py-12 text-center">
                                             <p className="text-gray-500">No reorder items found</p>
@@ -857,7 +1143,7 @@ export default function StocksManagement() {
                         </div>
                     </TabsContent>
                 </Tabs>
-                {/* Reorder Modal */}
+
                 <ReorderModal
                     isOpen={reorderModalOpen}
                     onClose={() => {
