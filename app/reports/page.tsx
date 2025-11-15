@@ -167,7 +167,7 @@ export default function Reports() {
                     return acc
                 }, {})
 
-                setMonthlyTrends(Math.round(Object.values(aggregated)))
+                setMonthlyTrends(Object.values(aggregated))
             }
 
             // Get top dispensed items for current month
