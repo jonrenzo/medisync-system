@@ -12,6 +12,8 @@ import {ReorderTable, type ReorderItem} from "@/components/reorder/reorder-table
 import {DailyDispenseTabs} from "@/components/dispensed/daily-dispensed-table"
 import {ReorderModal} from "@/components/reorder/reorder-modal"
 import {EditStockModal} from "@/components/stocks/edit-stock-modal"
+import jsPDF from "jspdf"
+import autoTable from "jspdf-autotable"
 
 const months = [
     "January",
@@ -271,32 +273,141 @@ export default function StocksManagement() {
         }
     }
 
-    const handleExportReorder = () => {
-        const csv = [
-            ["Item Description", "Unit of Measurement", "Dosage", "Stock on Hand", "Quantity Requested", "Person in Charge"],
-            ...filteredReorder.map((item) => [
-                item.itemdescription,
-                item.unitofmeasurement,
-                item.dosage,
-                item.stockonhand,
-                item.quantityrequested,
-                item.personincharge,
-            ]),
-        ]
-        const csvContent = csv.map((row) => row.join(",")).join("\n")
-        const blob = new Blob([csvContent], {type: "text/csv"})
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = `reorder-${new Date().toISOString().split("T")[0]}.csv`
-        a.click()
-        window.URL.revokeObjectURL(url)
-    }
+    // Export Reorder Table
+    const handleExportReorderPDF = () => {
+        const doc = new jsPDF("p", "mm", "a4");
+
+        doc.setFontSize(16);
+        doc.text("Reorder List", 14, 16);
+
+        const tableColumn = [
+            "Description",
+            "UOM",
+            "Dosage",
+            "Stock on Hand",
+            "Qty Requested",
+            "In-charge",
+        ];
+
+        const tableRows = filteredReorder.map((item) => [
+            item.itemdescription,
+            item.unitofmeasurement,
+            item.dosage,
+            item.stockonhand,
+            item.quantityrequested,
+            item.personincharge,
+        ]);
+
+        autoTable(doc, {
+            head: [tableColumn],
+            body: tableRows,
+            startY: 24,
+            styles: {fontSize: 9},
+        });
+
+        doc.save(`reorder-${new Date().toISOString().split("T")[0]}.pdf`);
+    };
+
+    // Export Stocks Table
+    const handleExportStocksPDF = () => {
+        const doc = new jsPDF("p", "mm", "a4");
+
+        doc.setFontSize(16);
+        doc.text("Stocks Report", 14, 16);
+
+        doc.setFontSize(12);
+        doc.text(`Month: ${selectedMonth}`, 14, 24);
+        doc.text(`Year: ${selectedYear}`, 14, 30);
+
+        const tableColumn = [
+            "Item Code",
+            "Item Name",
+            "UOM",
+            "Dosage",
+            "Beginning",
+            "On Hand",
+            "Status",
+        ];
+
+        const tableRows = filtered.map((item) => [
+            item.itemcode,
+            item.itemname,
+            item.unitofmeasurement,
+            item.dosage,
+            item.beginningbalance,
+            item.stockonhand,
+            item.stockstatus,
+        ]);
+
+        autoTable(doc, {
+            head: [tableColumn],
+            body: tableRows,
+            startY: 36,
+            styles: {fontSize: 9},
+        });
+
+        doc.save(`stocks-${selectedMonth}-${selectedYear}.pdf`);
+    };
+
+    const generateReorderPDFFile = () => {
+        const doc = new jsPDF("p", "mm", "a4");
+
+        doc.setFontSize(16);
+        doc.text("Reorder List", 14, 16);
+
+        const tableColumn = [
+            "Description",
+            "UOM",
+            "Dosage",
+            "Stock on Hand",
+            "Qty Requested",
+            "In-charge",
+        ];
+
+        const tableRows = filteredReorder.map((item) => [
+            item.itemdescription,
+            item.unitofmeasurement,
+            item.dosage,
+            item.stockonhand,
+            item.quantityrequested,
+            item.personincharge,
+        ]);
+
+        autoTable(doc, {
+            head: [tableColumn],
+            body: tableRows,
+            startY: 24,
+            styles: {fontSize: 9},
+        });
+
+        const filename = `Reorder-Report-${new Date()
+            .toISOString()
+            .split("T")[0]}.pdf`;
+
+        doc.save(filename);
+
+        return filename;
+    };
 
     const handleSendReport = () => {
-        console.log("Sending report with items:", filteredReorder)
-        // TODO: Email to CHO Office
-    }
+        const filename = generateReorderPDFFile();
+
+        const email = "cityhealth@pasigcity.gov.ph";
+        const subject = encodeURIComponent("Reorder Report");
+        const body = encodeURIComponent(
+            "Hello,\n\nPlease see attached the reorder report.\n\nThank you."
+        );
+
+        window.open(
+            `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`,
+            "_blank"
+        );
+
+        alert(
+            "Your report has been generated. Please attach the PDF file in the Gmail tab that opened."
+        );
+    };
+
 
     const refreshStocks = async () => {
         try {
@@ -516,7 +627,7 @@ export default function StocksManagement() {
                             </DropdownMenu>
                         </div>
 
-                        <Button variant="outline">Export</Button>
+                        <Button variant="outline" onClick={handleExportStocksPDF}>Export</Button>
                     </div>
 
                     {/* Search + Table */}
@@ -640,8 +751,6 @@ export default function StocksManagement() {
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
-
-                            <Button variant="outline">Export</Button>
                         </div>
                         <DailyDispenseTabs selectedMonth={dispensedMonth} selectedYear={dispensedYear}/>
                     </div>
@@ -660,7 +769,7 @@ export default function StocksManagement() {
                         <div className="flex gap-2">
                             <Button
                                 variant="outline"
-                                onClick={handleExportReorder}
+                                onClick={handleExportReorderPDF}
                                 className="flex items-center gap-2 bg-transparent"
                             >
                                 <Download className="h-4 w-4"/>
