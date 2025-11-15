@@ -1,6 +1,7 @@
 "use client"
 
 import {useState, useEffect} from "react"
+import {useRouter} from "next/navigation"
 import {supabase} from "@/lib/supabase"
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
 import {Button} from "@/components/ui/button"
@@ -32,6 +33,7 @@ export default function MyAccount() {
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")
+    const router = useRouter()
 
     // Security settings
     const [passwordForm, setPasswordForm] = useState({
@@ -40,36 +42,31 @@ export default function MyAccount() {
         confirmPassword: ""
     })
 
-    // For demo purposes - in production, you'd get this from auth context
-    const currentUserId = "demo-user-id"
-
     useEffect(() => {
-        fetchProfile()
-        fetchLoginHistory()
-    }, [])
+        // Get the current user from localStorage
+        const userStr = localStorage.getItem("user")
 
-    const fetchProfile = async () => {
+        if (!userStr) {
+            // Not logged in, redirect to login
+            router.push("/login")
+            return
+        }
+
         try {
-            // In production, get from authenticated user
-            const {data, error} = await supabase
-                .from("users")
-                .select("*")
-                .limit(1)
-                .single()
-
-            if (error) throw error
-            setProfile(data)
+            const user = JSON.parse(userStr)
+            setProfile(user)
+            fetchLoginHistory(user.id)
         } catch (err) {
-            console.error("Error fetching profile:", err)
-            setError("Failed to load profile")
+            console.error("Error parsing user data:", err)
+            setError("Invalid session. Please log in again.")
+            router.push("/login")
         } finally {
             setLoading(false)
         }
-    }
+    }, [router])
 
-    const fetchLoginHistory = async () => {
+    const fetchLoginHistory = async (userId: string) => {
         try {
-            // Fetch recent activity from utilization records as audit trail
             const {data, error} = await supabase
                 .from("utilizationrecord")
                 .select("dispensedid, dateissued, patientname")
@@ -87,6 +84,7 @@ export default function MyAccount() {
             setLoginHistory(history)
         } catch (err) {
             console.error("Error fetching login history:", err)
+            // Don't show error for activity log, it's optional
         }
     }
 
@@ -108,6 +106,9 @@ export default function MyAccount() {
                 .eq("id", profile.id)
 
             if (error) throw error
+
+            // Update localStorage with new profile data
+            localStorage.setItem("user", JSON.stringify(profile))
 
             setSuccess("Profile updated successfully!")
             setTimeout(() => setSuccess(""), 3000)
@@ -139,10 +140,14 @@ export default function MyAccount() {
             return
         }
 
+        if (!profile) {
+            setError("User not authenticated")
+            return
+        }
+
         setSaving(true)
 
         try {
-            if (!profile) return
             const {data: user, error: userError} = await supabase
                 .from("users")
                 .select("password")
@@ -168,6 +173,10 @@ export default function MyAccount() {
                 throw updateError
             }
 
+            // Update the password in the stored user object
+            const updatedUser = {...profile, password: passwordForm.newPassword}
+            localStorage.setItem("user", JSON.stringify(updatedUser))
+
             setSuccess("Password changed successfully!")
             setPasswordForm({
                 currentPassword: "",
@@ -192,6 +201,17 @@ export default function MyAccount() {
         return (
             <div className="min-h-screen bg-background p-6 flex items-center justify-center">
                 <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+            </div>
+        )
+    }
+
+    if (!profile) {
+        return (
+            <div className="min-h-screen bg-background p-6 flex items-center justify-center">
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4"/>
+                    <AlertDescription>Not authenticated. Redirecting to login...</AlertDescription>
+                </Alert>
             </div>
         )
     }
@@ -233,76 +253,72 @@ export default function MyAccount() {
                                 <CardDescription>Update your personal details and contact information</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                {profile ? (
-                                    <div className="space-y-4">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div>
-                                                <Label htmlFor="username">Username</Label>
-                                                <Input
-                                                    id="username"
-                                                    value={profile.username}
-                                                    onChange={(e) => setProfile({...profile, username: e.target.value})}
-                                                />
-                                            </div>
-                                            <div>
-                                                <Label htmlFor="first_name">Full Name</Label>
-                                                <Input
-                                                    id="first_name"
-                                                    value={profile.first_name || ""}
-                                                    onChange={(e) => setProfile({
-                                                        ...profile,
-                                                        first_name: e.target.value
-                                                    })}
-                                                    placeholder="Enter your full name"
-                                                />
-                                            </div>
-                                        </div>
-
+                                <div className="space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
-                                            <Label htmlFor="email">Email Address</Label>
+                                            <Label htmlFor="username">Username</Label>
                                             <Input
-                                                id="email"
-                                                type="email"
-                                                value={profile.email}
-                                                onChange={(e) => setProfile({...profile, email: e.target.value})}
+                                                id="username"
+                                                value={profile.username}
+                                                onChange={(e) => setProfile({...profile, username: e.target.value})}
                                             />
                                         </div>
-
                                         <div>
-                                            <Label>Account Type</Label>
+                                            <Label htmlFor="first_name">Full Name</Label>
                                             <Input
-                                                value={profile.role}
-                                                disabled
-                                                className="bg-gray-50"
+                                                id="first_name"
+                                                value={profile.first_name || ""}
+                                                onChange={(e) => setProfile({
+                                                    ...profile,
+                                                    first_name: e.target.value
+                                                })}
+                                                placeholder="Enter your full name"
                                             />
-                                            <p className="text-xs text-muted-foreground mt-1">
-                                                Contact an administrator to change your account type
-                                            </p>
-                                        </div>
-
-                                        <div>
-                                            <Label>Member Since</Label>
-                                            <Input
-                                                value={formatDate(profile.created_at)}
-                                                disabled
-                                                className="bg-gray-50"
-                                            />
-                                        </div>
-
-                                        <div className="flex justify-end">
-                                            <Button
-                                                onClick={handleUpdateProfile}
-                                                disabled={saving}
-                                                className="bg-primary text-white hover:bg-primary/90"
-                                            >
-                                                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
-                                                Update Profile
-                                            </Button>
                                         </div>
                                     </div>
-                                ) : (
-                                    <p className="text-muted-foreground">No profile data available</p>
-                                )}
+
+                                    <div>
+                                        <Label htmlFor="email">Email Address</Label>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            value={profile.email}
+                                            onChange={(e) => setProfile({...profile, email: e.target.value})}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label>Account Type</Label>
+                                        <Input
+                                            value={profile.role}
+                                            disabled
+                                            className="bg-gray-50"
+                                        />
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            Contact an administrator to change your account type
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <Label>Member Since</Label>
+                                        <Input
+                                            value={formatDate(profile.created_at)}
+                                            disabled
+                                            className="bg-gray-50"
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-end">
+                                        <Button
+                                            onClick={handleUpdateProfile}
+                                            disabled={saving}
+                                            className="bg-primary text-white hover:bg-primary/90"
+                                        >
+                                            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                                            Update Profile
+                                        </Button>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
