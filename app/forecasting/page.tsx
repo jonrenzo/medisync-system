@@ -1,5 +1,6 @@
 "use client"
 
+import ProtectedPage from "@/components/ProtectedPage";
 import {useState, useEffect, useRef} from "react"
 import {supabase} from "@/lib/supabase"
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
@@ -13,7 +14,6 @@ import {Search, Loader2, FileDown, TrendingUp, Target} from "lucide-react"
 import jsPDF from "jspdf"
 import {useGenerateImage} from "recharts-to-png";
 import * as htmlToImage from "html-to-image";
-
 
 export default function PredictDemand() {
     const [items, setItems] = useState([])
@@ -367,280 +367,281 @@ export default function PredictDemand() {
         pdf.save(`${selectedItem?.itemcode || "forecast"}_${new Date().toISOString().split("T")[0]}.pdf`);
     };
 
-
     const interpretation = chartData.length > 0 ? getInterpretation() : []
 
     return (
-        <div className="min-h-screen bg-background p-8">
-            <div className="flex items-center justify-between mb-8">
-                <div>
-                    <h1 className="text-3xl font-bold text-foreground">Predict Demand</h1>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        Generate the Future Demand of Medicines
-                    </p>
+        <ProtectedPage pageName="Prediction">
+            <div className="min-h-screen bg-background p-8">
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 className="text-3xl font-bold text-foreground">Predict Demand</h1>
+                        <p className="text-sm text-muted-foreground mt-1">
+                            Generate the Future Demand of Medicines
+                        </p>
+                    </div>
+
+                    {/* Export Button */}
+                    {chartData.length > 0 && (
+                        <Button onClick={handleExportPDF} className="flex items-center gap-2">
+                            <FileDown className="h-4 w-4"/> Export PDF
+                        </Button>
+                    )}
                 </div>
 
-                {/* Export Button */}
-                {chartData.length > 0 && (
-                    <Button onClick={handleExportPDF} className="flex items-center gap-2">
-                        <FileDown className="h-4 w-4"/> Export PDF
-                    </Button>
-                )}
-            </div>
-
-            <Card>
-                <CardContent className="pt-6">
-                    {/* Search bar */}
-                    <div className="mb-4 relative">
-                        <div className="flex items-center gap-2 mb-2">
-                            <Search className="h-4 w-4 text-muted-foreground"/>
-                            <label className="text-sm font-medium">Search Medicine</label>
-                        </div>
-                        <Input
-                            type="text"
-                            placeholder="Type medicine name..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                        {filteredItems.length > 0 && (
-                            <div
-                                className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-lg max-h-56 overflow-auto">
-                                {filteredItems.map((item) => (
-                                    <button
-                                        key={item.itemcode}
-                                        onClick={() => {
-                                            setSelectedItem(item)
-                                            setSearch("")
-                                            setFilteredItems([])
-                                            setError("")
-                                        }}
-                                        className="w-full text-left px-4 py-2 hover:bg-gray-100"
-                                    >
+                <Card>
+                    <CardContent className="pt-6">
+                        {/* Search bar */}
+                        <div className="mb-4 relative">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Search className="h-4 w-4 text-muted-foreground"/>
+                                <label className="text-sm font-medium">Search Medicine</label>
+                            </div>
+                            <Input
+                                type="text"
+                                placeholder="Type medicine name..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            {filteredItems.length > 0 && (
+                                <div
+                                    className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-lg max-h-56 overflow-auto">
+                                    {filteredItems.map((item) => (
+                                        <button
+                                            key={item.itemcode}
+                                            onClick={() => {
+                                                setSelectedItem(item)
+                                                setSearch("")
+                                                setFilteredItems([])
+                                                setError("")
+                                            }}
+                                            className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
                                         <span
                                             className="font-medium">{item.itemcode}</span> - {item.itemdescription}
-                                    </button>
-                                ))}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Medicine Details */}
+                        {selectedItem && (
+                            <div className="rounded-lg border p-3 mb-4 bg-gray-50 text-sm">
+                                <div className="grid grid-cols-3 gap-2">
+                                    <div>
+                                        <span className="text-gray-600">Item Code:</span>
+                                        <div className="font-medium">{selectedItem.itemcode}</div>
+                                    </div>
+                                    <div>
+                                        <span className="text-gray-600">Description:</span>
+                                        <div className="font-medium">{selectedItem.itemdescription}</div>
+                                    </div>
+                                    <div>
+                                        <span className="text-gray-600">Dosage:</span>
+                                        <div className="font-medium">{selectedItem.dosage}</div>
+                                    </div>
+                                </div>
                             </div>
                         )}
-                    </div>
 
-                    {/* Medicine Details */}
-                    {selectedItem && (
-                        <div className="rounded-lg border p-3 mb-4 bg-gray-50 text-sm">
-                            <div className="grid grid-cols-3 gap-2">
-                                <div>
-                                    <span className="text-gray-600">Item Code:</span>
-                                    <div className="font-medium">{selectedItem.itemcode}</div>
-                                </div>
-                                <div>
-                                    <span className="text-gray-600">Description:</span>
-                                    <div className="font-medium">{selectedItem.itemdescription}</div>
-                                </div>
-                                <div>
-                                    <span className="text-gray-600">Dosage:</span>
-                                    <div className="font-medium">{selectedItem.dosage}</div>
-                                </div>
+                        {/* Time range */}
+                        <div className="flex items-center gap-4 mb-4">
+                            <label className="text-sm font-medium">Time Range</label>
+                            <Select value={timeRange} onValueChange={setTimeRange}>
+                                <SelectTrigger className="w-[150px]">
+                                    <SelectValue placeholder="Select range"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="1">1 month</SelectItem>
+                                    <SelectItem value="3">3 months</SelectItem>
+                                    <SelectItem value="6">6 months</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Generate button */}
+                        <Button onClick={handleGenerate} disabled={loading}>
+                            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                            {loading ? "Predicting..." : "Generate Forecast"}
+                        </Button>
+
+                        {error && (
+                            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                                <p className="text-sm text-red-800">{error}</p>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </CardContent>
+                </Card>
 
-                    {/* Time range */}
-                    <div className="flex items-center gap-4 mb-4">
-                        <label className="text-sm font-medium">Time Range</label>
-                        <Select value={timeRange} onValueChange={setTimeRange}>
-                            <SelectTrigger className="w-[150px]">
-                                <SelectValue placeholder="Select range"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="1">1 month</SelectItem>
-                                <SelectItem value="3">3 months</SelectItem>
-                                <SelectItem value="6">6 months</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                {chartData.length > 0 && (
+                    <div className="mt-8 space-y-6">
+                        {/* Accuracy Card */}
+                        {accuracy !== null && (
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Target className="h-5 w-5"/>
+                                        Model Accuracy
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex items-center gap-6">
+                                        <div className={`text-2xl font-bold ${
+                                            accuracy >= 85 ? 'text-green-600' :
+                                                accuracy >= 70 ? 'text-yellow-600' :
+                                                    'text-red-600'
+                                        }`}>
+                                            {accuracy.toFixed(1)}%
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                                <div
+                                                    className={`h-4 rounded-full ${
+                                                        accuracy >= 85 ? 'bg-green-600' :
+                                                            accuracy >= 70 ? 'bg-yellow-600' :
+                                                                'bg-red-600'
+                                                    }`}
+                                                    style={{width: `${accuracy}%`}}
+                                                ></div>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground">
+                                                {accuracy >= 85 ? 'High accuracy - Reliable predictions' :
+                                                    accuracy >= 70 ? 'Moderate accuracy - Reasonable predictions' :
+                                                        'Lower accuracy - Use with caution'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )}
 
-                    {/* Generate button */}
-                    <Button onClick={handleGenerate} disabled={loading}>
-                        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
-                        {loading ? "Predicting..." : "Generate Forecast"}
-                    </Button>
+                        {/* Chart */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Forecasted Stock Levels</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="h-80 w-full">
+                                    {loading ? (
+                                        <div className="flex flex-col items-center justify-center h-full gap-3">
+                                            <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+                                            <p className="text-muted-foreground">Analyzing data...</p>
+                                        </div>
+                                    ) : (
+                                        <div className="bg-white text-black p-4 rounded-lg h-80">
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <LineChart data={chartData} ref={chartRef}> {/* ✅ ref is here */}
+                                                    <CartesianGrid strokeDasharray="3 3"/>
+                                                    <XAxis
+                                                        dataKey="date"
+                                                        tickFormatter={(dateStr) => {
+                                                            const date = new Date(dateStr);
+                                                            return date.toLocaleString("en-US", {month: "long"});
+                                                        }}
+                                                    />
 
-                    {error && (
-                        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                            <p className="text-sm text-red-800">{error}</p>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
+                                                    <YAxis/>
+                                                    <Tooltip/>
+                                                    <Area dataKey="upper_ci" stroke="none" fill="rgb(147,197,253)"
+                                                          fillOpacity={0.2}/>
+                                                    <Area dataKey="lower_ci" stroke="none" fill="rgb(147,197,253)"
+                                                          fillOpacity={0.2}/>
+                                                    <Line type="monotone" dataKey="stockonhand" stroke="rgb(16,185,129)"
+                                                          strokeWidth={2} dot={false} name="Historical"/>
+                                                    <Line type="monotone" dataKey="forecast" stroke="rgb(59,130,246)"
+                                                          strokeWidth={2} name="Forecast" dot={{r: 3}}
+                                                          strokeDasharray="5 5"/>
+                                                </LineChart>
+                                            </ResponsiveContainer>
+                                        </div>
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
 
-            {chartData.length > 0 && (
-                <div className="mt-8 space-y-6">
-                    {/* Accuracy Card */}
-                    {accuracy !== null && (
+                        {/* Forecast Table Card */}
+                        {chartData.filter(d => d.forecast).length > 0 && (
+                            <Card className="mt-6">
+                                <CardHeader>
+                                    <CardTitle>Forecast Table</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full table-auto border border-gray-200">
+                                            <thead className="bg-gray-100">
+                                            <tr>
+                                                <th className="border px-2 py-1 text-left">Medicine</th>
+                                                {chartData
+                                                    .filter(d => d.forecast)
+                                                    .slice(0, parseInt(timeRange))
+                                                    .map((d, idx) => (
+                                                        <th key={idx} className="border px-2 py-1 text-center">
+                                                            {idx + 1}{idx === 0 ? "st" : idx === 1 ? "nd" : idx === 2 ? "rd" : "th"} Month
+                                                        </th>
+                                                    ))}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td className="border px-2 py-1 font-medium">{selectedItem?.itemdescription}</td>
+                                                {chartData
+                                                    .filter(d => d.forecast)
+                                                    .slice(0, parseInt(timeRange))
+                                                    .map((d, idx) => (
+                                                        <td key={idx}
+                                                            className="border px-2 py-1 text-center">{d.forecast.toFixed(2)}</td>
+                                                    ))}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* Key Insights Card */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    <Target className="h-5 w-5"/>
-                                    Model Accuracy
+                                    <TrendingUp className="h-5 w-5"/>
+                                    Key Insights
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="flex items-center gap-6">
-                                    <div className={`text-2xl font-bold ${
-                                        accuracy >= 85 ? 'text-green-600' :
-                                            accuracy >= 70 ? 'text-yellow-600' :
-                                                'text-red-600'
-                                    }`}>
-                                        {accuracy.toFixed(1)}%
+                                <div className="grid gap-4 md:grid-cols-3 mb-6">
+                                    <div className="p-4 bg-blue-50 rounded-lg">
+                                        <p className="text-sm text-blue-600 font-medium">Avg. Historical</p>
+                                        <p className="text-2xl font-bold text-blue-900">{averageHistorical.toFixed(2)}</p>
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                            <div
-                                                className={`h-4 rounded-full ${
-                                                    accuracy >= 85 ? 'bg-green-600' :
-                                                        accuracy >= 70 ? 'bg-yellow-600' :
-                                                            'bg-red-600'
-                                                }`}
-                                                style={{width: `${accuracy}%`}}
-                                            ></div>
-                                        </div>
-                                        <p className="text-sm text-muted-foreground">
-                                            {accuracy >= 85 ? 'High accuracy - Reliable predictions' :
-                                                accuracy >= 70 ? 'Moderate accuracy - Reasonable predictions' :
-                                                    'Lower accuracy - Use with caution'}
+                                    <div className="p-4 bg-green-50 rounded-lg">
+                                        <p className="text-sm text-green-600 font-medium">Avg. Forecast</p>
+                                        <p className="text-2xl font-bold text-green-900">{averageForecast.toFixed(2)}</p>
+                                    </div>
+                                    <div
+                                        className={`p-4 rounded-lg ${trend === 'increasing' ? 'bg-emerald-50' : 'bg-red-50'}`}>
+                                        <p className={`text-sm font-medium ${trend === 'increasing' ? 'text-emerald-600' : 'text-red-600'}`}>
+                                            Trend
+                                        </p>
+                                        <p className={`text-2xl font-bold ${trend === 'increasing' ? 'text-emerald-900' : 'text-red-900'}`}>
+                                            {trend === 'increasing' ? '↑' : '↓'} {Math.abs(parseFloat(trendPercentage))}%
                                         </p>
                                     </div>
                                 </div>
-                            </CardContent>
-                        </Card>
-                    )}
 
-                    {/* Chart */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Forecasted Stock Levels</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="h-80 w-full">
-                                {loading ? (
-                                    <div className="flex flex-col items-center justify-center h-full gap-3">
-                                        <Loader2 className="h-8 w-8 animate-spin text-primary"/>
-                                        <p className="text-muted-foreground">Analyzing data...</p>
-                                    </div>
-                                ) : (
-                                    <div className="bg-white text-black p-4 rounded-lg h-80">
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <LineChart data={chartData} ref={chartRef}> {/* ✅ ref is here */}
-                                                <CartesianGrid strokeDasharray="3 3"/>
-                                                <XAxis
-                                                    dataKey="date"
-                                                    tickFormatter={(dateStr) => {
-                                                        const date = new Date(dateStr);
-                                                        return date.toLocaleString("en-US", {month: "long"});
-                                                    }}
-                                                />
-
-                                                <YAxis/>
-                                                <Tooltip/>
-                                                <Area dataKey="upper_ci" stroke="none" fill="rgb(147,197,253)"
-                                                      fillOpacity={0.2}/>
-                                                <Area dataKey="lower_ci" stroke="none" fill="rgb(147,197,253)"
-                                                      fillOpacity={0.2}/>
-                                                <Line type="monotone" dataKey="stockonhand" stroke="rgb(16,185,129)"
-                                                      strokeWidth={2} dot={false} name="Historical"/>
-                                                <Line type="monotone" dataKey="forecast" stroke="rgb(59,130,246)"
-                                                      strokeWidth={2} name="Forecast" dot={{r: 3}}
-                                                      strokeDasharray="5 5"/>
-                                            </LineChart>
-                                        </ResponsiveContainer>
-                                    </div>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Forecast Table Card */}
-                    {chartData.filter(d => d.forecast).length > 0 && (
-                        <Card className="mt-6">
-                            <CardHeader>
-                                <CardTitle>Forecast Table</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full table-auto border border-gray-200">
-                                        <thead className="bg-gray-100">
-                                        <tr>
-                                            <th className="border px-2 py-1 text-left">Medicine</th>
-                                            {chartData
-                                                .filter(d => d.forecast)
-                                                .slice(0, parseInt(timeRange))
-                                                .map((d, idx) => (
-                                                    <th key={idx} className="border px-2 py-1 text-center">
-                                                        {idx + 1}{idx === 0 ? "st" : idx === 1 ? "nd" : idx === 2 ? "rd" : "th"} Month
-                                                    </th>
-                                                ))}
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td className="border px-2 py-1 font-medium">{selectedItem?.itemdescription}</td>
-                                            {chartData
-                                                .filter(d => d.forecast)
-                                                .slice(0, parseInt(timeRange))
-                                                .map((d, idx) => (
-                                                    <td key={idx}
-                                                        className="border px-2 py-1 text-center">{d.forecast.toFixed(2)}</td>
-                                                ))}
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <div className="space-y-3">
+                                    <h3 className="font-semibold text-lg">Interpretation</h3>
+                                    {interpretation.map((insight, idx) => (
+                                        <p key={idx}
+                                           className="text-sm text-muted-foreground border-l-2 border-blue-500 pl-3">
+                                            {insight}
+                                        </p>
+                                    ))}
                                 </div>
                             </CardContent>
                         </Card>
-                    )}
-
-                    {/* Key Insights Card */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <TrendingUp className="h-5 w-5"/>
-                                Key Insights
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid gap-4 md:grid-cols-3 mb-6">
-                                <div className="p-4 bg-blue-50 rounded-lg">
-                                    <p className="text-sm text-blue-600 font-medium">Avg. Historical</p>
-                                    <p className="text-2xl font-bold text-blue-900">{averageHistorical.toFixed(2)}</p>
-                                </div>
-                                <div className="p-4 bg-green-50 rounded-lg">
-                                    <p className="text-sm text-green-600 font-medium">Avg. Forecast</p>
-                                    <p className="text-2xl font-bold text-green-900">{averageForecast.toFixed(2)}</p>
-                                </div>
-                                <div
-                                    className={`p-4 rounded-lg ${trend === 'increasing' ? 'bg-emerald-50' : 'bg-red-50'}`}>
-                                    <p className={`text-sm font-medium ${trend === 'increasing' ? 'text-emerald-600' : 'text-red-600'}`}>
-                                        Trend
-                                    </p>
-                                    <p className={`text-2xl font-bold ${trend === 'increasing' ? 'text-emerald-900' : 'text-red-900'}`}>
-                                        {trend === 'increasing' ? '↑' : '↓'} {Math.abs(parseFloat(trendPercentage))}%
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3">
-                                <h3 className="font-semibold text-lg">Interpretation</h3>
-                                {interpretation.map((insight, idx) => (
-                                    <p key={idx}
-                                       className="text-sm text-muted-foreground border-l-2 border-blue-500 pl-3">
-                                        {insight}
-                                    </p>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-            )}
-        </div>
+                    </div>
+                )}
+            </div>
+        </ProtectedPage>
     )
 }

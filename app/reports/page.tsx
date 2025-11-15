@@ -1,5 +1,6 @@
 "use client"
 
+import ProtectedPage from "@/components/ProtectedPage";
 import {useState, useEffect} from "react"
 import {supabase} from "@/lib/supabase"
 import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card"
@@ -371,411 +372,495 @@ export default function Reports() {
     ]
 
     return (
-        <div className="min-h-screen bg-background p-6">
-            <style jsx global>{`
-                @media print {
-                    body * {
-                        visibility: hidden;
+        <ProtectedPage pageName="Reports">
+            <div className="min-h-screen bg-background p-6">
+                <style jsx global>{`
+                    @media print {
+                        body * {
+                            visibility: hidden;
+                        }
+
+                        .print-area, .print-area * {
+                            visibility: visible;
+                        }
+
+                        .print-area {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                        }
+
+                        .no-print {
+                            display: none !important;
+                        }
                     }
+                `}</style>
 
-                    .print-area, .print-area * {
-                        visibility: visible;
-                    }
+                <Card>
+                    <CardHeader>
+                        <div className="flex items-center justify-between">
+                            <CardTitle className="text-2xl font-bold">Reports & Analytics</CardTitle>
+                            <Button variant="outline" size="icon" className="no-print">
+                                <Bell className="h-4 w-4"/>
+                            </Button>
+                        </div>
 
-                    .print-area {
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                    }
-
-                    .no-print {
-                        display: none !important;
-                    }
-                }
-            `}</style>
-
-            <Card>
-                <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <CardTitle className="text-2xl font-bold">Reports & Analytics</CardTitle>
-                        <Button variant="outline" size="icon" className="no-print">
-                            <Bell className="h-4 w-4"/>
-                        </Button>
-                    </div>
-
-                    <div className="flex gap-4 mt-4 no-print">
-                        <Select value={String(month)} onValueChange={(val) => setMonth(Number(val))}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Month"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                {months.map(m => (
-                                    <SelectItem key={m.value} value={String(m.value)}>
-                                        {m.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-
-                        <Select value={String(year)} onValueChange={(val) => setYear(Number(val))}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Year"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                {availableYears.length > 0 ? (
-                                    availableYears.map(y => (
-                                        <SelectItem key={y} value={String(y)}>
-                                            {y}
+                        <div className="flex gap-4 mt-4 no-print">
+                            <Select value={String(month)} onValueChange={(val) => setMonth(Number(val))}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Month"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {months.map(m => (
+                                        <SelectItem key={m.value} value={String(m.value)}>
+                                            {m.label}
                                         </SelectItem>
-                                    ))
-                                ) : (
-                                    <>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                    </>
-                                )}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </CardHeader>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                <CardContent>
-                    <Tabs defaultValue="report" className="space-y-4">
-                        <TabsList>
-                            <TabsTrigger value="report">Inventory Report</TabsTrigger>
-                            <TabsTrigger value="analytics">Data Analysis</TabsTrigger>
-                        </TabsList>
+                            <Select value={String(year)} onValueChange={(val) => setYear(Number(val))}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Year"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {availableYears.length > 0 ? (
+                                        availableYears.map(y => (
+                                            <SelectItem key={y} value={String(y)}>
+                                                {y}
+                                            </SelectItem>
+                                        ))
+                                    ) : (
+                                        <>
+                                            <SelectItem value="2024">2024</SelectItem>
+                                            <SelectItem value="2023">2023</SelectItem>
+                                        </>
+                                    )}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </CardHeader>
 
-                        {/* Inventory Report Tab */}
-                        <TabsContent value="report" className="space-y-4">
-                            <div className="flex items-center justify-between gap-4 no-print">
-                                <div className="flex gap-2 flex-1">
-                                    <Input
-                                        placeholder="Search"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="max-w-xs"
-                                    />
-                                    <Button variant="outline" disabled>
-                                        Filter
-                                    </Button>
+                    <CardContent>
+                        <Tabs defaultValue="report" className="space-y-4">
+                            <TabsList>
+                                <TabsTrigger value="report">Inventory Report</TabsTrigger>
+                                <TabsTrigger value="analytics">Data Analysis</TabsTrigger>
+                            </TabsList>
+
+                            {/* Inventory Report Tab */}
+                            <TabsContent value="report" className="space-y-4">
+                                <div className="flex items-center justify-between gap-4 no-print">
+                                    <div className="flex gap-2 flex-1">
+                                        <Input
+                                            placeholder="Search"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="max-w-xs"
+                                        />
+                                        <Button variant="outline" disabled>
+                                            Filter
+                                        </Button>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <Button variant="outline" onClick={handleExportPDF}>
+                                            <Download className="mr-2 h-4 w-4"/>
+                                            Export PDF
+                                        </Button>
+                                        <Button onClick={handlePrintReport}>
+                                            <FileDown className="mr-2 h-4 w-4"/>
+                                            Send Report
+                                        </Button>
+                                    </div>
                                 </div>
 
-                                <div className="flex gap-2">
-                                    <Button variant="outline" onClick={handleExportPDF}>
-                                        <Download className="mr-2 h-4 w-4"/>
-                                        Export PDF
-                                    </Button>
-                                    <Button onClick={handlePrintReport}>
-                                        <FileDown className="mr-2 h-4 w-4"/>
-                                        Send Report
-                                    </Button>
-                                </div>
-                            </div>
+                                <div className="print-area">
+                                    <div className="hidden print:block mb-6">
+                                        <h1 className="text-2xl font-bold text-center mb-2">Inventory Report</h1>
+                                        <p className="text-center text-gray-600">
+                                            {months.find(m => m.value === month)?.label} {year}
+                                        </p>
+                                    </div>
 
-                            <div className="print-area">
-                                <div className="hidden print:block mb-6">
-                                    <h1 className="text-2xl font-bold text-center mb-2">Inventory Report</h1>
-                                    <p className="text-center text-gray-600">
-                                        {months.find(m => m.value === month)?.label} {year}
-                                    </p>
-                                </div>
+                                    {loading ? (
+                                        <div className="flex items-center justify-center h-64">
+                                            <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+                                            <span className="ml-2 text-muted-foreground">Loading report data...</span>
+                                        </div>
+                                    ) : filteredData.length === 0 ? (
+                                        <div className="flex items-center justify-center h-64 text-muted-foreground">
+                                            <p>No data available for the selected period</p>
+                                        </div>
+                                    ) : (
+                                        <div className="overflow-x-auto border rounded-lg">
+                                            <table className="w-full">
+                                                <thead className="bg-gray-50 border-b">
+                                                <tr>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
+                                                        Item Description
+                                                    </th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
+                                                        Unit of measurement
+                                                    </th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
+                                                        Dosage
+                                                    </th>
+                                                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
+                                                        Beginning Balance
+                                                    </th>
+                                                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
+                                                        Quantity Requested
+                                                    </th>
+                                                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
+                                                        Issued Quantity
+                                                    </th>
+                                                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
+                                                        Ending Balance<br/>(Stock on Hand)
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-gray-200">
+                                                {currentPageData.map((row, index) => (
+                                                    <tr key={index} className="hover:bg-gray-50">
+                                                        <td className="px-4 py-3 text-sm text-gray-900">
+                                                            {row.itemdescription}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-gray-600">
+                                                            {row.unitofmeasurement}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-gray-600">
+                                                            {row.dosage}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-center font-medium">
+                                                            {row.beginningbalance}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-center font-medium">
+                                                            {row.quantityrequested}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-center font-medium">
+                                                            {row.issuedquantity}
+                                                        </td>
+                                                        <td className="px-4 py-3 text-sm text-center font-bold text-primary">
+                                                            {row.stockonhand}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
 
+                                            {totalPages > 1 && (
+                                                <div
+                                                    className="flex items-center justify-between px-4 py-3 border-t bg-gray-50">
+                                                    <div className="text-sm text-gray-700">
+                                                        Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} items
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                                            disabled={currentPage === 1}
+                                                        >
+                                                            Previous
+                                                        </Button>
+                                                        <div className="text-sm text-gray-700">
+                                                            Page {currentPage} of {totalPages}
+                                                        </div>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                                            disabled={currentPage === totalPages}
+                                                        >
+                                                            Next
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {!loading && filteredData.length > 0 && (
+                                        <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="text-sm text-gray-600">Total Items</div>
+                                                    <div
+                                                        className="text-2xl font-bold">{Math.round(filteredData.length)}</div>
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="text-sm text-gray-600">Total Stock on Hand</div>
+                                                    <div className="text-2xl font-bold">
+                                                        {Math.round(filteredData.reduce((sum, row) => sum + row.stockonhand, 0))}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="text-sm text-gray-600">Total Requested</div>
+                                                    <div className="text-2xl font-bold">
+                                                        {Math.round(filteredData.reduce((sum, row) => sum + row.quantityrequested, 0))}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="text-sm text-gray-600">Total Issued</div>
+                                                    <div className="text-2xl font-bold">
+                                                        {Math.round(filteredData.reduce((sum, row) => sum + row.issuedquantity, 0))}
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    )}
+                                </div>
+                            </TabsContent>
+
+                            {/* Data Analysis Tab */}
+                            <TabsContent value="analytics" className="space-y-6">
                                 {loading ? (
                                     <div className="flex items-center justify-center h-64">
                                         <Loader2 className="h-8 w-8 animate-spin text-primary"/>
-                                        <span className="ml-2 text-muted-foreground">Loading report data...</span>
-                                    </div>
-                                ) : filteredData.length === 0 ? (
-                                    <div className="flex items-center justify-center h-64 text-muted-foreground">
-                                        <p>No data available for the selected period</p>
                                     </div>
                                 ) : (
-                                    <div className="overflow-x-auto border rounded-lg">
-                                        <table className="w-full">
-                                            <thead className="bg-gray-50 border-b">
-                                            <tr>
-                                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
-                                                    Item Description
-                                                </th>
-                                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
-                                                    Unit of measurement
-                                                </th>
-                                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
-                                                    Dosage
-                                                </th>
-                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
-                                                    Beginning Balance
-                                                </th>
-                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
-                                                    Quantity Requested
-                                                </th>
-                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
-                                                    Issued Quantity
-                                                </th>
-                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
-                                                    Ending Balance<br/>(Stock on Hand)
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200">
-                                            {currentPageData.map((row, index) => (
-                                                <tr key={index} className="hover:bg-gray-50">
-                                                    <td className="px-4 py-3 text-sm text-gray-900">
-                                                        {row.itemdescription}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-gray-600">
-                                                        {row.unitofmeasurement}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-gray-600">
-                                                        {row.dosage}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-center font-medium">
-                                                        {row.beginningbalance}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-center font-medium">
-                                                        {row.quantityrequested}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-center font-medium">
-                                                        {row.issuedquantity}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-center font-bold text-primary">
-                                                        {row.stockonhand}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            </tbody>
-                                        </table>
+                                    <>
+                                        {/* Key Metrics */}
+                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <p className="text-sm text-gray-600">Total Dispensed</p>
+                                                            <p className="text-2xl font-bold">
 
-                                        {totalPages > 1 && (
-                                            <div
-                                                className="flex items-center justify-between px-4 py-3 border-t bg-gray-50">
-                                                <div className="text-sm text-gray-700">
-                                                    Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} items
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                                                        disabled={currentPage === 1}
-                                                    >
-                                                        Previous
-                                                    </Button>
-                                                    <div className="text-sm text-gray-700">
-                                                        Page {currentPage} of {totalPages}
+                                                                {Math.round(reportData.reduce((sum, row) => sum + row.issuedquantity, 0))}
+                                                            </p>
+                                                        </div>
+                                                        <TrendingUp className="h-8 w-8 text-green-500"/>
                                                     </div>
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                                                        disabled={currentPage === totalPages}
-                                                    >
-                                                        Next
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <p className="text-sm text-gray-600">Total Requested</p>
+                                                            <p className="text-2xl font-bold">
+                                                                {Math.round(reportData.reduce((sum, row) => sum + row.quantityrequested, 0))}
+                                                            </p>
+                                                        </div>
+                                                        <TrendingDown className="h-8 w-8 text-blue-500"/>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <p className="text-sm text-gray-600">Low Stock Items</p>
+                                                            <p className="text-2xl font-bold text-red-600">
+                                                                {lowStock.length}
+                                                            </p>
+                                                        </div>
+                                                        <AlertTriangle className="h-8 w-8 text-red-500"/>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            <Card>
+                                                <CardContent className="pt-6">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <p className="text-sm text-gray-600">Stock Value</p>
+                                                            <p className="text-2xl font-bold">
+                                                                P{reportData.reduce((sum, row) => sum + row.stockonhand, 0)}
+                                                            </p>
+                                                        </div>
+                                                        <Package className="h-8 w-8 text-purple-500"/>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
 
-                                {!loading && filteredData.length > 0 && (
-                                    <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="text-sm text-gray-600">Total Items</div>
-                                                <div
-                                                    className="text-2xl font-bold">{Math.round(filteredData.length)}</div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="text-sm text-gray-600">Total Stock on Hand</div>
-                                                <div className="text-2xl font-bold">
-                                                    {Math.round(filteredData.reduce((sum, row) => sum + row.stockonhand, 0))}
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="text-sm text-gray-600">Total Requested</div>
-                                                <div className="text-2xl font-bold">
-                                                    {Math.round(filteredData.reduce((sum, row) => sum + row.quantityrequested, 0))}
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="text-sm text-gray-600">Total Issued</div>
-                                                <div className="text-2xl font-bold">
-                                                    {Math.round(filteredData.reduce((sum, row) => sum + row.issuedquantity, 0))}
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                )}
-                            </div>
-                        </TabsContent>
+                                        {/* Charts Row 1 */}
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                            {/* Monthly Trends Line Chart */}
+                                            <Card>
+                                                <CardHeader>
+                                                    <CardTitle>Monthly Inventory Trends</CardTitle>
+                                                    <CardDescription>Stock levels, dispensed, and requested items over
+                                                        time</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <ResponsiveContainer width="100%" height={300}>
+                                                        <LineChart data={monthlyTrends}>
+                                                            <CartesianGrid strokeDasharray="3 3"/>
+                                                            <XAxis dataKey="month"/>
+                                                            <YAxis/>
+                                                            <Tooltip/>
+                                                            <Legend/>
+                                                            <Line type="monotone" dataKey="stock" stroke="#3b82f6"
+                                                                  strokeWidth={2} name="Stock on Hand"/>
+                                                            <Line type="monotone" dataKey="issued" stroke="#10b981"
+                                                                  strokeWidth={2} name="Dispensed"/>
+                                                            <Line type="monotone" dataKey="requested" stroke="#f59e0b"
+                                                                  strokeWidth={2} name="Requested"/>
+                                                        </LineChart>
+                                                    </ResponsiveContainer>
+                                                </CardContent>
+                                            </Card>
 
-                        {/* Data Analysis Tab */}
-                        <TabsContent value="analytics" className="space-y-6">
-                            {loading ? (
-                                <div className="flex items-center justify-center h-64">
-                                    <Loader2 className="h-8 w-8 animate-spin text-primary"/>
-                                </div>
-                            ) : (
-                                <>
-                                    {/* Key Metrics */}
-                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <p className="text-sm text-gray-600">Total Dispensed</p>
-                                                        <p className="text-2xl font-bold">
+                                            {/* Top Dispensed Items - Bar Chart */}
+                                            <Card>
+                                                <CardHeader>
+                                                    <CardTitle>Top 5 Dispensed Items</CardTitle>
+                                                    <CardDescription>Most frequently dispensed medicines this
+                                                        month</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <ResponsiveContainer width="100%" height={300}>
+                                                        <BarChart data={topDispensed}>
+                                                            <CartesianGrid strokeDasharray="3 3"/>
+                                                            <XAxis dataKey="name" angle={-45} textAnchor="end"
+                                                                   height={100}
+                                                                   fontSize={12}/>
+                                                            <YAxis/>
+                                                            <Tooltip/>
+                                                            <Bar dataKey="quantity" fill="#10b981"
+                                                                 name="Quantity Dispensed"/>
+                                                        </BarChart>
+                                                    </ResponsiveContainer>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
 
-                                                            {Math.round(reportData.reduce((sum, row) => sum + row.issuedquantity, 0))}
-                                                        </p>
-                                                    </div>
-                                                    <TrendingUp className="h-8 w-8 text-green-500"/>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <p className="text-sm text-gray-600">Total Requested</p>
-                                                        <p className="text-2xl font-bold">
-                                                            {Math.round(reportData.reduce((sum, row) => sum + row.quantityrequested, 0))}
-                                                        </p>
-                                                    </div>
-                                                    <TrendingDown className="h-8 w-8 text-blue-500"/>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <p className="text-sm text-gray-600">Low Stock Items</p>
-                                                        <p className="text-2xl font-bold text-red-600">
-                                                            {lowStock.length}
-                                                        </p>
-                                                    </div>
-                                                    <AlertTriangle className="h-8 w-8 text-red-500"/>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card>
-                                            <CardContent className="pt-6">
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <p className="text-sm text-gray-600">Stock Value</p>
-                                                        <p className="text-2xl font-bold">
-                                                            P{reportData.reduce((sum, row) => sum + row.stockonhand, 0)}
-                                                        </p>
-                                                    </div>
-                                                    <Package className="h-8 w-8 text-purple-500"/>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
+                                        {/* Charts Row 2 */}
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                            {/* Top Requested Items - Pie Chart */}
+                                            <Card>
+                                                <CardHeader>
+                                                    <CardTitle>Top Requested Items Distribution</CardTitle>
+                                                    <CardDescription>Breakdown of most requested
+                                                        medicines</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <ResponsiveContainer width="100%" height={300}>
+                                                        <PieChart>
+                                                            <Pie
+                                                                data={topRequested}
+                                                                cx="50%"
+                                                                cy="50%"
+                                                                labelLine={false}
+                                                                label={({
+                                                                            name,
+                                                                            percentage
+                                                                        }) => `${name.substring(0, 15)}... (${percentage}%)`}
+                                                                outerRadius={80}
+                                                                fill="#8884d8"
+                                                                dataKey="quantity"
+                                                            >
+                                                                {topRequested.map((entry, index) => (
+                                                                    <Cell key={`cell-${index}`}
+                                                                          fill={COLORS[index % COLORS.length]}/>
+                                                                ))}
+                                                            </Pie>
+                                                            <Tooltip/>
+                                                            <Legend/>
+                                                        </PieChart>
+                                                    </ResponsiveContainer>
+                                                </CardContent>
+                                            </Card>
 
-                                    {/* Charts Row 1 */}
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                        {/* Monthly Trends Line Chart */}
+                                            {/* Stock Status Bar Chart */}
+                                            <Card>
+                                                <CardHeader>
+                                                    <CardTitle>Stock Status Comparison</CardTitle>
+                                                    <CardDescription>Beginning balance vs current stock
+                                                        levels</CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <ResponsiveContainer width="100%" height={300}>
+                                                        <BarChart data={reportData.slice(0, 10)}>
+                                                            <CartesianGrid strokeDasharray="3 3"/>
+                                                            <XAxis dataKey="itemdescription" angle={-45}
+                                                                   textAnchor="end"
+                                                                   height={100} fontSize={10}/>
+                                                            <YAxis/>
+                                                            <Tooltip/>
+                                                            <Legend/>
+                                                            <Bar dataKey="beginningbalance" fill="#3b82f6"
+                                                                 name="Beginning Balance"/>
+                                                            <Bar dataKey="stockonhand" fill="#10b981"
+                                                                 name="Current Stock"/>
+                                                        </BarChart>
+                                                    </ResponsiveContainer>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+
+                                        {/* Low Stock Alert Table */}
                                         <Card>
                                             <CardHeader>
-                                                <CardTitle>Monthly Inventory Trends</CardTitle>
-                                                <CardDescription>Stock levels, dispensed, and requested items over
-                                                    time</CardDescription>
+                                                <CardTitle className="flex items-center gap-2">
+                                                    <AlertTriangle className="h-5 w-5 text-red-500"/>
+                                                    Low Stock Alerts
+                                                </CardTitle>
+                                                <CardDescription>Items with stock below 20% of beginning
+                                                    balance</CardDescription>
                                             </CardHeader>
                                             <CardContent>
-                                                <ResponsiveContainer width="100%" height={300}>
-                                                    <LineChart data={monthlyTrends}>
-                                                        <CartesianGrid strokeDasharray="3 3"/>
-                                                        <XAxis dataKey="month"/>
-                                                        <YAxis/>
-                                                        <Tooltip/>
-                                                        <Legend/>
-                                                        <Line type="monotone" dataKey="stock" stroke="#3b82f6"
-                                                              strokeWidth={2} name="Stock on Hand"/>
-                                                        <Line type="monotone" dataKey="issued" stroke="#10b981"
-                                                              strokeWidth={2} name="Dispensed"/>
-                                                        <Line type="monotone" dataKey="requested" stroke="#f59e0b"
-                                                              strokeWidth={2} name="Requested"/>
-                                                    </LineChart>
-                                                </ResponsiveContainer>
+                                                {lowStock.length === 0 ? (
+                                                    <div className="text-center py-8 text-muted-foreground">
+                                                        <p>No low stock items found</p>
+                                                    </div>
+                                                ) : (
+                                                    <div className="overflow-x-auto border rounded-lg">
+                                                        <table className="w-full">
+                                                            <thead className="bg-red-50 border-b">
+                                                            <tr>
+                                                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Item</th>
+                                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Beginning</th>
+                                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Current</th>
+                                                                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Status</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody className="divide-y divide-gray-200">
+                                                            {lowStock.map((item, index) => {
+                                                                const percentage = item.beginningbalance > 0
+                                                                    ? Math.round((item.stockonhand / item.beginningbalance) * 100)
+                                                                    : 0
+                                                                return (
+                                                                    <tr key={index} className="hover:bg-red-25">
+                                                                        <td className="px-4 py-3 text-sm font-medium">{item.itemdescription}</td>
+                                                                        <td className="px-4 py-3 text-sm text-center">{item.beginningbalance}</td>
+                                                                        <td className="px-4 py-3 text-sm text-center font-bold text-red-600">
+                                                                            {item.stockonhand}
+                                                                        </td>
+                                                                        <td className="px-4 py-3 text-sm text-center">
+                                                                        <span
+                                                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                                            {percentage}% remaining
+                                                                        </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                )}
                                             </CardContent>
                                         </Card>
 
-                                        {/* Top Dispensed Items - Bar Chart */}
+                                        {/* Inventory Turnover Analysis */}
                                         <Card>
                                             <CardHeader>
-                                                <CardTitle>Top 5 Dispensed Items</CardTitle>
-                                                <CardDescription>Most frequently dispensed medicines this
-                                                    month</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <ResponsiveContainer width="100%" height={300}>
-                                                    <BarChart data={topDispensed}>
-                                                        <CartesianGrid strokeDasharray="3 3"/>
-                                                        <XAxis dataKey="name" angle={-45} textAnchor="end" height={100}
-                                                               fontSize={12}/>
-                                                        <YAxis/>
-                                                        <Tooltip/>
-                                                        <Bar dataKey="quantity" fill="#10b981"
-                                                             name="Quantity Dispensed"/>
-                                                    </BarChart>
-                                                </ResponsiveContainer>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-
-                                    {/* Charts Row 2 */}
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                        {/* Top Requested Items - Pie Chart */}
-                                        <Card>
-                                            <CardHeader>
-                                                <CardTitle>Top Requested Items Distribution</CardTitle>
-                                                <CardDescription>Breakdown of most requested medicines</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <ResponsiveContainer width="100%" height={300}>
-                                                    <PieChart>
-                                                        <Pie
-                                                            data={topRequested}
-                                                            cx="50%"
-                                                            cy="50%"
-                                                            labelLine={false}
-                                                            label={({
-                                                                        name,
-                                                                        percentage
-                                                                    }) => `${name.substring(0, 15)}... (${percentage}%)`}
-                                                            outerRadius={80}
-                                                            fill="#8884d8"
-                                                            dataKey="quantity"
-                                                        >
-                                                            {topRequested.map((entry, index) => (
-                                                                <Cell key={`cell-${index}`}
-                                                                      fill={COLORS[index % COLORS.length]}/>
-                                                            ))}
-                                                        </Pie>
-                                                        <Tooltip/>
-                                                        <Legend/>
-                                                    </PieChart>
-                                                </ResponsiveContainer>
-                                            </CardContent>
-                                        </Card>
-
-                                        {/* Stock Status Bar Chart */}
-                                        <Card>
-                                            <CardHeader>
-                                                <CardTitle>Stock Status Comparison</CardTitle>
-                                                <CardDescription>Beginning balance vs current stock
-                                                    levels</CardDescription>
+                                                <CardTitle>Inventory Turnover Analysis</CardTitle>
+                                                <CardDescription>Comparison of requested vs issued
+                                                    quantities</CardDescription>
                                             </CardHeader>
                                             <CardContent>
                                                 <ResponsiveContainer width="100%" height={300}>
@@ -786,145 +871,72 @@ export default function Reports() {
                                                         <YAxis/>
                                                         <Tooltip/>
                                                         <Legend/>
-                                                        <Bar dataKey="beginningbalance" fill="#3b82f6"
-                                                             name="Beginning Balance"/>
-                                                        <Bar dataKey="stockonhand" fill="#10b981" name="Current Stock"/>
+                                                        <Bar dataKey="quantityrequested" fill="#f59e0b"
+                                                             name="Requested"/>
+                                                        <Bar dataKey="issuedquantity" fill="#10b981" name="Issued"/>
                                                     </BarChart>
                                                 </ResponsiveContainer>
                                             </CardContent>
                                         </Card>
-                                    </div>
 
-                                    {/* Low Stock Alert Table */}
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle className="flex items-center gap-2">
-                                                <AlertTriangle className="h-5 w-5 text-red-500"/>
-                                                Low Stock Alerts
-                                            </CardTitle>
-                                            <CardDescription>Items with stock below 20% of beginning
-                                                balance</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            {lowStock.length === 0 ? (
-                                                <div className="text-center py-8 text-muted-foreground">
-                                                    <p>No low stock items found</p>
-                                                </div>
-                                            ) : (
-                                                <div className="overflow-x-auto border rounded-lg">
-                                                    <table className="w-full">
-                                                        <thead className="bg-red-50 border-b">
-                                                        <tr>
-                                                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Item</th>
-                                                            <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Beginning</th>
-                                                            <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Current</th>
-                                                            <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Status</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody className="divide-y divide-gray-200">
-                                                        {lowStock.map((item, index) => {
-                                                            const percentage = item.beginningbalance > 0
-                                                                ? Math.round((item.stockonhand / item.beginningbalance) * 100)
-                                                                : 0
-                                                            return (
-                                                                <tr key={index} className="hover:bg-red-25">
-                                                                    <td className="px-4 py-3 text-sm font-medium">{item.itemdescription}</td>
-                                                                    <td className="px-4 py-3 text-sm text-center">{item.beginningbalance}</td>
-                                                                    <td className="px-4 py-3 text-sm text-center font-bold text-red-600">
-                                                                        {item.stockonhand}
-                                                                    </td>
-                                                                    <td className="px-4 py-3 text-sm text-center">
-                                                                        <span
-                                                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                                            {percentage}% remaining
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        })}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            )}
-                                        </CardContent>
-                                    </Card>
-
-                                    {/* Inventory Turnover Analysis */}
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Inventory Turnover Analysis</CardTitle>
-                                            <CardDescription>Comparison of requested vs issued
-                                                quantities</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <ResponsiveContainer width="100%" height={300}>
-                                                <BarChart data={reportData.slice(0, 10)}>
-                                                    <CartesianGrid strokeDasharray="3 3"/>
-                                                    <XAxis dataKey="itemdescription" angle={-45} textAnchor="end"
-                                                           height={100} fontSize={10}/>
-                                                    <YAxis/>
-                                                    <Tooltip/>
-                                                    <Legend/>
-                                                    <Bar dataKey="quantityrequested" fill="#f59e0b" name="Requested"/>
-                                                    <Bar dataKey="issuedquantity" fill="#10b981" name="Issued"/>
-                                                </BarChart>
-                                            </ResponsiveContainer>
-                                        </CardContent>
-                                    </Card>
-
-                                    {/* Summary Insights */}
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Key Insights</CardTitle>
-                                            <CardDescription>Summary of important trends and
-                                                recommendations</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="space-y-4">
-                                                {topDispensed.length > 0 && (
-                                                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                                                        <h4 className="font-semibold text-green-900 mb-2">Most
-                                                            In-Demand</h4>
-                                                        <p className="text-sm text-green-800">
-                                                            <strong>{topDispensed[0].name}</strong> is your most
-                                                            dispensed item with {topDispensed[0].quantity} units issued
-                                                            this month.
+                                        {/* Summary Insights */}
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle>Key Insights</CardTitle>
+                                                <CardDescription>Summary of important trends and
+                                                    recommendations</CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="space-y-4">
+                                                    {topDispensed.length > 0 && (
+                                                        <div
+                                                            className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                                            <h4 className="font-semibold text-green-900 mb-2">Most
+                                                                In-Demand</h4>
+                                                            <p className="text-sm text-green-800">
+                                                                <strong>{topDispensed[0].name}</strong> is your most
+                                                                dispensed item with {topDispensed[0].quantity} units
+                                                                issued
+                                                                this month.
+                                                            </p>
+                                                        </div>
+                                                    )}
+                                                    {lowStock.length > 0 && (
+                                                        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                                                            <h4 className="font-semibold text-red-900 mb-2">Stock
+                                                                Alert</h4>
+                                                            <p className="text-sm text-red-800">
+                                                                {lowStock.length} item(s) are running low on stock.
+                                                                Consider
+                                                                reordering to maintain adequate inventory levels.
+                                                            </p>
+                                                        </div>
+                                                    )}
+                                                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                                        <h4 className="font-semibold text-blue-900 mb-2">Fulfillment
+                                                            Rate</h4>
+                                                        <p className="text-sm text-blue-800">
+                                                            {reportData.length > 0 ? (
+                                                                <>
+                                                                    {Math.round((reportData.reduce((sum, row) => sum + row.issuedquantity, 0) /
+                                                                        Math.max(reportData.reduce((sum, row) => sum + row.quantityrequested, 0), 1)) * 100)}%
+                                                                    of requested items were successfully dispensed this
+                                                                    month.
+                                                                </>
+                                                            ) : "No data available"}
                                                         </p>
                                                     </div>
-                                                )}
-                                                {lowStock.length > 0 && (
-                                                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                                                        <h4 className="font-semibold text-red-900 mb-2">Stock Alert</h4>
-                                                        <p className="text-sm text-red-800">
-                                                            {lowStock.length} item(s) are running low on stock. Consider
-                                                            reordering to maintain adequate inventory levels.
-                                                        </p>
-                                                    </div>
-                                                )}
-                                                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                                                    <h4 className="font-semibold text-blue-900 mb-2">Fulfillment
-                                                        Rate</h4>
-                                                    <p className="text-sm text-blue-800">
-                                                        {reportData.length > 0 ? (
-                                                            <>
-                                                                {Math.round((reportData.reduce((sum, row) => sum + row.issuedquantity, 0) /
-                                                                    Math.max(reportData.reduce((sum, row) => sum + row.quantityrequested, 0), 1)) * 100)}%
-                                                                of requested items were successfully dispensed this
-                                                                month.
-                                                            </>
-                                                        ) : "No data available"}
-                                                    </p>
                                                 </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </>
-                            )}
-                        </TabsContent>
-                    </Tabs>
-                </CardContent>
-            </Card>
-        </div>
+                                            </CardContent>
+                                        </Card>
+                                    </>
+                                )}
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
+                </Card>
+            </div>
+        </ProtectedPage>
     )
 }
 

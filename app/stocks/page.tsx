@@ -1,5 +1,6 @@
 "use client"
 
+import ProtectedPage from "@/components/ProtectedPage";
 import {useState, useEffect} from "react"
 import {supabase} from "@/lib/supabase"
 import {Tabs, TabsList, TabsTrigger, TabsContent} from "@/components/ui/tabs"
@@ -408,7 +409,6 @@ export default function StocksManagement() {
         );
     };
 
-
     const refreshStocks = async () => {
         try {
             setLoading(true)
@@ -562,150 +562,26 @@ export default function StocksManagement() {
     }
 
     return (
-        <div className="min-h-screen p-6 bg-background space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold">Stocks Management</h1>
-                <Button variant="outline" size="icon" className="rounded-lg bg-transparent">
-                    <Bell className="h-5 w-5"/>
-                </Button>
-            </div>
+        <ProtectedPage pageName="Stocks">
+            <div className="min-h-screen p-6 bg-background space-y-6">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                    <h1 className="text-2xl font-bold">Stocks Management</h1>
+                    <Button variant="outline" size="icon" className="rounded-lg bg-transparent">
+                        <Bell className="h-5 w-5"/>
+                    </Button>
+                </div>
 
-            {/* Tabs */}
-            <Tabs defaultValue="stocks" className="space-y-6">
-                <TabsList>
-                    <TabsTrigger value="stocks">Stocks</TabsTrigger>
-                    <TabsTrigger value="daily">Daily Dispense</TabsTrigger>
-                    <TabsTrigger value="reorder">Reorder</TabsTrigger>
-                </TabsList>
+                {/* Tabs */}
+                <Tabs defaultValue="stocks" className="space-y-6">
+                    <TabsList>
+                        <TabsTrigger value="stocks">Stocks</TabsTrigger>
+                        <TabsTrigger value="daily">Daily Dispense</TabsTrigger>
+                        <TabsTrigger value="reorder">Reorder</TabsTrigger>
+                    </TabsList>
 
-                {/* === STOCKS TAB === */}
-                <TabsContent value="stocks" className="space-y-6">
-                    {/* Month / Year Filters */}
-                    <div className="mb-4 flex items-center justify-between">
-                        <div className="flex gap-4">
-                            {/* Month */}
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="w-40 justify-between bg-transparent">
-                                        {selectedMonth}
-                                        <ChevronDown className="h-4 w-4"/>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-40">
-                                    {months.map((month) => (
-                                        <button
-                                            key={month}
-                                            onClick={() => setSelectedMonth(month)}
-                                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
-                                        >
-                                            {month}
-                                        </button>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-
-                            {/* Year */}
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="w-40 justify-between bg-transparent">
-                                        {selectedYear}
-                                        <ChevronDown className="h-4 w-4"/>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-40">
-                                    {years.map((year) => (
-                                        <button
-                                            key={year}
-                                            onClick={() => setSelectedYear(year)}
-                                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
-                                        >
-                                            {year}
-                                        </button>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-
-                        <Button variant="outline" onClick={handleExportStocksPDF}>Export</Button>
-                    </div>
-
-                    {/* Search + Table */}
-                    <div className="rounded-lg border-2 border-gray-800 bg-white p-6">
-                        <div className="mb-6 flex items-center justify-between gap-4">
-                            <Input
-                                placeholder="Search by item code or name..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-64"
-                            />
-                        </div>
-
-                        {/* Loading */}
-                        {loading && (
-                            <div className="flex items-center justify-center py-12">
-                                <Loader2 className="h-8 w-8 animate-spin text-primary"/>
-                                <span className="ml-3 text-gray-600">Loading stocks...</span>
-                            </div>
-                        )}
-
-                        {/* Error */}
-                        {error && (
-                            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
-                                <div className="flex items-center gap-3">
-                                    <AlertCircle className="h-5 w-5 text-red-600"/>
-                                    <p className="text-sm text-red-700">{error}</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Table */}
-                        {!loading && !error && (
-                            <StockTable
-                                stocks={paginated}
-                                startIndex={startIndex}
-                                onEdit={handleEditStock}
-                                onDelete={handleDelete}
-                                onBulkDelete={handleBulkDelete}
-                                onAddToReorder={handleAddToReorder}
-                            />
-                        )}
-
-                        {/* Pagination */}
-                        {!loading && !error && filtered.length > 0 && (
-                            <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
-                                <div className="text-sm text-gray-600">
-                                    Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filtered.length)} of{" "}
-                                    {filtered.length} entries
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                                        disabled={currentPage === 1}
-                                        className="border-gray-300"
-                                    >
-                                        Previous
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                                        disabled={currentPage === totalPages}
-                                        className="border-gray-300"
-                                    >
-                                        Next
-                                    </Button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </TabsContent>
-
-                {/* === DISPENSED TAB === */}
-                <TabsContent value="daily" className="space-y-6">
-                    <div className="rounded-lg border bg-white p-6 border-border">
+                    {/* === STOCKS TAB === */}
+                    <TabsContent value="stocks" className="space-y-6">
                         {/* Month / Year Filters */}
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex gap-4">
@@ -713,7 +589,7 @@ export default function StocksManagement() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="outline" className="w-40 justify-between bg-transparent">
-                                            {dispensedMonth}
+                                            {selectedMonth}
                                             <ChevronDown className="h-4 w-4"/>
                                         </Button>
                                     </DropdownMenuTrigger>
@@ -721,7 +597,7 @@ export default function StocksManagement() {
                                         {months.map((month) => (
                                             <button
                                                 key={month}
-                                                onClick={() => setDispensedMonth(month)}
+                                                onClick={() => setSelectedMonth(month)}
                                                 className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                                             >
                                                 {month}
@@ -734,7 +610,7 @@ export default function StocksManagement() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="outline" className="w-40 justify-between bg-transparent">
-                                            {dispensedYear}
+                                            {selectedYear}
                                             <ChevronDown className="h-4 w-4"/>
                                         </Button>
                                     </DropdownMenuTrigger>
@@ -742,7 +618,7 @@ export default function StocksManagement() {
                                         {years.map((year) => (
                                             <button
                                                 key={year}
-                                                onClick={() => setDispensedYear(year)}
+                                                onClick={() => setSelectedYear(year)}
                                                 className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                                             >
                                                 {year}
@@ -751,133 +627,259 @@ export default function StocksManagement() {
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
-                        </div>
-                        <DailyDispenseTabs selectedMonth={dispensedMonth} selectedYear={dispensedYear}/>
-                    </div>
-                </TabsContent>
 
-                {/* === REORDER TAB === */}
-                <TabsContent value="reorder" className="space-y-6">
-                    {/* Action Buttons */}
-                    <div className="flex items-center justify-between gap-4">
-                        <Input
-                            placeholder="Search by item description..."
-                            value={reorderSearchTerm}
-                            onChange={(e) => setReorderSearchTerm(e.target.value)}
-                            className="w-64"
-                        />
-                        <div className="flex gap-2">
-                            <Button
-                                variant="outline"
-                                onClick={handleExportReorderPDF}
-                                className="flex items-center gap-2 bg-transparent"
-                            >
-                                <Download className="h-4 w-4"/>
-                                Export
-                            </Button>
-                            <Button variant="outline" onClick={handleSendReport}
-                                    className="flex items-center gap-2 bg-transparent">
-                                <Send className="h-4 w-4"/>
-                                Send Report
-                            </Button>
+                            <Button variant="outline" onClick={handleExportStocksPDF}>Export</Button>
                         </div>
-                    </div>
 
-                    {/* Reorder Table */}
-                    <div className="rounded-lg border-2 border-gray-800 bg-white p-6">
-                        {/* Loading */}
-                        {reorderLoading && (
-                            <div className="flex items-center justify-center py-12">
-                                <Loader2 className="h-8 w-8 animate-spin text-primary"/>
-                                <span className="ml-3 text-gray-600">Loading reorder items...</span>
+                        {/* Search + Table */}
+                        <div className="rounded-lg border-2 border-gray-800 bg-white p-6">
+                            <div className="mb-6 flex items-center justify-between gap-4">
+                                <Input
+                                    placeholder="Search by item code or name..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-64"
+                                />
                             </div>
-                        )}
 
-                        {/* Error */}
-                        {reorderError && (
-                            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
-                                <div className="flex items-center gap-3">
-                                    <AlertCircle className="h-5 w-5 text-red-600"/>
-                                    <p className="text-sm text-red-700">{reorderError}</p>
+                            {/* Loading */}
+                            {loading && (
+                                <div className="flex items-center justify-center py-12">
+                                    <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+                                    <span className="ml-3 text-gray-600">Loading stocks...</span>
+                                </div>
+                            )}
+
+                            {/* Error */}
+                            {error && (
+                                <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
+                                    <div className="flex items-center gap-3">
+                                        <AlertCircle className="h-5 w-5 text-red-600"/>
+                                        <p className="text-sm text-red-700">{error}</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Table */}
+                            {!loading && !error && (
+                                <StockTable
+                                    stocks={paginated}
+                                    startIndex={startIndex}
+                                    onEdit={handleEditStock}
+                                    onDelete={handleDelete}
+                                    onBulkDelete={handleBulkDelete}
+                                    onAddToReorder={handleAddToReorder}
+                                />
+                            )}
+
+                            {/* Pagination */}
+                            {!loading && !error && filtered.length > 0 && (
+                                <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
+                                    <div className="text-sm text-gray-600">
+                                        Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filtered.length)} of{" "}
+                                        {filtered.length} entries
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                                            disabled={currentPage === 1}
+                                            className="border-gray-300"
+                                        >
+                                            Previous
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                                            disabled={currentPage === totalPages}
+                                            className="border-gray-300"
+                                        >
+                                            Next
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </TabsContent>
+
+                    {/* === DISPENSED TAB === */}
+                    <TabsContent value="daily" className="space-y-6">
+                        <div className="rounded-lg border bg-white p-6 border-border">
+                            {/* Month / Year Filters */}
+                            <div className="mb-4 flex items-center justify-between">
+                                <div className="flex gap-4">
+                                    {/* Month */}
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="outline" className="w-40 justify-between bg-transparent">
+                                                {dispensedMonth}
+                                                <ChevronDown className="h-4 w-4"/>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-40">
+                                            {months.map((month) => (
+                                                <button
+                                                    key={month}
+                                                    onClick={() => setDispensedMonth(month)}
+                                                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                                                >
+                                                    {month}
+                                                </button>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+
+                                    {/* Year */}
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="outline" className="w-40 justify-between bg-transparent">
+                                                {dispensedYear}
+                                                <ChevronDown className="h-4 w-4"/>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-40">
+                                            {years.map((year) => (
+                                                <button
+                                                    key={year}
+                                                    onClick={() => setDispensedYear(year)}
+                                                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                                                >
+                                                    {year}
+                                                </button>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             </div>
-                        )}
+                            <DailyDispenseTabs selectedMonth={dispensedMonth} selectedYear={dispensedYear}/>
+                        </div>
+                    </TabsContent>
 
-                        {/* Table */}
-                        {!reorderLoading && !reorderError && (
-                            <>
-                                <ReorderTable
-                                    items={reorderPaginated}
-                                    startIndex={reorderStartIndex}
-                                    onEdit={handleReorderEdit}
-                                    onRemove={handleReorderRemove}
-                                />
+                    {/* === REORDER TAB === */}
+                    <TabsContent value="reorder" className="space-y-6">
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-between gap-4">
+                            <Input
+                                placeholder="Search by item description..."
+                                value={reorderSearchTerm}
+                                onChange={(e) => setReorderSearchTerm(e.target.value)}
+                                className="w-64"
+                            />
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="outline"
+                                    onClick={handleExportReorderPDF}
+                                    className="flex items-center gap-2 bg-transparent"
+                                >
+                                    <Download className="h-4 w-4"/>
+                                    Export
+                                </Button>
+                                <Button variant="outline" onClick={handleSendReport}
+                                        className="flex items-center gap-2 bg-transparent">
+                                    <Send className="h-4 w-4"/>
+                                    Send Report
+                                </Button>
+                            </div>
+                        </div>
 
-                                {/* Pagination */}
-                                {filteredReorder.length > 0 && (
-                                    <div
-                                        className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <div className="text-sm text-gray-600">
-                                            Showing {reorderStartIndex + 1} to{" "}
-                                            {Math.min(reorderStartIndex + itemsPerPage, filteredReorder.length)} of {filteredReorder.length}{" "}
-                                            entries
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => setReorderCurrentPage((p) => Math.max(1, p - 1))}
-                                                disabled={reorderCurrentPage === 1}
-                                                className="border-gray-300"
-                                            >
-                                                Previous
-                                            </Button>
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => setReorderCurrentPage((p) => Math.min(reorderTotalPages, p + 1))}
-                                                disabled={reorderCurrentPage === reorderTotalPages}
-                                                className="border-gray-300"
-                                            >
-                                                Next
-                                            </Button>
-                                        </div>
+                        {/* Reorder Table */}
+                        <div className="rounded-lg border-2 border-gray-800 bg-white p-6">
+                            {/* Loading */}
+                            {reorderLoading && (
+                                <div className="flex items-center justify-center py-12">
+                                    <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+                                    <span className="ml-3 text-gray-600">Loading reorder items...</span>
+                                </div>
+                            )}
+
+                            {/* Error */}
+                            {reorderError && (
+                                <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
+                                    <div className="flex items-center gap-3">
+                                        <AlertCircle className="h-5 w-5 text-red-600"/>
+                                        <p className="text-sm text-red-700">{reorderError}</p>
                                     </div>
-                                )}
+                                </div>
+                            )}
 
-                                {/* Empty State */}
-                                {filteredReorder.length === 0 && (
-                                    <div className="py-12 text-center">
-                                        <p className="text-gray-500">No reorder items found</p>
-                                    </div>
-                                )}
-                            </>
-                        )}
-                    </div>
-                </TabsContent>
-            </Tabs>
-            {/* Reorder Modal */}
-            <ReorderModal
-                isOpen={reorderModalOpen}
-                onClose={() => {
-                    setReorderModalOpen(false)
-                    setSelectedStock(null)
-                }}
-                onSave={handleSaveReorder}
-                itemDescription={selectedStock?.itemname ?? ""}
-                unitOfMeasurement={selectedStock?.unitofmeasurement ?? ""}
-                dosage={selectedStock?.dosage ?? ""}
-                stocksAvailable={selectedStock?.stockonhand ?? 0}
-            />
-            <EditStockModal
-                isOpen={editModalOpen}
-                onClose={() => {
-                    setEditModalOpen(false)
-                    setEditingStock(null)
-                }}
-                stock={editingStock}
-                onStockUpdated={refreshStocks}
-            />
-        </div>
+                            {/* Table */}
+                            {!reorderLoading && !reorderError && (
+                                <>
+                                    <ReorderTable
+                                        items={reorderPaginated}
+                                        startIndex={reorderStartIndex}
+                                        onEdit={handleReorderEdit}
+                                        onRemove={handleReorderRemove}
+                                    />
+
+                                    {/* Pagination */}
+                                    {filteredReorder.length > 0 && (
+                                        <div
+                                            className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
+                                            <div className="text-sm text-gray-600">
+                                                Showing {reorderStartIndex + 1} to{" "}
+                                                {Math.min(reorderStartIndex + itemsPerPage, filteredReorder.length)} of {filteredReorder.length}{" "}
+                                                entries
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => setReorderCurrentPage((p) => Math.max(1, p - 1))}
+                                                    disabled={reorderCurrentPage === 1}
+                                                    className="border-gray-300"
+                                                >
+                                                    Previous
+                                                </Button>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => setReorderCurrentPage((p) => Math.min(reorderTotalPages, p + 1))}
+                                                    disabled={reorderCurrentPage === reorderTotalPages}
+                                                    className="border-gray-300"
+                                                >
+                                                    Next
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Empty State */}
+                                    {filteredReorder.length === 0 && (
+                                        <div className="py-12 text-center">
+                                            <p className="text-gray-500">No reorder items found</p>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </TabsContent>
+                </Tabs>
+                {/* Reorder Modal */}
+                <ReorderModal
+                    isOpen={reorderModalOpen}
+                    onClose={() => {
+                        setReorderModalOpen(false)
+                        setSelectedStock(null)
+                    }}
+                    onSave={handleSaveReorder}
+                    itemDescription={selectedStock?.itemname ?? ""}
+                    unitOfMeasurement={selectedStock?.unitofmeasurement ?? ""}
+                    dosage={selectedStock?.dosage ?? ""}
+                    stocksAvailable={selectedStock?.stockonhand ?? 0}
+                />
+                <EditStockModal
+                    isOpen={editModalOpen}
+                    onClose={() => {
+                        setEditModalOpen(false)
+                        setEditingStock(null)
+                    }}
+                    stock={editingStock}
+                    onStockUpdated={refreshStocks}
+                />
+            </div>
+        </ProtectedPage>
     )
 }
